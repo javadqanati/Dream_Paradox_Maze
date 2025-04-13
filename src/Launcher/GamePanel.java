@@ -11,11 +11,9 @@ import java.util.Map;
 public class GamePanel extends JPanel {
     private final Map<GameState, GameStateHandler> stateHandlers = new HashMap<>();
     private GameState currentState = GameState.PLAYING;
-
     private static int screenWidth;
     private static int screenHeight;
-
-    private final GameWindow gameWindow; // reference to switch screens if needed
+    private final GameWindow gameWindow;
 
     public GamePanel(@NotNull GamePanelConfig config, @NotNull GameWindow gameWindow) {
         this.gameWindow = gameWindow;

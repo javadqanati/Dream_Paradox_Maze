@@ -74,7 +74,7 @@ public class LoadMenu extends Menu implements Navigable, Loadable {
 
     public void newGame() {
         gamePanel.setGameState(GameState.PLAYING);
-        //gameWindow.showGame();
+        gameWindow.showScreen("Game");
     }
 
     public void loadGame() {

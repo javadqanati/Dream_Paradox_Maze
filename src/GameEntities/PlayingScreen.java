@@ -1,17 +1,24 @@
 package GameEntities;
 
+import Launcher.GamePanel;
 
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 
-public class PlayingScreen implements GameScreen {
+/**
+ * PlayScreen wraps the GamePanel and serves as the view for the PLAYING state.
+ */
+public class PlayingScreen extends JPanel {
+    private final GamePanel gamePanel;
 
-    @Override
-    public void update() {
-        // Game logic here
+    public PlayingScreen(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+        this.setLayout(new BorderLayout());
+        this.add(gamePanel, BorderLayout.CENTER);
     }
 
-    @Override
-    public void render(Graphics g) {
-        // Draw game entities here
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
     }
 }
