@@ -22,6 +22,7 @@ public class GameInitializer {
         initializeMainMenu();
         initializeSettingMenu();
         initializeSaveLoadMenu();
+        initializePlayScreen();
         initializePlayer();
         initializeEnemies();
         loadSettings();
@@ -51,7 +52,6 @@ public class GameInitializer {
 
     private void initializePlayScreen(){
         PlayingScreen playScreen = new PlayingScreen(gamePanel);
-
         gameWindow.getCardPanel().add(playScreen, "Play");
     }
     private void initializePlayer() {
