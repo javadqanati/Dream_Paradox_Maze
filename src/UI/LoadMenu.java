@@ -2,7 +2,7 @@ package UI;
 
 import Data.SaveFile;
 import Data.SaveManager;
-import GameStates.GameState;
+import Game.GameStates.GameState;
 import Launcher.*;
 import org.jetbrains.annotations.NotNull;
 

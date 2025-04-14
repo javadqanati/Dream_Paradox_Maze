@@ -1,6 +1,6 @@
 package Data;
 
-import GameEntities.PowerUp;
+import Game.GameEntities.PowerUp;
 import java.util.List;
 
 public class PlayerData {

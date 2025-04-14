@@ -1,6 +1,6 @@
 package UI;
 
-import GameEntities.PowerUp;
+import Game.GameEntities.PowerUp;
 import Launcher.GamePanel;
 
 import javax.swing.*;

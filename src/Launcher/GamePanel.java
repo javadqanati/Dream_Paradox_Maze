@@ -1,6 +1,6 @@
 package Launcher;
 
-import GameStates.*;
+import Game.GameStates.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

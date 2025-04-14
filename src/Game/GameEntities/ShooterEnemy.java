@@ -1,4 +1,4 @@
-package GameEntities;
+package Game.GameEntities;
 
 public final class ShooterEnemy extends Enemy{
     private int bulletSpeed;

@@ -1,6 +1,6 @@
 package Market;
 
-import GameEntities.PowerUp;
+import Game.GameEntities.PowerUp;
 
 import java.util.HashMap;
 import java.util.Map;

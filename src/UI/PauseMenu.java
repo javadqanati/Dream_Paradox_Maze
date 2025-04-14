@@ -1,6 +1,6 @@
 package UI;
 
-import GameEntities.GameScreen;
+import Game.GameEntities.GameScreen;
 import Launcher.GamePanel;
 
 import javax.swing.*;

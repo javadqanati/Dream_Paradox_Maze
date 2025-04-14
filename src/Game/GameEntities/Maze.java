@@ -1,6 +1,6 @@
-package GameEntities;
+package Game.GameEntities;
 
-class Maze extends GameEntities{
+public class Maze extends GameEntities{
     private int width;
     private int height;
     private Tile[][] grid;

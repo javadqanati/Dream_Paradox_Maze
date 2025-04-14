@@ -1,4 +1,4 @@
-package GameEntities;
+package Game.GameEntities;
 
 public class Tile extends GameEntities{
     private boolean passable;

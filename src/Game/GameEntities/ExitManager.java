@@ -1,4 +1,4 @@
-package GameEntities;
+package Game.GameEntities;
 
 public class ExitManager {
     private Exit exit;

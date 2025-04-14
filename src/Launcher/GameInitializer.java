@@ -1,6 +1,6 @@
 package Launcher;
 
-import GameEntities.PlayingScreen;
+import Game.GameEntities.PlayingScreen;
 import UI.*;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class GameInitializer {
     private final GamePanel gamePanel;
     private final List<Loadable> resources = new ArrayList<>();
 
-    public GameInitializer(GameWindow gameWindow, GamePanelConfig config, GamePanel gamePanel) {
+    public GameInitializer(GameWindow gameWindow, GamePanelConfig config, GamePanel gamePanel){
         this.gameWindow = gameWindow;
         this.config = config;
         this.gamePanel = gamePanel;
@@ -54,6 +54,7 @@ public class GameInitializer {
         PlayingScreen playScreen = new PlayingScreen(gamePanel);
         gameWindow.getCardPanel().add(playScreen, "Play");
     }
+
     private void initializePlayer() {
         // Add player-related loadables if needed
     }

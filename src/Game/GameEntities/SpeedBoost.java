@@ -1,4 +1,4 @@
-package GameEntities;
+package Game.GameEntities;
 
 public class SpeedBoost extends PowerUp{
     @Override

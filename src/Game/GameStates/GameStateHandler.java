@@ -1,4 +1,4 @@
-package GameStates;
+package Game.GameStates;
 
 import java.awt.Graphics;
 

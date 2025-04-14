@@ -1,7 +1,7 @@
 package Market;
 
-import GameEntities.Player;
-import GameEntities.PowerUp;
+import Game.GameEntities.Player;
+import Game.GameEntities.PowerUp;
 
 public class PurchaseValidator {
 

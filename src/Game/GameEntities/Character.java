@@ -1,4 +1,4 @@
-package GameEntities;
+package Game.GameEntities;
 
 public abstract class Character extends GameEntities{
     private int health;

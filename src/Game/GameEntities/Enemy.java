@@ -1,4 +1,4 @@
-package GameEntities;
+package Game.GameEntities;
 
 public abstract class Enemy extends Character{
     private String type;
