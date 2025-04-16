@@ -1,8 +1,6 @@
 package UI;
 
 import Launcher.GamePanel;
-import Launcher.GamePanelConfig;
-import Launcher.GameWindow;
 
 import javax.swing.*;
 import java.awt.*;

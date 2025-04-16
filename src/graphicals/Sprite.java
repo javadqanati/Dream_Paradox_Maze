@@ -1,6 +1,5 @@
-package Graphics;
+package graphicals;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 class Sprite {

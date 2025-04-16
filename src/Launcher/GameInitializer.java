@@ -1,69 +1,79 @@
-package Launcher;
-
-import Game.GameEntities.PlayingScreen;
-import UI.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class GameInitializer {
-    private final GameWindow gameWindow;
-    private final GamePanelConfig config;
-    private final GamePanel gamePanel;
-    private final List<Loadable> resources = new ArrayList<>();
-
-    public GameInitializer(GameWindow gameWindow, GamePanelConfig config, GamePanel gamePanel){
-        this.gameWindow = gameWindow;
-        this.config = config;
-        this.gamePanel = gamePanel;
-    }
-
-    public void loadResources() {
-        initializeMainMenu();
-        initializeSettingMenu();
-        initializeSaveLoadMenu();
-        initializePlayScreen();
-        initializePlayer();
-        initializeEnemies();
-        loadSettings();
-    }
-
-    private void initializeMainMenu() {
-        MainMenu mainMenu = new MainMenu(config, gamePanel, gameWindow);
-        mainMenu.load();
-        gameWindow.getCardPanel().add(mainMenu.getMenuPanel(), "MainMenu");
-        gameWindow.showScreen("MainMenu");
-        resources.add(mainMenu);
-    }
-
-    private void initializeSettingMenu(){
-         SettingMenu settingMenu = new SettingMenu(config, gamePanel, gameWindow);
-         settingMenu.load();
-         gameWindow.getCardPanel().add(settingMenu.getMenuPanel(), "SettingMenu");
-         resources.add(settingMenu);
-    }
-
-    private void initializeSaveLoadMenu(){
-        LoadMenu loadMenu =new LoadMenu(config, gamePanel, gameWindow);
-        loadMenu.load();
-        gameWindow.getCardPanel().add(loadMenu.getMenuPanel(), "SaveLoadMenu");
-        resources.add(loadMenu);
-    }
-
-    private void initializePlayScreen(){
-        PlayingScreen playScreen = new PlayingScreen(gamePanel);
-        gameWindow.getCardPanel().add(playScreen, "Play");
-    }
-
-    private void initializePlayer() {
-        // Add player-related loadables if needed
-    }
-
-    private void initializeEnemies() {
-        // Add enemy-related loadables if needed
-    }
-
-    private void loadSettings() {
-        // Load settings-related loadables if needed
-    }
-}
+//package Launcher;
+//
+//import Game.GameEntities.PlayingScreen;
+//import Input.InputHandler;
+//import UI.LoadMenu;
+//import UI.MainMenu;
+//import UI.PauseMenu;
+//import UI.SettingMenu;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//public class GameInitializer {
+//    private final GameWindow gameWindow;
+//    private final GamePanel gamePanel;
+//    private final List<Loadable> resources = new ArrayList<>();
+//    private InputHandler inputHandler;
+//
+//    public GameInitializer(GameWindow gameWindow, GamePanel gamePanel) {
+//        this.gameWindow = gameWindow;
+//        this.gamePanel = gamePanel;
+//        this.inputHandler = gamePanel.getInputHandler();
+//    }
+//
+//    public void loadResources() {
+//        initializeMainMenu();
+//        initializeSettingMenu();
+//        initializeSaveLoadMenu();
+//        initializePlayScreen();
+//        initializePauseScreen();
+//        loadSettings();
+//    }
+//
+//    private void initializeMainMenu() {
+//        MainMenu mainMenu = new MainMenu(gamePanel, gameWindow);
+//        mainMenu.load();
+//        gameWindow.registerScreen("MainMenu", mainMenu.getMenuPanel());
+//        resources.add(mainMenu);
+//    }
+//
+//    private void initializeSettingMenu() {
+//        SettingMenu settingMenu = new SettingMenu(gamePanel, gameWindow);
+//        settingMenu.load();
+//        gameWindow.registerScreen("SettingMenu", settingMenu.getMenuPanel());
+//        resources.add(settingMenu);
+//    }
+//
+//    private void initializeSaveLoadMenu() {
+//        LoadMenu loadMenu = new LoadMenu(gamePanel, gameWindow);
+//        loadMenu.load();
+//        gameWindow.registerScreen("SaveLoadMenu", loadMenu.getMenuPanel());
+//        resources.add(loadMenu);
+//    }
+//
+//    public void initializePlayScreen() {
+//        PlayingScreen playingScreen = new PlayingScreen(gameWindow, gamePanel,
+//                gamePanel.getScreenWidth(),
+//                gamePanel.getScreenHeight(),
+//                config.getOriginalTileSize(),
+//                gamePanel.getInputHandler()
+//        );
+//        gameWindow.getCardPanel().add(playingScreen, "Play");
+//        gameWindow.registerScreen("Play", playingScreen);
+//    }
+//
+//    public void initializePauseScreen(){
+//        PauseMenu pauseMenu = new PauseMenu(gamePanel, config);
+//        pauseMenu.renderMenu(pauseMenu.getMenuPanel());
+//        pauseMenu.load();
+//        gameWindow.getCardPanel().add(pauseMenu.getMenuPanel(), "Pause");
+//        gameWindow.registerScreen("Pause", pauseMenu.getMenuPanel());
+//    }
+//
+//    private void initializeEnemies() {
+//    }
+//
+//    private void loadSettings() {
+//        // Implement settings-related resource loading as needed.
+//    }
+//}

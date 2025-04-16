@@ -1,62 +1,93 @@
 package Launcher;
 
+import Game.GameEntities.Maze;
+import Game.GameEntities.Player;
 import Game.GameStates.*;
-import org.jetbrains.annotations.NotNull;
-
+import Input.InputHandler;
+import graphicals.CollisionChecker;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Runnable{
+    private Player player;
+    private Maze maze;
+
     private final Map<GameState, GameStateHandler> stateHandlers = new HashMap<>();
-    private GameState currentState = GameState.PLAYING;
+    private int originalTileSize = 16;
+    private int scale = 3;
+    private int maxScreenCol = 16;
+    private int maxScreenRow = 12;
     private static int screenWidth;
     private static int screenHeight;
-    private final GameWindow gameWindow;
+    private int tileSize = originalTileSize * scale;
+    private InputHandler inputHandler=new InputHandler();
 
-    public GamePanel(@NotNull GamePanelConfig config, @NotNull GameWindow gameWindow) {
-        this.gameWindow = gameWindow;
 
-        int originalTileSize = config.getOriginalTileSize();
-        int scale = config.getScale();
-        int maxScreenCol = config.getMaxScreenCol();
-        int maxScreenRow = config.getMaxScreenRow();
+    private int FPS = 60;
+    private final Thread gameThread;
+    private CollisionChecker collisionChecker = new CollisionChecker(this);
+    private final int maxWorldCol = 50;
+    private final int maxWorldRow = 50;
+//    public final int worldWidth = tileSize*maxWorldCol;
+//    public final int worldHeight = tileSize*maxWorldRow;
 
-        int tileSize = originalTileSize * scale;
+    public GamePanel() {
+        this.addKeyListener(inputHandler);
+        this.gameThread = new Thread(this);
         screenWidth = tileSize * maxScreenCol;
         screenHeight = tileSize * maxScreenRow;
-
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
-
-        // Register only in-game states (menus are in GameWindow now)
-        stateHandlers.put(GameState.PLAYING, new PlayingState());
-        stateHandlers.put(GameState.PAUSED, new PausedState());
+        this.setFocusable(true);
+        player = new Player(this, inputHandler);
+        maze = new Maze(this);
     }
 
-    /**
-     * Called by GameLoop
-     */
-    public void updateGame() {
-        GameStateHandler handler = stateHandlers.get(currentState);
-        if (handler != null) handler.update();
+    @Override
+    public void run() {
+        double drawInterval=1000000000/FPS;
+        double delta=0;
+        long lastTime=System.nanoTime();
+        long currentTime;
+        long timer=0;
+        long drawCount=0;
+
+        while(gameThread != null){
+            currentTime=System.nanoTime();
+            delta += (currentTime-lastTime)/drawInterval;
+            timer += (currentTime-lastTime);
+            lastTime=currentTime;
+
+            if(delta>= 1){
+                update();
+                repaint();
+                delta--;
+                drawCount+=1;
+            }
+            if(timer>=1000000000){
+                System.out.println("FPS: "+ drawCount);
+                drawCount=0;
+                timer=0;
+            }
+        }
+    }
+
+    public void update() {
+        player.update();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        GameStateHandler handler = stateHandlers.get(currentState);
-        if (handler != null) handler.render(g);
-    }
 
-    public void setGameState(GameState newState) {
-        this.currentState = newState;
-    }
+        Graphics2D g2= (Graphics2D) g;
+        maze.draw(g2);
+        player.draw(g2);
 
-    public GameState getGameState() {
-        return currentState;
+        g2.dispose();
     }
 
     public int getScreenWidth() {
@@ -67,7 +98,39 @@ public class GamePanel extends JPanel {
         return screenHeight;
     }
 
-    public GameWindow getGameWindow() {
-        return gameWindow;
+    public Thread getGameThread() {
+        return gameThread;
+    }
+
+    public int getMaxWorldCol() {
+        return maxWorldCol;
+    }
+
+    public int getMaxWorldRow() {
+        return maxWorldRow;
+    }
+
+    public void setOriginalTileSize(int originalTileSize) {
+        this.originalTileSize = originalTileSize;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public int getTileSize() {
+        return tileSize;
+    }
+
+    public CollisionChecker getCollisionChecker() {
+        return collisionChecker;
+    }
+
+    public void setCollisionChecker(CollisionChecker collisionChecker) {
+        this.collisionChecker = collisionChecker;
+    }
+
+    public void setTileSize(int tileSize) {
+        this.tileSize = tileSize;
     }
 }

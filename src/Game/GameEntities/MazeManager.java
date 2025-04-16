@@ -11,5 +11,9 @@ public class MazeManager {
 
     public void updateMaze(){}
 
-    public void reserMaze(){}
+    public void resetMaze(){}
+
+    public Maze getMaze() {
+        return maze;
+    }
 }

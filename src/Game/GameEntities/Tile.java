@@ -1,13 +1,10 @@
 package Game.GameEntities;
 
-public class Tile extends GameEntities{
-    private boolean passable;
-    private String type;
+import java.awt.image.BufferedImage;
 
-    public Tile(boolean passable, String type, int x, int y) {
-        this.passable = passable;
-        this.type = type;
-    }
+public class Tile{
+    private boolean passable = false;
+    private BufferedImage image;
 
     public boolean isPassable() {
         return passable;
@@ -17,11 +14,11 @@ public class Tile extends GameEntities{
         this.passable = passable;
     }
 
-    public String getType() {
-        return type;
+    public BufferedImage getImage() {
+        return image;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setImage(BufferedImage image) {
+        this.image = image;
     }
 }

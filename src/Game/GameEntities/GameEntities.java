@@ -4,6 +4,15 @@ public abstract class GameEntities {
     private int x;
     private int y;
 
+    public GameEntities(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public GameEntities() {
+
+    }
+
     public int getX() {
         return x;
     }

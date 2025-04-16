@@ -1,34 +1,28 @@
 package Launcher;
 
-
-import org.jetbrains.annotations.NotNull;
-
+import Game.GameStates.GameStateHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameWindow {
+    private GameStateHandler currentState;
     private JFrame window;
     private JPanel cardPanel;
     private CardLayout cardLayout;
-
     private final Map<String, JPanel> screens = new HashMap<>();
 
-    /**
-     * Initializes the main game window with a CardLayout and registers the GamePanel.
-     */
-    public void createWindow(@NotNull GamePanel gamePanel) {
+
+    public void createWindow(Dimension preferredSize) {
         window = new JFrame("Maze Paradox");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
+        cardPanel.setPreferredSize(preferredSize);
 
-        cardPanel.setPreferredSize(gamePanel.getPreferredSize());
-
-        // Add all registered screens to the card panel
         for (Map.Entry<String, JPanel> entry : screens.entrySet()) {
             cardPanel.add(entry.getValue(), entry.getKey());
         }
@@ -39,16 +33,24 @@ public class GameWindow {
         window.setVisible(true);
     }
 
-    /**
-     * Register a new screen (menu or game) with a unique name.
-     */
-    public void registerScreen(String name, JPanel panel) {
-        screens.put(name, panel);
+    public void createWindow() {
+        if (!screens.isEmpty()) {
+            JPanel sample = screens.values().iterator().next();
+            createWindow(sample.getPreferredSize());
+        } else {
+            createWindow(new Dimension(800, 600));
+        }
     }
 
-    /**
-     * Switch to the screen with the given name.
-     */
+    public void registerScreen(String name, JPanel panel) {
+        screens.put(name, panel);
+        if (cardPanel != null && cardLayout != null) {
+            cardPanel.add(panel, name);
+            cardPanel.revalidate();
+            cardPanel.repaint();
+        }
+    }
+
     public void showScreen(String name) {
         if (cardLayout != null && cardPanel != null) {
             cardLayout.show(cardPanel, name);
@@ -56,9 +58,6 @@ public class GameWindow {
         }
     }
 
-    /**
-     * Repaints and revalidates the window.
-     */
     public void update() {
         if (window != null) {
             window.repaint();
@@ -66,9 +65,6 @@ public class GameWindow {
         }
     }
 
-    /**
-     * Closes the window.
-     */
     public void closeWindow() {
         if (window != null) {
             window.dispose();

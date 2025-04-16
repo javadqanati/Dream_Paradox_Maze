@@ -1,4 +1,4 @@
-package Graphics;
+package graphicals;
 
 import org.jetbrains.annotations.NotNull;
 

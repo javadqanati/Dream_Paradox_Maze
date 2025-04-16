@@ -1,6 +1,7 @@
 package Game.GameEntities;
 
 public class Entrance extends GameEntities{
-    public Entrance() {
+    public Entrance(int x, int y) {
+        super(x, y);
     }
 }
