@@ -4,7 +4,8 @@ public class GameStateManager {
     private enum State {
         PLAY,
         PAUSE,
-        MENU
+        MENU,
+        SETTINGS
     }
 
     private State currentState = State.PLAY;
@@ -41,4 +42,11 @@ public class GameStateManager {
         return currentState.name();
     }
 
+    public boolean isSettings() {
+        return currentState == State.SETTINGS;
+    }
+
+    public void setSettings() {
+        currentState = State.SETTINGS;
+    }
 }

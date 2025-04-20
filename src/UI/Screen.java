@@ -4,15 +4,15 @@ import Launcher.GamePanel;
 
 import java.awt.*;
 
-public abstract class Screen {
+public class Screen {
     private final GamePanel gp;
-    private int commandNum = 0;
+    private static int commandNum = 0;
 
     public Screen(GamePanel gp) {
         this.gp = gp;
     }
 
-    public abstract void draw(Graphics2D g2);
+    public void draw(Graphics2D g2){}
 
     public GamePanel getGp() {
         return gp;
@@ -23,6 +23,6 @@ public abstract class Screen {
     }
 
     public void setCommandNum(int commandNum) {
-        this.commandNum = commandNum;
+        Screen.commandNum = commandNum;
     }
 }

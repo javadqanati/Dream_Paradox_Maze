@@ -1,30 +1,58 @@
 package Audio;
 
-import javax.sound.sampled.Clip;
-
 public class AudioManager {
-    private final static Sound sound = new BackGroundSound();
-    private final static Sound effect = new SoundEffect();
+    private final static Sound music = new BackGroundSound();
+    private final static Sound sfx = new SoundEffect();
 
-    public void setVolume(float level){}
+    private static boolean musicMuted = false;
+    private static boolean sfxMuted = false;
 
-    public void mute(){}
+    public void toggleMusicMute() {
+        musicMuted = !musicMuted;
+        if (musicMuted) {
+            music.stop();
+        } else {
+            music.play();
+            music.loop();
+        }
+    }
 
-    public void unmute(){}
+    public void toggleSfxMute() {
+        sfxMuted = !sfxMuted;
+    }
 
     public void playMusic(int i) {
-        sound.setFile(i);
-        sound.play();
-        sound.loop();
+        if (!musicMuted) {
+            music.setFile(i);
+            music.play();
+            music.loop();
+        }
     }
 
-    public void stopMusic(){
-        sound.stop();
+    public void stopMusic() {
+        music.stop();
     }
 
-    public void playSE(int i){
-        effect.setFile(i);
-        effect.play();
+    public void playSE(int i) {
+        if (!sfxMuted) {
+            sfx.setFile(i);
+            sfx.play();
+        }
     }
 
+    public static boolean isMusicMuted() {
+        return musicMuted;
+    }
+
+    public static void setMusicMuted(boolean musicMuted) {
+        AudioManager.musicMuted = musicMuted;
+    }
+
+    public static boolean isSfxMuted() {
+        return sfxMuted;
+    }
+
+    public static void setSfxMuted(boolean sfxMuted) {
+        AudioManager.sfxMuted = sfxMuted;
+    }
 }

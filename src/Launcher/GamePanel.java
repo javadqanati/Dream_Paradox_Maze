@@ -167,4 +167,8 @@ public class GamePanel extends JPanel implements Runnable{
     public GameEntities[] getGameEntities() {
         return gameEntities;
     }
+
+    public GameStateManager getGameStateManager() {
+        return gameStateManager;
+    }
 }

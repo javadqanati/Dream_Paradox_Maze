@@ -20,6 +20,7 @@ public class HUD {
         screenMap.put("PLAY", new PlayScreen(gp));
         screenMap.put("PAUSE", new PauseScreen(gp));
         screenMap.put("MENU", new MainScreen(gp));
+        screenMap.put("SETTINGS", new SettingScreen(gp));
     }
 
     public void draw(Graphics g) {
