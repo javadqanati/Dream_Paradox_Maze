@@ -1,13 +1,11 @@
 package Launcher;
 
-import Game.GameStates.GameStateHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameWindow {
-    private GameStateHandler currentState;
     private JFrame window;
     private JPanel cardPanel;
     private CardLayout cardLayout;

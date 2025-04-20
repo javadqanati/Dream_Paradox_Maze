@@ -15,16 +15,14 @@ public class GameLauncher {
         //GameWindow gameWindow = new GameWindow();
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
-
         window.pack();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         //gameWindow.createWindow(gamePanel.getPreferredSize());
 //        GameInitializer initializer = new GameInitializer(gameWindow, gamePanel);
 //        initializer.loadResources();
-
 //        gameWindow.showScreen("MainMenu");
-        gamePanel.getGameThread().start();
+        gamePanel.setUpGame();
+        gamePanel.startGameThread();
     }
-
 }

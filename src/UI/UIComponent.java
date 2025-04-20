@@ -1,32 +1,30 @@
 package UI;
 
-/**
- * UIComponent is the base class for all UI elements. It defines common properties like
- * position, size, and visibility, which can be extended by other UI components.
- */
+import Launcher.GamePanel;
+
+import java.awt.*;
+
 abstract class UIComponent {
+    private GamePanel gp;
     private int x;
     private int y;
     private int width;
     private int height;
     private boolean visible = true;
 
-    /**
-     * Constructor to initialize a UIComponent with position and size.
-     *
-     * @param x      the x-coordinate of the component
-     * @param y      the y-coordinate of the component
-     * @param width  the width of the component
-     * @param height the height of the component
-     */
-    public UIComponent(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    public UIComponent(GamePanel gp) {
+        this.gp = gp;
     }
 
-    // Getters and Setters
+    public void draw(Graphics g) {}
+
+    public GamePanel getGp() {
+        return gp;
+    }
+
+    public void setGp(GamePanel gp) {
+        this.gp = gp;
+    }
 
     public int getX() {
         return x;

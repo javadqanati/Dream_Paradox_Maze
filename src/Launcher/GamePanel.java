@@ -1,41 +1,38 @@
 package Launcher;
 
-import Game.GameEntities.Maze;
-import Game.GameEntities.Player;
-import Game.GameStates.*;
+import Audio.AudioManager;
+import Game.GameEntities.*;
+import Game.GameStates.GameStateManager;
 import Input.InputHandler;
+import UI.HUD;
 import graphicals.CollisionChecker;
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GamePanel extends JPanel implements Runnable{
-    private Player player;
-    private Maze maze;
-
-    private final Map<GameState, GameStateHandler> stateHandlers = new HashMap<>();
+    private final Player player;
+    private final Maze maze;
+    private GameEntities[] gameEntities;
+    private final EntitySetter entitySetter;
     private int originalTileSize = 16;
-    private int scale = 3;
+    private final int scale = 3;
     private int maxScreenCol = 16;
     private int maxScreenRow = 12;
     private static int screenWidth;
     private static int screenHeight;
     private int tileSize = originalTileSize * scale;
-    private InputHandler inputHandler=new InputHandler();
-
-
+    private AudioManager audioManager = new AudioManager();
     private int FPS = 60;
-    private final Thread gameThread;
     private CollisionChecker collisionChecker = new CollisionChecker(this);
     private final int maxWorldCol = 50;
     private final int maxWorldRow = 50;
-//    public final int worldWidth = tileSize*maxWorldCol;
-//    public final int worldHeight = tileSize*maxWorldRow;
+    private Thread gameThread;
+    private final GameStateManager gameStateManager = new GameStateManager();
+    private InputHandler inputHandler=new InputHandler(this, gameStateManager);
+    private HUD hud = new HUD(this, gameStateManager);
 
     public GamePanel() {
         this.addKeyListener(inputHandler);
-        this.gameThread = new Thread(this);
         screenWidth = tileSize * maxScreenCol;
         screenHeight = tileSize * maxScreenRow;
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -44,6 +41,19 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         player = new Player(this, inputHandler);
         maze = new Maze(this);
+        gameEntities = new GameEntities[10];
+        entitySetter = new EntitySetter(this);
+    }
+
+    public void setUpGame(){
+        entitySetter.loadEntities();
+        audioManager.playMusic(0);
+        gameStateManager.setMenu();
+    }
+
+    public void startGameThread(){
+        gameThread = new Thread(this);
+        getGameThread().start();
     }
 
     @Override
@@ -76,18 +86,46 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        player.update();
+        if(gameStateManager.isPlaying()){
+            player.update();
+        }
+        if(gameStateManager.isPaused()){
+            // nothing rn
+        }
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2= (Graphics2D) g;
-        maze.draw(g2);
-        player.draw(g2);
+
+        if (gameStateManager.isPlaying()) {
+            maze.draw(g2);
+
+            for (GameEntities gameEntity : gameEntities) {
+                if (gameEntity != null) {
+                    gameEntity.draw(g2, this);
+                }
+            }
+
+            player.draw(g2);
+        }
+
+        hud.draw(g2);
 
         g2.dispose();
+    }
+
+    public void setGameThread(Thread gameThread) {
+        this.gameThread = gameThread;
+    }
+
+    public AudioManager getAudioManager() {
+        return audioManager;
+    }
+
+    public HUD getHud() {
+        return hud;
     }
 
     public int getScreenWidth() {
@@ -110,10 +148,6 @@ public class GamePanel extends JPanel implements Runnable{
         return maxWorldRow;
     }
 
-    public void setOriginalTileSize(int originalTileSize) {
-        this.originalTileSize = originalTileSize;
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -126,11 +160,11 @@ public class GamePanel extends JPanel implements Runnable{
         return collisionChecker;
     }
 
-    public void setCollisionChecker(CollisionChecker collisionChecker) {
-        this.collisionChecker = collisionChecker;
+    public Maze getMaze() {
+        return maze;
     }
 
-    public void setTileSize(int tileSize) {
-        this.tileSize = tileSize;
+    public GameEntities[] getGameEntities() {
+        return gameEntities;
     }
 }

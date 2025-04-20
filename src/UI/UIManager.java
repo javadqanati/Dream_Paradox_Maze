@@ -1,8 +1,11 @@
 package UI;
 
+import Launcher.GamePanel;
 import java.util.List;
 
 public class UIManager {
+    GamePanel gp;
+
     private List<UIComponent> components;
 
     public UIManager(List<UIComponent> components) {

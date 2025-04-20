@@ -1,17 +1,21 @@
 package Input;
 
+import Game.GameStates.GameStateManager;
+import Launcher.GamePanel;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InputHandler implements KeyListener {
-    private final Map<Integer, Boolean> keyboardState;
-    private final Map<Integer, Boolean> mouseState;
     private boolean upPressed, downPressed, leftPressed, rightPressed;
-    public InputHandler() {
-        keyboardState = new HashMap<>();
-        mouseState = new HashMap<>();
+    private GamePanel gp;
+    private GameStateManager gameStateManager;
+
+    public InputHandler(GamePanel gp, GameStateManager gameStateManager) {
+        this.gp=gp;
+        this.gameStateManager=gameStateManager;
     }
 
     public boolean isUpPressed() {
@@ -28,31 +32,6 @@ public class InputHandler implements KeyListener {
 
     public boolean isRightPressed() {
         return rightPressed;
-    }
-
-
-    public void processInput() {
-        // Example: Reset one-time events or process particular input logic if needed.
-    }
-
-    public void setKeyState(int keyCode, boolean isPressed) {
-        keyboardState.put(keyCode, isPressed);
-    }
-
-    public void setMouseState(int button, boolean isPressed) {
-        mouseState.put(button, isPressed);
-    }
-
-    public boolean isKeyPressed(int keyCode) {
-        return keyboardState.getOrDefault(keyCode, false);
-    }
-
-    public boolean isMousePressed(int button) {
-        return mouseState.getOrDefault(button, false);
-    }
-
-    public boolean getInputState(int code, boolean isKeyboard) {
-        return isKeyboard ? isKeyPressed(code) : isMousePressed(code);
     }
 
     @Override
@@ -75,7 +54,14 @@ public class InputHandler implements KeyListener {
         if(code == KeyEvent.VK_D){
             rightPressed=true;
         }
+        if(code == KeyEvent.VK_P){
+            if (gameStateManager.isPlaying()) {
+                gameStateManager.setPause();
+            } else {
+                gameStateManager.setPlay();
+            }
 
+        }
     }
 
     @Override

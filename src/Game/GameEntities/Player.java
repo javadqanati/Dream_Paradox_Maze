@@ -1,25 +1,32 @@
 package Game.GameEntities;
 
+import Audio.AudioManager;
 import Input.InputHandler;
 import Launcher.GamePanel;
-
-import javax.imageio.ImageIO;
+import graphicals.SpriteMaker;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class Player extends Character{
     private int lives = 1;
-    private int collectedFragments;
+    private int collectedFragments = 0;
     private List<PowerUp> powerUps;
-    private GamePanel gp;
     private InputHandler input;
-    public final int screenX;
-    public final int screenY;
+    private final int screenX;
+    private final int screenY;
+    private final AudioManager audio = new AudioManager();
+
+    public int getScreenY() {
+        return screenY;
+    }
+
+    public int getScreenX() {
+        return screenX;
+    }
 
     public Player(GamePanel gp, InputHandler input) {
-
-        this.gp = gp;
+        super(gp);
         this.input = input;
         setDefaultValues();
         getPlayerImage();
@@ -28,55 +35,46 @@ public class Player extends Character{
         screenY= gp.getScreenHeight() /2- (gp.getTileSize()/2);
 
         setSolidArea(new Rectangle());
-        getSolidArea().x = 8;
-        getSolidArea().y = 16;
-        getSolidArea().width = 32;
-        getSolidArea().height = 32;
+        getSolidArea().x = 2;
+        getSolidArea().y = 3;
+        getSolidArea().width = 30;
+        getSolidArea().height = 30;
+        setSolidAreaDefaultX(getSolidArea().x);
+        setSolidAreaDefaultY(getSolidArea().y);
     }
 
     public void setDefaultValues(){
-        setWorldX(23 * gp.getTileSize());
-        setWorldY(21 * gp.getTileSize());
+        setWorldX(7 * getGp().getTileSize());
+        setWorldY(4 * getGp().getTileSize());
         setSpeed(4);  // Initialize speed here
         setSpriteNum(1);
         setDirection("down");
     }
 
     public void getPlayerImage(){
-        try{
-            setUp1(ImageIO.read(getClass().getResourceAsStream("/Player/boy_up_1.png")));
-            setUp2(ImageIO.read(getClass().getResourceAsStream("/Player/boy_up_2.png")));
-            setDown1(ImageIO.read(getClass().getResourceAsStream("/Player/boy_down_1.png")));
-            setDown2(ImageIO.read(getClass().getResourceAsStream("/Player/boy_down_2.png")));
-            setRight1(ImageIO.read(getClass().getResourceAsStream("/Player/boy_right_1.png")));
-            setRight2(ImageIO.read(getClass().getResourceAsStream("/Player/boy_right_2.png")));
-            setLeft1(ImageIO.read(getClass().getResourceAsStream("/Player/boy_left_1.png")));
-            setLeft2(ImageIO.read(getClass().getResourceAsStream("/Player/boy_left_2.png")));
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+        SpriteMaker spriteMaker = new SpriteMaker(getGp());
 
-    public void collectFragment(){
-        collectedFragments += 1;
+        setUp1(spriteMaker.characterSkinSetup("/Player/boy_up_1"));
+        setUp2(spriteMaker.characterSkinSetup("/Player/boy_up_2"));
+        setDown1(spriteMaker.characterSkinSetup("/Player/boy_down_1"));
+        setDown2(spriteMaker.characterSkinSetup("/Player/boy_down_2"));
+        setRight1(spriteMaker.characterSkinSetup("/Player/boy_right_1"));
+        setRight2(spriteMaker.characterSkinSetup("/Player/boy_right_2"));
+        setLeft1(spriteMaker.characterSkinSetup("/Player/boy_left_1"));
+        setLeft2(spriteMaker.characterSkinSetup("/Player/boy_left_2"));
     }
 
     public void update(){
         if(input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed()){
             if (input.isUpPressed()){
-                setWorldY(getWorldY() - getSpeed());
                 setDirection("up");
             } else if (input.isDownPressed()){
-                setWorldY(getWorldY() + getSpeed());
                 setDirection("down");
             } else if (input.isLeftPressed()){
-                setWorldX(getWorldX() - getSpeed());
                 setDirection("left");
             } else if (input.isRightPressed()){
-                setWorldX(getWorldX() + getSpeed());
                 setDirection("right");
             }
-
             setSpriteCounter(getSpriteCounter() + 1);
             if(getSpriteCounter()>10){
                 if(getSpriteNum()==1){
@@ -87,9 +85,27 @@ public class Player extends Character{
                 }
                 setSpriteCounter(0);
             }
-
             setCollisionOn(false);
-            gp.getCollisionChecker().checkTile(this);
+            getGp().getCollisionChecker().checkTile(this);
+            int entityIndex = getGp().getCollisionChecker().checkEntity(this, true);
+            collectFragments(entityIndex);
+
+            if(!isCollisionOn()){
+                switch (getDirection()){
+                    case "up":
+                        setWorldY(getWorldY() - getSpeed());
+                        break;
+                    case "down":
+                        setWorldY(getWorldY() + getSpeed());
+                        break;
+                    case "left":
+                        setWorldX(getWorldX() - getSpeed());
+                        break;
+                    case "right":
+                        setWorldX(getWorldX() + getSpeed());
+                        break;
+                }
+            }
         }
     }
 
@@ -141,8 +157,36 @@ public class Player extends Character{
                 }
                 break;
         }
-        g2.drawImage(img, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+        g2.drawImage(img, screenX, screenY, null);
 
+    }
+
+    public void collectFragments(int i){
+        if(i != 999){
+            String name = getGp().getGameEntities()[i].getName();
+            switch (name){
+                case "Memory Fragment":
+                    collectedFragments++;
+                    getGp().getGameEntities()[i] = null;
+                    System.out.println(collectedFragments);
+                    audio.playSE(1);
+                    break;
+                case "Entrance":
+                    audio.playSE(3);
+                    break;
+                case "Exit":
+                    getGp().getHud().setGameFinished(true);
+                    getGp().getAudioManager().playSE(4);
+                    getGp().getAudioManager().stopMusic();
+                    break;
+                case "Speed Boost":
+                    setSpeed(getSpeed() + 2);
+                    getGp().getGameEntities()[i] = null;
+                    audio.playSE(2);
+                    getGp().getHud().showMessage("Speed Up!");
+                    break;
+            }
+        }
     }
 
     public int getCollectedFragments() {
@@ -156,6 +200,4 @@ public class Player extends Character{
     public List<PowerUp> getPowerUps() {
         return powerUps;
     }
-
-
 }

@@ -1,5 +1,7 @@
 package Game.GameEntities;
 
+import Launcher.GamePanel;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -13,6 +15,16 @@ public abstract class Character{
     private int worldX, worldY;
     private Rectangle solidArea;
     private boolean collisionOn = false;
+    private int solidAreaDefaultX, solidAreaDefaultY;
+    private final GamePanel gp;
+
+    public Character(GamePanel gp) {
+        this.gp = gp;
+    }
+
+    public GamePanel getGp() {
+        return gp;
+    }
 
     public int getWorldX() {
         return worldX;
@@ -28,10 +40,6 @@ public abstract class Character{
 
     public void setWorldY(int newWorldY) {
         this.worldY = newWorldY;
-    }
-
-    public Character() {
-
     }
 
     public int getSpeed() {
@@ -161,4 +169,20 @@ public abstract class Character{
     public boolean isAlive(){return true;}
 
     public abstract void draw(Graphics2D g2);
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public void setSolidAreaDefaultX(int solidAreaDefaultX) {
+        this.solidAreaDefaultX = solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
+    }
+
+    public void setSolidAreaDefaultY(int solidAreaDefaultY) {
+        this.solidAreaDefaultY = solidAreaDefaultY;
+    }
 }

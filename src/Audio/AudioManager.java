@@ -1,17 +1,10 @@
 package Audio;
 
+import javax.sound.sampled.Clip;
+
 public class AudioManager {
-    public AudioManager() {
-    }
-
-    public void playSound(String name) {
-    }
-
-    public void playMusic(String name) {
-    }
-
-    public void stopMusic() {
-    }
+    private final static Sound sound = new BackGroundSound();
+    private final static Sound effect = new SoundEffect();
 
     public void setVolume(float level){}
 
@@ -19,5 +12,19 @@ public class AudioManager {
 
     public void unmute(){}
 
-    public void playAudioEvent(AudioEvent event){}
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic(){
+        sound.stop();
+    }
+
+    public void playSE(int i){
+        effect.setFile(i);
+        effect.play();
+    }
+
 }

@@ -1,7 +1,13 @@
 package Game.GameEntities;
 
-public abstract class PowerUp {
+import Launcher.GamePanel;
+
+public abstract class PowerUp extends GameEntities{
     private int cost;
+
+    public PowerUp(GamePanel gp) {
+        super(gp);
+    }
 
     public void apply(){}
 

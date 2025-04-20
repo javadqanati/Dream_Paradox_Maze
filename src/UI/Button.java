@@ -3,6 +3,7 @@ package UI;
 import javax.swing.*;
 import java.awt.*;
 import Input.InputAction;
+import Launcher.GamePanel;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -25,7 +26,7 @@ public class Button extends UIComponent {
      * @param inputAction the InputAction to handle input events
      */
     public Button(String label, int width, int height, int x, int y, @NotNull InputAction inputAction) {
-        super(x, y, width, height);  // Initialize the parent UIComponent with position and size
+        super(new GamePanel());  // Initialize the parent UIComponent with position and size
         this.label = label;
         this.inputAction = inputAction;
 
@@ -51,7 +52,7 @@ public class Button extends UIComponent {
      * @param label    the label of the button
      */
     public Button(int x, int y, int width, int height, JButton button, String label) {
-        super(x, y, width, height);
+        super(new GamePanel());
         this.button = button;
         this.label = label;
     }
