@@ -24,8 +24,8 @@ public class GamePanel extends JPanel implements Runnable{
     private AudioManager audioManager = new AudioManager();
     private int FPS = 60;
     private CollisionChecker collisionChecker = new CollisionChecker(this);
-    private final int maxWorldCol = 50;
-    private final int maxWorldRow = 50;
+    private final int maxWorldCol = 53;
+    private final int maxWorldRow = 59;
     private Thread gameThread;
     private final GameStateManager gameStateManager = new GameStateManager();
     private InputHandler inputHandler=new InputHandler(this, gameStateManager);

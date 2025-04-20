@@ -44,11 +44,13 @@ public class Player extends Character{
     }
 
     public void setDefaultValues(){
-        setWorldX(7 * getGp().getTileSize());
-        setWorldY(4 * getGp().getTileSize());
+        setWorldX(9 * getGp().getTileSize());
+        setWorldY(9 * getGp().getTileSize());
         setSpeed(4);  // Initialize speed here
         setSpriteNum(1);
         setDirection("down");
+        setMaxHealth(6);
+        setHealth(getMaxHealth());
     }
 
     public void getPlayerImage(){

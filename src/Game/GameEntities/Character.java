@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 public abstract class Character{
     private int health;
+    private int maxHealth;
     private int speed;
     private String direction;
     private BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -20,6 +21,14 @@ public abstract class Character{
 
     public Character(GamePanel gp) {
         this.gp = gp;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public GamePanel getGp() {

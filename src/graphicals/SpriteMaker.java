@@ -25,19 +25,18 @@ public class SpriteMaker {
     }
 
     public BufferedImage characterSkinSetup(String filePath) {
-        SpriteMaker spriteMaker = new SpriteMaker(gp);
         BufferedImage image = null;
 
         try{
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(filePath + ".png")));
-            image = spriteMaker.makeSprite(image, gp.getTileSize(), gp.getTileSize());
+            image = makeSprite(image, gp.getTileSize(), gp.getTileSize());
         }catch(Exception e){
             e.printStackTrace();
         }
         return image;
     }
 
-    public void mazeSkinSetup(Tile[] tile, String imagePath, boolean passable) {
+  //  public void mazeSkinSetup(Tile[] tile, String imagePath, boolean passable) {
 //        SpriteMaker spriteMaker = new SpriteMaker();
 //        try{
 //            tile[index] = new Tile();
@@ -47,6 +46,18 @@ public class SpriteMaker {
 //        }catch(Exception e){
 //            e.printStackTrace();
 //        }
+ //   }
+
+    public BufferedImage ObjectImageSetup(String filePath) {
+        BufferedImage image = null;
+
+        try{
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(filePath + ".png")));
+            image = makeSprite(image, gp.getTileSize(), gp.getTileSize());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return image;
     }
 }
 
