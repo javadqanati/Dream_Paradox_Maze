@@ -8,12 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HUD {
-    private final GamePanel gp;
     private final GameStateManager gsm;
     private final Map<String, Screen> screenMap;
 
     public HUD(GamePanel gp, GameStateManager gsm) {
-        this.gp = gp;
         this.gsm = gsm;
 
         screenMap = new HashMap<>();
@@ -21,6 +19,8 @@ public class HUD {
         screenMap.put("PAUSE", new PauseScreen(gp));
         screenMap.put("MENU", new MainScreen(gp));
         screenMap.put("SETTINGS", new SettingScreen(gp));
+        screenMap.put("INVENTORY", new InventoryScreen(gp));
+        screenMap.put("MARKET", new MarketScreen(gp));
     }
 
     public void draw(Graphics g) {

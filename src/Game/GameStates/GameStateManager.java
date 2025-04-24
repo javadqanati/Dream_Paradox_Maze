@@ -5,7 +5,10 @@ public class GameStateManager {
         PLAY,
         PAUSE,
         MENU,
-        SETTINGS
+        SETTINGS,
+        LOAD,
+        INVENTORY,
+        MARKET
     }
 
     private State currentState = State.PLAY;
@@ -34,10 +37,6 @@ public class GameStateManager {
         currentState = State.PAUSE;
     }
 
-    public State getCurrentState() {
-        return currentState;
-    }
-
     public String getStateName() {
         return currentState.name();
     }
@@ -48,5 +47,29 @@ public class GameStateManager {
 
     public void setSettings() {
         currentState = State.SETTINGS;
+    }
+
+    public boolean isLoad() {
+        return currentState == State.LOAD;
+    }
+
+    public void setLoad() {
+        currentState = State.LOAD;
+    }
+
+    public boolean isInventory() {
+        return currentState == State.INVENTORY;
+    }
+
+    public void setInventory() {
+        currentState = State.INVENTORY;
+    }
+
+    public boolean isMarket() {
+        return currentState == State.MARKET;
+    }
+
+    public void setMarket() {
+        currentState = State.MARKET;
     }
 }

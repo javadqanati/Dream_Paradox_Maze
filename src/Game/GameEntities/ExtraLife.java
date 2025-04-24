@@ -5,7 +5,13 @@ import Launcher.GamePanel;
 public class ExtraLife extends PowerUp{
     public ExtraLife(GamePanel gp) {
         super(gp);
-        setName("Speed Boost");
-        addImage("/Object/boot");
+        setName("Extra Life");
+        addImage("/Object/boots");
+        initialize("ExtraLife", 3);
+    }
+
+    @Override
+    public void apply() {
+
     }
 }

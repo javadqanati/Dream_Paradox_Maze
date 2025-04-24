@@ -1,9 +1,6 @@
 package Launcher;
 
-import Game.GameEntities.Entrance;
-import Game.GameEntities.Exit;
-import Game.GameEntities.MemoryFragment;
-import Game.GameEntities.SpeedBoost;
+import Game.GameEntities.*;
 
 public class EntitySetter {
     private final GamePanel gp;
@@ -40,5 +37,11 @@ public class EntitySetter {
         gp.getGameEntities()[6] = new SpeedBoost(gp);
         gp.getGameEntities()[6].setWorldX(15 * gp.getTileSize());
         gp.getGameEntities()[6].setWorldY(44  * gp.getTileSize());
+    }
+
+    public void setEnemy(){
+        gp.getEnemies()[0] = new ChaserEnemy(gp);
+        gp.getEnemies()[0].setWorldX(25 * gp.getTileSize());
+        gp.getEnemies()[0].setWorldY(17 * gp.getTileSize());
     }
 }

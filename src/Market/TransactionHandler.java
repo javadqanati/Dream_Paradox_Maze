@@ -5,5 +5,8 @@ import Game.GameEntities.PowerUp;
 
 public class TransactionHandler {
 
-    public boolean processPurchase(Player player, PowerUp powerUp){return false;}
+    public void processPurchase(Player player, PowerUp powerUp){
+        player.setCollectedFragments(player.getCollectedFragments() - powerUp.getCost());
+        player.addPowerUp(powerUp);
+    }
 }

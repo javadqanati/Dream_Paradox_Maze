@@ -6,16 +6,21 @@ import Launcher.GamePanel;
 import graphicals.SpriteMaker;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Player extends Character{
-    private int lives = 1;
     private int collectedFragments = 0;
-    private List<PowerUp> powerUps;
-    private InputHandler input;
+    private List<PowerUp> powerUps = new ArrayList<>();
+    private final InputHandler input;
     private final int screenX;
     private final int screenY;
     private final AudioManager audio = new AudioManager();
+    private final LinkedList<Point> trail = new LinkedList<>();
+    private final int MAX_TRAIL_SIZE = 50;
+    private boolean invincible = false;
+    private int invincibleCounter = 0;
 
     public int getScreenY() {
         return screenY;
@@ -89,8 +94,9 @@ public class Player extends Character{
             }
             setCollisionOn(false);
             getGp().getCollisionChecker().checkTile(this);
-            int entityIndex = getGp().getCollisionChecker().checkEntity(this, true);
+            int entityIndex = getGp().getCollisionChecker().checkObject(this, true);
             collectFragments(entityIndex);
+            getGp().getCollisionChecker().checkEntity(this, getGp().getEnemies());
 
             if(!isCollisionOn()){
                 switch (getDirection()){
@@ -109,6 +115,41 @@ public class Player extends Character{
                 }
             }
         }
+        if(invincible){
+            invincibleCounter++;
+            if(invincibleCounter > 60){
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
+        updateTrail();
+    }
+
+    public boolean usePowerUp(String powerUpType) {
+        for (PowerUp powerUp : powerUps) {
+            if (powerUp.getType().equals(powerUpType)) {
+                powerUp.apply(); // Apply the effect to the player
+                powerUps.remove(powerUp); // Optional: remove it after use
+                return true;
+            }
+        }
+        return false; // Not found
+    }
+
+
+    public void updateTrail() {
+        Point currentPosition = new Point(getWorldX(), getWorldY());
+        // Only add if moved from last recorded position
+        if (trail.isEmpty() || !trail.getLast().equals(currentPosition)) {
+            trail.add(currentPosition);
+            if (trail.size() > MAX_TRAIL_SIZE) {
+                trail.removeFirst();
+            }
+        }
+    }
+
+    public LinkedList<Point> getTrail() {
+        return trail;
     }
 
     public boolean usePowerUp(PowerUp powerUp){
@@ -195,11 +236,27 @@ public class Player extends Character{
         return collectedFragments;
     }
 
-    public int getLives() {
-        return lives;
-    }
-
     public List<PowerUp> getPowerUps() {
         return powerUps;
+    }
+
+    public boolean isInvincible() {
+        return invincible;
+    }
+
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
+    }
+
+    public void addPowerUp(PowerUp powerUp) {
+        powerUps.add(powerUp);
+    }
+
+    public void setCollectedFragments(int collectedFragments) {
+        this.collectedFragments = collectedFragments;
+    }
+
+    public void addFragments(int amount) {
+        collectedFragments += amount;
     }
 }

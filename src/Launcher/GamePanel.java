@@ -4,32 +4,37 @@ import Audio.AudioManager;
 import Game.GameEntities.*;
 import Game.GameStates.GameStateManager;
 import Input.InputHandler;
+import Market.PowerUpShop;
 import UI.HUD;
 import graphicals.CollisionChecker;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     private final Player player;
     private final Maze maze;
-    private GameEntities[] gameEntities;
+    private final GameEntities[] gameEntities;
+    private final Enemy[] enemies = new Enemy[4];
     private final EntitySetter entitySetter;
-    private int originalTileSize = 16;
+    private final int originalTileSize = 16;
     private final int scale = 3;
     private int maxScreenCol = 16;
     private int maxScreenRow = 12;
     private static int screenWidth;
     private static int screenHeight;
-    private int tileSize = originalTileSize * scale;
-    private AudioManager audioManager = new AudioManager();
+    private final int tileSize = originalTileSize * scale;
+    private final AudioManager audioManager = new AudioManager();
     private int FPS = 60;
-    private CollisionChecker collisionChecker = new CollisionChecker(this);
+    private final CollisionChecker collisionChecker = new CollisionChecker(this);
     private final int maxWorldCol = 53;
     private final int maxWorldRow = 59;
     private Thread gameThread;
     private final GameStateManager gameStateManager = new GameStateManager();
-    private InputHandler inputHandler=new InputHandler(this, gameStateManager);
-    private HUD hud = new HUD(this, gameStateManager);
+    private InputHandler inputHandler = new InputHandler(this, gameStateManager);
+    private final HUD hud = new HUD(this, gameStateManager);
+    private final PowerUpShop powerUpShop = new PowerUpShop(this);
 
     public GamePanel() {
         this.addKeyListener(inputHandler);
@@ -45,51 +50,57 @@ public class GamePanel extends JPanel implements Runnable{
         entitySetter = new EntitySetter(this);
     }
 
-    public void setUpGame(){
+    public void setUpGame() {
         entitySetter.loadEntities();
+        entitySetter.setEnemy();
         audioManager.playMusic(0);
         gameStateManager.setMenu();
     }
 
-    public void startGameThread(){
+    public void startGameThread() {
         gameThread = new Thread(this);
         getGameThread().start();
     }
 
     @Override
     public void run() {
-        double drawInterval=1000000000/FPS;
-        double delta=0;
-        long lastTime=System.nanoTime();
+        double drawInterval = 1000000000 / FPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
         long currentTime;
-        long timer=0;
-        long drawCount=0;
+        long timer = 0;
+        long drawCount = 0;
 
-        while(gameThread != null){
-            currentTime=System.nanoTime();
-            delta += (currentTime-lastTime)/drawInterval;
-            timer += (currentTime-lastTime);
-            lastTime=currentTime;
+        while (gameThread != null) {
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            timer += (currentTime - lastTime);
+            lastTime = currentTime;
 
-            if(delta>= 1){
+            if (delta >= 1) {
                 update();
                 repaint();
                 delta--;
-                drawCount+=1;
+                drawCount += 1;
             }
-            if(timer>=1000000000){
-                System.out.println("FPS: "+ drawCount);
-                drawCount=0;
-                timer=0;
+            if (timer >= 1000000000) {
+                System.out.println("FPS: " + drawCount);
+                drawCount = 0;
+                timer = 0;
             }
         }
     }
 
     public void update() {
-        if(gameStateManager.isPlaying()){
+        if (gameStateManager.isPlaying()) {
             player.update();
+            for (Enemy enemy : enemies) {
+                if (enemy != null) {
+                    enemy.update();
+                }
+            }
         }
-        if(gameStateManager.isPaused()){
+        if (gameStateManager.isPaused()) {
             // nothing rn
         }
     }
@@ -97,7 +108,7 @@ public class GamePanel extends JPanel implements Runnable{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2= (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g;
 
         if (gameStateManager.isPlaying()) {
             maze.draw(g2);
@@ -105,6 +116,11 @@ public class GamePanel extends JPanel implements Runnable{
             for (GameEntities gameEntity : gameEntities) {
                 if (gameEntity != null) {
                     gameEntity.draw(g2, this);
+                }
+            }
+            for (Enemy enemy: enemies) {
+                if (enemy != null) {
+                    enemy.draw(g2);
                 }
             }
 
@@ -170,5 +186,13 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GameStateManager getGameStateManager() {
         return gameStateManager;
+    }
+
+    public Enemy[] getEnemies() {
+        return enemies;
+    }
+
+    public PowerUpShop getPowerUpShop() {
+        return powerUpShop;
     }
 }

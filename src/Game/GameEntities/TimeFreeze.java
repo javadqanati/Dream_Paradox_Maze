@@ -6,6 +6,12 @@ public class TimeFreeze extends PowerUp{
     public TimeFreeze(GamePanel gp) {
         super(gp);
         setName("Time Freeze");
-        addImage("/Object/boot");
+        addImage("/Object/boots");
+        initialize("TimeFreeze", 3);
+    }
+
+    @Override
+    public void apply() {
+
     }
 }

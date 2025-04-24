@@ -5,7 +5,7 @@ import Launcher.GamePanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Character{
+public abstract class Character extends GameEntities{
     private int health;
     private int maxHealth;
     private int speed;
@@ -13,14 +13,15 @@ public abstract class Character{
     private BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     private int spriteCounter = 0;
     private int spriteNum=1;
-    private int worldX, worldY;
-    private Rectangle solidArea;
     private boolean collisionOn = false;
     private int solidAreaDefaultX, solidAreaDefaultY;
-    private final GamePanel gp;
+
+    public void update(){
+
+    }
 
     public Character(GamePanel gp) {
-        this.gp = gp;
+        super(gp);
     }
 
     public int getMaxHealth() {
@@ -29,26 +30,6 @@ public abstract class Character{
 
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
-    }
-
-    public GamePanel getGp() {
-        return gp;
-    }
-
-    public int getWorldX() {
-        return worldX;
-    }
-
-    public void setWorldX(int newWorldX) {
-        this.worldX = newWorldX;
-    }
-
-    public int getWorldY() {
-        return this.worldY;
-    }
-
-    public void setWorldY(int newWorldY) {
-        this.worldY = newWorldY;
     }
 
     public int getSpeed() {
@@ -155,14 +136,6 @@ public abstract class Character{
         this.spriteNum=spriteNum;
     }
 
-    public Rectangle getSolidArea() {
-        return solidArea;
-    }
-
-    public void setSolidArea(Rectangle solidArea) {
-        this.solidArea = solidArea;
-    }
-
     public boolean isCollisionOn() {
         return collisionOn;
     }
@@ -170,10 +143,6 @@ public abstract class Character{
     public void setCollisionOn(boolean collisionOn) {
         this.collisionOn = collisionOn;
     }
-
-    public void move(int dx, int dy){}
-
-    public void takeDamage(int amount){}
 
     public boolean isAlive(){return true;}
 

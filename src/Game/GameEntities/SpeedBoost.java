@@ -7,5 +7,11 @@ public class SpeedBoost extends PowerUp{
         super(gp);
         setName("Speed Boost");
         addImage("/Object/boots");
+        initialize("SpeedBoost", 3);
+    }
+
+    @Override
+    public void apply() {
+
     }
 }

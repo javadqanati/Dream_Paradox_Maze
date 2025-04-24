@@ -1,22 +1,28 @@
 package Market;
 
+import Game.GameEntities.ExtraLife;
 import Game.GameEntities.PowerUp;
+import Game.GameEntities.SpeedBoost;
+import Game.GameEntities.TimeFreeze;
+import Launcher.GamePanel;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PowerUpShop {
-    private Map<String, PowerUp> availablePowerUps = new HashMap<>();
+    private static final Map<String, PowerUp> availablePowerUps = new HashMap<>();
 
-    public PowerUpShop(Map<String, PowerUp> availablePowerUps) {
-        this.availablePowerUps = availablePowerUps;
+    public PowerUpShop(GamePanel gp) {
+        availablePowerUps.put("SpeedBoost", new SpeedBoost(gp));
+        availablePowerUps.put("TimeFreeze", new TimeFreeze(gp));
+        availablePowerUps.put("ExtraLife", new ExtraLife(gp));
     }
 
-    public Map<String, PowerUp> getAvailablePowerUps() {
+    public static Map<String, PowerUp> getAvailablePowerUps() {
         return availablePowerUps;
     }
 
     public void addPowerUp(PowerUp powerUp) {
-        availablePowerUps.put(powerUp.getClass().getName(), powerUp);
+        availablePowerUps.put(powerUp.getClass().getSimpleName(), powerUp);
     }
 }

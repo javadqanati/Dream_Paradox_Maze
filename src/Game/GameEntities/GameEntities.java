@@ -10,7 +10,7 @@ import graphicals.SpriteMaker;
 
 public class GameEntities {
     private int worldX, worldY;
-    private List<BufferedImage> images = new ArrayList<>();
+    private final List<BufferedImage> images = new ArrayList<>();
     private String name;
     private boolean passable = false;
     private Rectangle solidArea = new Rectangle(0, 0, 48, 48);
@@ -56,10 +56,6 @@ public class GameEntities {
         this.worldY = worldY;
     }
 
-    public void setImages(List<BufferedImage> images) {
-        this.images = images;
-    }
-
     public void addImage(String imagePath) {
         BufferedImage image = spriteMaker.ObjectImageSetup(imagePath);
         if (image != null) {
@@ -72,10 +68,6 @@ public class GameEntities {
             return images.get(index);
         }
         return null;
-    }
-
-    public List<BufferedImage> getImages() {
-        return images;
     }
 
     public String getName() {
@@ -106,16 +98,8 @@ public class GameEntities {
         return solidAreaX;
     }
 
-    public void setSolidAreaX(int solidAreaX) {
-        this.solidAreaX = solidAreaX;
-    }
-
     public int getSolidAreaY() {
         return solidAreaY;
-    }
-
-    public void setSolidAreaY(int solidAreaY) {
-        this.solidAreaY = solidAreaY;
     }
 
     public GamePanel getGp() {

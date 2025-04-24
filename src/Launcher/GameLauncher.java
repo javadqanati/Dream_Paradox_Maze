@@ -12,16 +12,11 @@ public class GameLauncher {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Maze Paradox Game");
-        //GameWindow gameWindow = new GameWindow();
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
         window.pack();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
-        //
-        // gameWindow.createWindow(gamePanel.getPreferredSize());
-//      GameInitializer initializer = new GameInitializer(gameWindow, gamePanel);
-//      initializer.loadResources();
         gamePanel.setUpGame();
         gamePanel.startGameThread();
     }
