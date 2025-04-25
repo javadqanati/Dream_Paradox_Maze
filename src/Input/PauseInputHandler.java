@@ -10,12 +10,19 @@ public class PauseInputHandler extends ScreenInputHandler{
 
     public PauseInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
-        screen.setMenuOptions(Arrays.asList(
+
+        bindKeys();
+    }
+
+    @Override
+    public void bindKeys() {
+        getScreen().setOptions(Arrays.asList(
                 "Inventory",
                 "Market",
                 "Resume",
                 "Quit"
         ));
+
         bindNavigationKeys();
         bindOptionKeys();
     }

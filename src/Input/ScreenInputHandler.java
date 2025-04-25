@@ -19,11 +19,9 @@ public abstract class ScreenInputHandler {
     public Screen getScreen() {
         return screen;
     }
-
     public KeyboardInputHandler getKeyboard() {
         return keyboard;
     }
-
     public GamePanel getGp() {
         return gp;
     }
@@ -43,6 +41,8 @@ public abstract class ScreenInputHandler {
             getScreen().setCommandNum(c);
         });
     }
+
+    public abstract void bindKeys();
 
     public abstract void bindOptionKeys();
 }

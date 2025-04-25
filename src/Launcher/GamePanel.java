@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
     private final KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
     private final PlayerInputHandler playerHandler =  new PlayerInputHandler(keyboardInputHandler);
     private final InputHandler inputHandler = new InputHandler(this, new Screen(this),
-                        keyboardInputHandler, playerHandler);
+                        gameStateManager, keyboardInputHandler, playerHandler);
 
     public GamePanel() {
         this.addKeyListener(inputHandler);

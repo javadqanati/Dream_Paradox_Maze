@@ -11,6 +11,12 @@ import java.util.List;
 public class InventoryInputHandler extends ScreenInputHandler {
     public InventoryInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
+
+        bindKeys();
+    }
+
+    @Override
+    public void bindKeys() {
         bindOptionKeys();
     }
 

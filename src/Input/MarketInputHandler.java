@@ -14,12 +14,19 @@ public class MarketInputHandler extends ScreenInputHandler {
 
     public MarketInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
-        screen.setMenuOptions(Arrays.asList(
+
+        bindKeys();
+    }
+
+    @Override
+    public void bindKeys() {
+        getScreen().setOptions(Arrays.asList(
                 "Back",
                 "Speed Boost",
                 "Time Freeze",
                 "Extra Life"
         ));
+
         bindOptionKeys();
         bindNavigationKeys();
     }

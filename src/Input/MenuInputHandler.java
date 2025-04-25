@@ -7,14 +7,21 @@ import java.util.Arrays;
 
 public class MenuInputHandler extends ScreenInputHandler{
 
-    public MenuInputHandler(GamePanel gp, Screen screen, KeyboardInputHandler keyboard) {
+    public MenuInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
-        screen.setMenuOptions(Arrays.asList(
+
+        bindKeys();
+    }
+
+    @Override
+    public void bindKeys() {
+        getScreen().setOptions(Arrays.asList(
                 "Play",
                 "Load",
                 "Settings",
                 "Quit"
         ));
+
         bindNavigationKeys();
         bindOptionKeys();
     }
