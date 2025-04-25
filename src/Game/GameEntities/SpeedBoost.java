@@ -12,7 +12,7 @@ public class SpeedBoost extends PowerUp{
 
     @Override
     public void apply() {
-
+        getGp().getPlayer().setSpeed(getGp().getPlayer().getSpeed() + 2);
     }
 
     @Override

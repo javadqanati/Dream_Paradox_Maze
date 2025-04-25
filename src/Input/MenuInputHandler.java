@@ -3,20 +3,23 @@ package Input;
 import Launcher.GamePanel;
 import UI.Screen;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 public class MenuInputHandler extends ScreenInputHandler{
 
     public MenuInputHandler(GamePanel gp, Screen screen, KeyboardInputHandler keyboard) {
         super(keyboard, screen, gp);
-
-        bindKeys();
+        screen.setMenuOptions(Arrays.asList(
+                "Play",
+                "Load",
+                "Settings",
+                "Quit"
+        ));
+        bindNavigationKeys();
+        bindOptionKeys();
     }
 
-    @Override
-    public void bindKeys() {
-        getKeyboard().bindKey(KeyEvent.VK_UP, () -> getScreen().setCommandNum(getScreen().getCommandNum() - 1));
-        getKeyboard().bindKey(KeyEvent.VK_DOWN, () -> getScreen().setCommandNum(getScreen().getCommandNum() + 1));
-
+    public void bindOptionKeys() {
         getKeyboard().bindKey(KeyEvent.VK_ENTER, this::handleMenuSelection);
     }
 

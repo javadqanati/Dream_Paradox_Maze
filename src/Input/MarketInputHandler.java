@@ -6,21 +6,26 @@ import Market.TransactionHandler;
 import UI.Screen;
 
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 public class MarketInputHandler extends ScreenInputHandler {
-    private PurchaseValidator validator = new PurchaseValidator();
-    private TransactionHandler transactionHandler = new TransactionHandler();
+    private final PurchaseValidator validator = new PurchaseValidator();
+    private final TransactionHandler transactionHandler = new TransactionHandler();
 
     public MarketInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
-        bindKeys();
+        screen.setMenuOptions(Arrays.asList(
+                "Back",
+                "Speed Boost",
+                "Time Freeze",
+                "Extra Life"
+        ));
+        bindOptionKeys();
+        bindNavigationKeys();
     }
 
     @Override
-    public void bindKeys() {
-        getKeyboard().bindKey(KeyEvent.VK_UP, () -> getScreen().setCommandNum(getScreen().getCommandNum() - 1));
-        getKeyboard().bindKey(KeyEvent.VK_DOWN, () -> getScreen().setCommandNum(getScreen().getCommandNum() + 1));
-
+    public void bindOptionKeys() {
         getKeyboard().bindKey(KeyEvent.VK_ENTER, this::handleMarketSelection);
     }
 

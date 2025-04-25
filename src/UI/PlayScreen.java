@@ -89,19 +89,15 @@ public class PlayScreen extends Screen {
             g2.setFont(arial_40);
             g2.setColor(Color.white);
 
-            // Draw memory fragment icon and count
             g2.drawImage(memoryFragmentImg, getGp().getTileSize() / 2,
                     getGp().getTileSize() / 2, getGp().getTileSize(), getGp().getTileSize(), null);
             g2.drawString("x " + getGp().getPlayer().getCollectedFragments(), 74, 65);
 
-            // Draw timer
             playTime += 1.0 / 60;
             g2.drawString("Time: " + decimalFormat.format(playTime) + "s", getGp().getTileSize() * 11, 65);
 
-            // Draw player life
             drawPlayerLife(g2);
 
-            // Optional in-game message
             if (messageOn) {
                 g2.setFont(g2.getFont().deriveFont(30f));
                 g2.drawString(message, getGp().getTileSize() / 2, getGp().getTileSize() * 5);

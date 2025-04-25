@@ -52,7 +52,7 @@ public class Player extends Character {
     public void setDefaultValues() {
         setWorldX(9 * getGp().getTileSize());
         setWorldY(9 * getGp().getTileSize());
-        setSpeed(4);  // Initialize speed here
+        setSpeed(4);
         setSpriteNum(1);
         setDirection("down");
         setMaxHealth(6);
@@ -128,12 +128,12 @@ public class Player extends Character {
     public boolean usePowerUp(String powerUpType) {
         for (PowerUp powerUp : powerUps) {
             if (powerUp.getType().equals(powerUpType)) {
-                powerUp.apply(); // Apply the effect to the player
-                powerUps.remove(powerUp); // Optional: remove it after use
+                powerUp.apply();
+                powerUps.remove(powerUp);
                 return true;
             }
         }
-        return false; // Not found
+        return false;
     }
 
     public void updateTrail() {
@@ -256,4 +256,6 @@ public class Player extends Character {
     public void addFragments(int amount) {
         collectedFragments += amount;
     }
+
+
 }

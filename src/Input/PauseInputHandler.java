@@ -4,19 +4,23 @@ import Launcher.GamePanel;
 import UI.Screen;
 
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 public class PauseInputHandler extends ScreenInputHandler{
 
     public PauseInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
-
-        bindKeys();
+        screen.setMenuOptions(Arrays.asList(
+                "Inventory",
+                "Market",
+                "Resume",
+                "Quit"
+        ));
+        bindNavigationKeys();
+        bindOptionKeys();
     }
 
-    @Override
-    public void bindKeys() {
-        getKeyboard().bindKey(KeyEvent.VK_UP, () -> getScreen().setCommandNum(getScreen().getCommandNum() - 1));
-        getKeyboard().bindKey(KeyEvent.VK_DOWN, () -> getScreen().setCommandNum(getScreen().getCommandNum() + 1));
+    public void bindOptionKeys() {
         getKeyboard().bindKey(KeyEvent.VK_P, this::togglePause);
         getKeyboard().bindKey(KeyEvent.VK_ENTER, this::handlePauseSelection);
     }

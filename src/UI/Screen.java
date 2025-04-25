@@ -1,13 +1,14 @@
 package UI;
 
 import Launcher.GamePanel;
-
+import java.util.List;
 import java.awt.*;
 
 public class Screen {
     private final GamePanel gp;
     private static int commandNum = 0;
     private String selectionMessage;
+    private List<String> options;
 
     public Screen(GamePanel gp) {
         this.gp = gp;
@@ -39,5 +40,13 @@ public class Screen {
 
     public void setSelectionMessage(String selectionMessage) {
         this.selectionMessage = selectionMessage;
+    }
+
+    public void setMenuOptions(List<String> options) {
+        this.options = options;
+    }
+
+    public int getNumScreenOptions() {
+        return options == null ? 0 : options.size();
     }
 }

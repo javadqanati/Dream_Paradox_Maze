@@ -1,35 +1,53 @@
 package Input;
 
+import Game.GameEntities.PowerUp;
 import Launcher.GamePanel;
 import UI.Screen;
 
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
+import java.util.List;
 
 public class InventoryInputHandler extends ScreenInputHandler {
     public InventoryInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
-        bindKeys();
+        bindOptionKeys();
     }
 
     @Override
-    public void bindKeys() {
-        getKeyboard().bindKey(KeyEvent.VK_UP, () -> getScreen().setCommandNum(getScreen().getCommandNum() - 1));
-        getKeyboard().bindKey(KeyEvent.VK_DOWN, () -> getScreen().setCommandNum(getScreen().getCommandNum() + 1));
+    public void bindOptionKeys() {
+        getKeyboard().bindKey(KeyEvent.VK_UP, () -> {
+            int max = getGp().getPlayer().getPowerUps().size() + 1;
+            int cmd = getScreen().getCommandNum() - 1;
+            if (cmd < 0) cmd = max - 1;
+            getScreen().setCommandNum(cmd);
+        });
+
+        getKeyboard().bindKey(KeyEvent.VK_DOWN, () -> {
+            int max = getGp().getPlayer().getPowerUps().size() + 1;
+            int cmd = getScreen().getCommandNum() + 1;
+            if (cmd >= max) cmd = 0;
+            getScreen().setCommandNum(cmd);
+        });
 
         getKeyboard().bindKey(KeyEvent.VK_ENTER, this::handleInventorySelection);
     }
 
     private void handleInventorySelection() {
-        switch (getScreen().getCommandNum()) {
-            case 0 -> getGp().getGameStateManager().setPause();
-            case 1 -> usePowerUp("SpeedBoost");
-            case 2 -> usePowerUp("TimeFreeze");
-            case 3 -> usePowerUp("ExtraLife");
-        }
-    }
+        int cmd = getScreen().getCommandNum();
+        if (cmd == 0) {
+            getGp().getGameStateManager().setPause();
+        } else {
 
-    private void usePowerUp(String powerUpName) {
-        boolean used = getGp().getPlayer().usePowerUp(powerUpName);
-        getScreen().setSelectionMessage(used ? powerUpName + " activated!" : "You don't have a " + powerUpName + "!");
+            List<PowerUp> ups = getGp().getPlayer().getPowerUps();
+            PowerUp chosen = ups.get(cmd - 1);
+
+            boolean used = getGp().getPlayer().usePowerUp(chosen.getType());
+            getScreen().setSelectionMessage(
+                    used
+                            ? chosen.getType() + " activated!"
+                            : "You don't have a " + chosen.getType() + "!"
+            );
+        }
     }
 }

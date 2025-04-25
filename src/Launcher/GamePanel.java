@@ -10,10 +10,8 @@ import Market.PowerUpShop;
 import UI.HUD;
 import UI.Screen;
 import graphicals.CollisionChecker;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
     private final Player player;
