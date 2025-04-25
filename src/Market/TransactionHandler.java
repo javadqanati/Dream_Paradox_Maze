@@ -7,6 +7,6 @@ public class TransactionHandler {
 
     public void processPurchase(Player player, PowerUp powerUp){
         player.setCollectedFragments(player.getCollectedFragments() - powerUp.getCost());
-        player.addPowerUp(powerUp);
+        player.addPowerUp(powerUp.createNewInstance());
     }
 }

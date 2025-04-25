@@ -14,4 +14,9 @@ public class ExtraLife extends PowerUp{
     public void apply() {
 
     }
+
+    @Override
+    public PowerUp createNewInstance() {
+        return new ExtraLife(getGp());
+    }
 }

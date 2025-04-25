@@ -1,9 +1,11 @@
 package UI;
 
 import Game.GameEntities.Player;
+import Game.GameEntities.PowerUp;
 import Launcher.GamePanel;
 
 import java.awt.*;
+import java.util.List;
 
 public class InventoryScreen extends Screen {
     private final Font arial_80B = new Font("Arial", Font.BOLD, 50);
@@ -35,65 +37,36 @@ public class InventoryScreen extends Screen {
             g2.drawString(">", backX - tileSize, y);
         }
 
-        // Items and descriptions
-        String[] powerUpNames = {"Speed Boost", "Time Freeze", "Extra Life"};
-        Font itemFont = g2.getFont().deriveFont(Font.PLAIN, 30F);
-        g2.setFont(itemFont);
-        int index = 1;
-        y += tileSize;
+        // Owned Power-Ups
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30F));
+        java.util.List<PowerUp> ownedPowerUps = player.getPowerUps(); // Now using actual PowerUp objects
+        int startY = y + tileSize;
 
-        String selectedDescription = "";
-        String selectedItemName = null;
-        int leftX = tileSize * 2;
+        if (ownedPowerUps.isEmpty()) {
+            g2.drawString("No power-ups owned.", tileSize * 2, startY);
+        } else {
+            int spacing = tileSize * 2;
+            for (int i = 0; i < ownedPowerUps.size(); i++) {
+                PowerUp powerUp = ownedPowerUps.get(i);
+                String name = powerUp.getName();
+                String description = getPowerUpDescription(name);
+                int currentY = startY + (i * spacing);
 
-        for (String powerUpName : powerUpNames) {
-            int count = (int) player.getPowerUps().stream()
-                    .filter(p -> p.getClass().getSimpleName().equals(powerUpName))
-                    .count();
+                // Cursor
+                if (getCommandNum() == i + 1) {
+                    g2.drawString(">", tileSize, currentY);
+                }
 
-            text = powerUpName + " x" + count;
-            g2.drawString(text, leftX, y);
+                // Name
+                g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30F));
+                g2.drawString(name, tileSize * 2, currentY);
 
-            if (getCommandNum() == index) {
-                g2.drawString(">", leftX - tileSize, y);
-                selectedDescription = getPowerUpDescription(powerUpName);
-                selectedItemName = powerUpName;
-            }
-
-            y += tileSize + 10;
-            index++;
-        }
-
-        // Draw contextual info and feedback message
-        if (selectedItemName != null) {
-            int msgX = getGp().getScreenWidth() / 2 + tileSize;
-            int msgY = tileSize * 5;
-
-            // Draw selected name
-            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 28F));
-            g2.setColor(Color.YELLOW);
-            g2.drawString("Selected: " + selectedItemName, msgX, msgY);
-
-            // Draw description
-            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 24F));
-            g2.setColor(Color.WHITE);
-            msgY += tileSize;
-            g2.drawString(selectedDescription, msgX, msgY);
-
-            // Draw feedback message
-            String message = getSelectionMessage();
-            if (message != null && !message.isEmpty()) {
-                msgY += tileSize + 10;
-                g2.setFont(g2.getFont().deriveFont(Font.ITALIC, 22F));
-                g2.setColor(Color.GREEN);
-                g2.drawString(message, msgX, msgY);
-                System.out.println("message written");
-            }else{
-                System.out.println("message is null or empty");
+                // Description
+                g2.setFont(g2.getFont().deriveFont(Font.ITALIC, 24F));
+                g2.drawString(description, tileSize * 2 + 30, currentY + 28);
             }
         }
     }
-
 
     private String getPowerUpDescription(String powerUpName) {
         return switch (powerUpName) {
@@ -103,4 +76,5 @@ public class InventoryScreen extends Screen {
             default -> "";
         };
     }
+
 }

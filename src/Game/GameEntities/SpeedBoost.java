@@ -14,4 +14,9 @@ public class SpeedBoost extends PowerUp{
     public void apply() {
 
     }
+
+    @Override
+    public PowerUp createNewInstance() {
+        return new SpeedBoost(getGp());
+    }
 }

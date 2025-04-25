@@ -3,6 +3,7 @@ package Game.GameEntities;
 import Audio.AudioManager;
 import Input.InputHandler;
 import Launcher.GamePanel;
+import Market.PowerUpShop;
 import graphicals.SpriteMaker;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Player extends Character{
-    private int collectedFragments = 0;
+    private int collectedFragments = 9;
     private List<PowerUp> powerUps = new ArrayList<>();
     private final InputHandler input;
     private final int screenX;

@@ -14,4 +14,9 @@ public class TimeFreeze extends PowerUp{
     public void apply() {
 
     }
+
+    @Override
+    public PowerUp createNewInstance() {
+        return new TimeFreeze(getGp());
+    }
 }

@@ -10,6 +10,8 @@ public abstract class PowerUp extends GameEntities {
         super(gp);
     }
 
+    public abstract PowerUp createNewInstance();
+
     public abstract void apply();
 
     public int getCost() {
