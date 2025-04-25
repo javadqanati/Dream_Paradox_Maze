@@ -66,6 +66,14 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(inputHandler);
     }
 
+    public void restartGame() {
+        player.setDefaultPosition();
+        player.restoreLifeAndFragments();
+        entitySetter.loadEntities();
+        entitySetter.setEnemy();
+        gameStateManager.setPlay();
+    }
+
     public void setUpGame() {
         entitySetter.loadEntities();
         entitySetter.setEnemy();
@@ -151,63 +159,48 @@ public class GamePanel extends JPanel implements Runnable {
     public void setGameThread(Thread gameThread) {
         this.gameThread = gameThread;
     }
-
     public AudioManager getAudioManager() {
         return audioManager;
     }
-
     public HUD getHud() {
         return hud;
     }
-
     public int getScreenWidth() {
         return screenWidth;
     }
-
     public int getScreenHeight() {
         return screenHeight;
     }
-
     public Thread getGameThread() {
         return gameThread;
     }
-
     public int getMaxWorldCol() {
         return maxWorldCol;
     }
-
     public int getMaxWorldRow() {
         return maxWorldRow;
     }
-
     public Player getPlayer() {
         return player;
     }
-
     public int getTileSize() {
         return tileSize;
     }
-
     public CollisionChecker getCollisionChecker() {
         return collisionChecker;
     }
-
     public Maze getMaze() {
         return maze;
     }
-
     public GameEntities[] getGameEntities() {
         return gameEntities;
     }
-
     public GameStateManager getGameStateManager() {
         return gameStateManager;
     }
-
     public Enemy[] getEnemies() {
         return enemies;
     }
-
     public PowerUpShop getPowerUpShop() {
         return powerUpShop;
     }

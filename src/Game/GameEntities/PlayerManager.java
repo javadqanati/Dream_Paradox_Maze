@@ -9,10 +9,6 @@ public class PlayerManager {
         this.player = player;
     }
 
-    public boolean usePowerUp(PowerUp powerUp) {
-        return player.usePowerUp(powerUp);
-    }
-
     public Player getPlayer() {
         return player;
     }

@@ -13,7 +13,7 @@ public class MenuInputHandler extends ScreenInputHandler{
 
         screen.setOptions(List.of("Play", "Load", "Settings", "Quit"));
         setOptionActions(List.of(
-                () -> getGp().getGameStateManager().setPlay(),
+                () -> getGp().restartGame(),
                 () -> getGp().getGameStateManager().setLoad(),
                 () -> getGp().getGameStateManager().setSettings(),
                 () -> System.exit(0)

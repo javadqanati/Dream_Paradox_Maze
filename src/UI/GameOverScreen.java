@@ -29,5 +29,12 @@ public class GameOverScreen extends Screen {
         if (getCommandNum() == 0) {
             g2.drawString(">", backX - tileSize, y);
         }
+
+        text = "RESTART";
+        y += tileSize * 2;
+        g2.drawString(text, backX, y);
+        if (getCommandNum() == 1) {
+            g2.drawString(">", backX - tileSize, y);
+        }
     }
 }

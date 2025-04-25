@@ -10,11 +10,13 @@ public class GameOverInputHandler extends ScreenInputHandler{
     public GameOverInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
         screen.setOptions(List.of(
-                "Back"
+                "Back",
+                "Restart"
         ));
 
         setOptionActions(List.of(
-                () -> getGp().getGameStateManager().setMenu()
+                () -> getGp().getGameStateManager().setMenu(),
+                () -> getGp().restartGame()
         ));
         getScreen().setCommandNum(0);
         bindKeys();

@@ -23,14 +23,6 @@ public class Player extends Character {
     private boolean invincible = false;
     private int invincibleCounter = 0;
 
-    public int getScreenY() {
-        return screenY;
-    }
-
-    public int getScreenX() {
-        return screenX;
-    }
-
     public Player(GamePanel gp, PlayerInputHandler playerInputHandler) {
         super(gp);
         this.playerInputHandler = playerInputHandler; // Updated initialization
@@ -50,14 +42,25 @@ public class Player extends Character {
     }
 
     public void setDefaultValues() {
-        setWorldX(9 * getGp().getTileSize());
-        setWorldY(9 * getGp().getTileSize());
         setSpeed(4);
         setSpriteNum(1);
+        setDefaultPosition();
+        restoreLifeAndFragments();
+    }
+
+    public void setDefaultPosition(){
+        setWorldX(9 * getGp().getTileSize());
+        setWorldY(9 * getGp().getTileSize());
         setDirection("down");
+    }
+
+    public void restoreLifeAndFragments(){
         setMaxHealth(6);
         setHealth(getMaxHealth());
+        collectedFragments = 0;
+        invincible = false;
     }
+
 
     public void getPlayerImage() {
         SpriteMaker spriteMaker = new SpriteMaker(getGp());
@@ -159,15 +162,6 @@ public class Player extends Character {
         return trail;
     }
 
-    public boolean usePowerUp(PowerUp powerUp) {
-        if (powerUps.contains(powerUp)) {
-            powerUp.apply();  // Assuming activate() method exists in PowerUp
-            powerUps.remove(powerUp);  // Optional: if one-time use
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public void draw(Graphics2D g2) {
         BufferedImage img = null;
@@ -239,30 +233,28 @@ public class Player extends Character {
     public int getCollectedFragments() {
         return collectedFragments;
     }
-
     public List<PowerUp> getPowerUps() {
         return powerUps;
     }
-
     public boolean isInvincible() {
         return invincible;
     }
-
     public void setInvincible(boolean invincible) {
         this.invincible = invincible;
     }
-
     public void addPowerUp(PowerUp powerUp) {
         powerUps.add(powerUp);
     }
-
     public void setCollectedFragments(int collectedFragments) {
         this.collectedFragments = collectedFragments;
     }
-
     public void addFragments(int amount) {
         collectedFragments += amount;
     }
-
-
+    public int getScreenY() {
+        return screenY;
+    }
+    public int getScreenX() {
+        return screenX;
+    }
 }
