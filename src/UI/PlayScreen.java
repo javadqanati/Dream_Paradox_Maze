@@ -4,7 +4,6 @@ import Game.GameEntities.GameEntities;
 import Game.GameEntities.MemoryFragment;
 import Game.GameEntities.PlayerLife;
 import Launcher.GamePanel;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;

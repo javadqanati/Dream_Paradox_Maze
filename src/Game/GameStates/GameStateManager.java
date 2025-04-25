@@ -8,7 +8,8 @@ public class GameStateManager {
         SETTINGS,
         LOAD,
         INVENTORY,
-        MARKET
+        MARKET,
+        GAMEOVER
     }
 
     private State currentState = State.PLAY;
@@ -71,5 +72,13 @@ public class GameStateManager {
 
     public void setMarket() {
         currentState = State.MARKET;
+    }
+
+    public boolean isGameOver() {
+        return currentState == State.GAMEOVER;
+    }
+
+    public void setGameOver() {
+        currentState = State.GAMEOVER;
     }
 }

@@ -73,6 +73,7 @@ public class Player extends Character {
     }
 
     public void update() {
+        checkGameOver();
         if (playerInputHandler.isUpPressed() || playerInputHandler.isDownPressed() || playerInputHandler.isLeftPressed() || playerInputHandler.isRightPressed()) {
             if (playerInputHandler.isUpPressed()) {
                 setDirection("up");
@@ -123,6 +124,13 @@ public class Player extends Character {
             }
         }
         updateTrail();
+    }
+
+    public void checkGameOver(){
+        if(getHealth() <= 0){
+            getGp().getHud().setGameFinished(true);
+            getGp().getGameStateManager().setGameOver();
+        }
     }
 
     public boolean usePowerUp(String powerUpType) {
@@ -223,7 +231,6 @@ public class Player extends Character {
                     setSpeed(getSpeed() + 2);
                     getGp().getGameEntities()[i] = null;
                     audio.playSE(2);
-                    getGp().getHud().showMessage("Speed Up!");
                     break;
             }
         }

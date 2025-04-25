@@ -4,62 +4,57 @@ import Launcher.GamePanel;
 import Market.PurchaseValidator;
 import Market.TransactionHandler;
 import UI.Screen;
-
-import java.awt.event.KeyEvent;
-import java.util.Arrays;
+import java.util.List;
 
 public class MarketInputHandler extends ScreenInputHandler {
-    private final PurchaseValidator validator = new PurchaseValidator();
+    private final PurchaseValidator validator     = new PurchaseValidator();
     private final TransactionHandler transactionHandler = new TransactionHandler();
 
     public MarketInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
 
-        bindKeys();
-    }
-
-    @Override
-    public void bindKeys() {
-        getScreen().setOptions(Arrays.asList(
+        screen.setOptions(List.of(
                 "Back",
                 "Speed Boost",
                 "Time Freeze",
                 "Extra Life"
         ));
 
-        bindOptionKeys();
-        bindNavigationKeys();
-    }
+        setOptionActions(List.of(
+                () -> getGp().getGameStateManager().setPause(),
 
-    @Override
-    public void bindOptionKeys() {
-        getKeyboard().bindKey(KeyEvent.VK_ENTER, this::handleMarketSelection);
-    }
+                () -> {
+                    var player = getGp().getPlayer();
+                    var pu = getGp().getPowerUpShop()
+                            .getAvailablePowerUps()
+                            .get("SpeedBoost");
+                    if (validator.canPurchase(player, pu)) {
+                        transactionHandler.processPurchase(player, pu);
+                    }
+                },
 
-    private void handleMarketSelection() {
-        switch (getScreen().getCommandNum()) {
-            case 0 -> getGp().getGameStateManager().setPause();
-            case 1 -> {
-                if(validator.canPurchase(getGp().getPlayer(),
-                        getGp().getPowerUpShop().getAvailablePowerUps().get("SpeedBoost"))) {
-                    transactionHandler.processPurchase(getGp().getPlayer(),
-                            getGp().getPowerUpShop().getAvailablePowerUps().get("SpeedBoost"));
+                () -> {
+                    var player = getGp().getPlayer();
+                    var pu = getGp().getPowerUpShop()
+                            .getAvailablePowerUps()
+                            .get("TimeFreeze");
+                    if (validator.canPurchase(player, pu)) {
+                        transactionHandler.processPurchase(player, pu);
+                    }
+                },
+
+                () -> {
+                    var player = getGp().getPlayer();
+                    var pu = getGp().getPowerUpShop()
+                            .getAvailablePowerUps()
+                            .get("ExtraLife");
+                    if (validator.canPurchase(player, pu)) {
+                        transactionHandler.processPurchase(player, pu);
+                    }
                 }
-            }
-            case 2 -> {
-                if(validator.canPurchase(getGp().getPlayer(),
-                        getGp().getPowerUpShop().getAvailablePowerUps().get("TimeFreeze"))) {
-                    transactionHandler.processPurchase(getGp().getPlayer(),
-                            getGp().getPowerUpShop().getAvailablePowerUps().get("TimeFreeze"));
-                }
-            }
-            case 3 -> {
-                if(validator.canPurchase(getGp().getPlayer(),
-                        getGp().getPowerUpShop().getAvailablePowerUps().get("ExtraLife"))) {
-                    transactionHandler.processPurchase(getGp().getPlayer(),
-                            getGp().getPowerUpShop().getAvailablePowerUps().get("ExtraLife"));
-                }
-            }
-        }
+        ));
+        getScreen().setCommandNum(0);
+
+        bindKeys();
     }
 }

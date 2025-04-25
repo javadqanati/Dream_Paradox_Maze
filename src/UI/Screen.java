@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class Screen {
     private final GamePanel gp;
-    private static int commandNum = 0;
+    private int commandNum = 0;
     private String selectionMessage;
     private List<String> options;
 
@@ -31,7 +31,7 @@ public class Screen {
     }
 
     public void setCommandNum(int commandNum) {
-        Screen.commandNum = commandNum;
+        this.commandNum = commandNum;
     }
 
     public String getSelectionMessage() {

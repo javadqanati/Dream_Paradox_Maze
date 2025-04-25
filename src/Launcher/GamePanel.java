@@ -7,17 +7,19 @@ import Input.InputHandler;
 import Input.KeyboardInputHandler;
 import Input.PlayerInputHandler;
 import Market.PowerUpShop;
-import UI.HUD;
-import UI.Screen;
+import UI.*;
 import graphicals.CollisionChecker;
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GamePanel extends JPanel implements Runnable {
     private final Player player;
     private final Maze maze;
     private final GameEntities[] gameEntities;
     private final Enemy[] enemies = new Enemy[4];
+    private final Map<String, Screen> screens = new HashMap<>();
     private final EntitySetter entitySetter;
     private final int originalTileSize = 16;
     private final int scale = 3;
@@ -33,15 +35,13 @@ public class GamePanel extends JPanel implements Runnable {
     private final int maxWorldRow = 59;
     private Thread gameThread;
     private final GameStateManager gameStateManager = new GameStateManager();
-    private final HUD hud = new HUD(this, gameStateManager);
+    private final HUD hud;
     private final PowerUpShop powerUpShop = new PowerUpShop(this);
     private final KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
     private final PlayerInputHandler playerHandler =  new PlayerInputHandler(keyboardInputHandler);
-    private final InputHandler inputHandler = new InputHandler(this, new Screen(this),
-                        gameStateManager, keyboardInputHandler, playerHandler);
+    private final InputHandler inputHandler;
 
     public GamePanel() {
-        this.addKeyListener(inputHandler);
         screenWidth = tileSize * maxScreenCol;
         screenHeight = tileSize * maxScreenRow;
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -52,6 +52,18 @@ public class GamePanel extends JPanel implements Runnable {
         maze = new Maze(this);
         gameEntities = new GameEntities[10];
         entitySetter = new EntitySetter(this);
+
+        screens.put("MENU",      new MainScreen(this));
+        screens.put("PLAY",      new PlayScreen(this));
+        screens.put("PAUSE",     new PauseScreen(this));
+        screens.put("SETTINGS",  new SettingScreen(this));
+        screens.put("INVENTORY", new InventoryScreen(this));
+        screens.put("MARKET",    new MarketScreen(this));
+        screens.put("GAMEOVER",  new GameOverScreen(this));
+
+        hud = new HUD(this, gameStateManager, screens);
+        inputHandler = new InputHandler(this, gameStateManager, keyboardInputHandler, playerHandler, screens);
+        this.addKeyListener(inputHandler);
     }
 
     public void setUpGame() {

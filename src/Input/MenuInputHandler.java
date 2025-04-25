@@ -4,39 +4,22 @@ import Launcher.GamePanel;
 import UI.Screen;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
+import java.util.List;
 
 public class MenuInputHandler extends ScreenInputHandler{
 
     public MenuInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
 
-        bindKeys();
-    }
-
-    @Override
-    public void bindKeys() {
-        getScreen().setOptions(Arrays.asList(
-                "Play",
-                "Load",
-                "Settings",
-                "Quit"
+        screen.setOptions(List.of("Play", "Load", "Settings", "Quit"));
+        setOptionActions(List.of(
+                () -> getGp().getGameStateManager().setPlay(),
+                () -> getGp().getGameStateManager().setLoad(),
+                () -> getGp().getGameStateManager().setSettings(),
+                () -> System.exit(0)
         ));
+        getScreen().setCommandNum(0);
 
-        bindNavigationKeys();
-        bindOptionKeys();
-    }
-
-    public void bindOptionKeys() {
-        getKeyboard().bindKey(KeyEvent.VK_ENTER, this::handleMenuSelection);
-    }
-
-    private void handleMenuSelection() {
-        switch (getScreen().getCommandNum()) {
-            case 0: getGp().getGameStateManager().setPlay(); break;
-            case 1: getGp().getGameStateManager().setLoad(); break;
-            case 2: getGp().getGameStateManager().setSettings(); break;
-            case 3: System.exit(0); break;
-            default: break;
-        }
+        bindKeys();
     }
 }

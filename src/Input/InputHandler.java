@@ -16,21 +16,26 @@ public class InputHandler implements KeyListener {
     private final GameStateManager gsm;
 
     public InputHandler(GamePanel gp,
-                        Screen screen,
                         GameStateManager gsm,
                         KeyboardInputHandler keyboardInputHandler,
-                        PlayerInputHandler playerInputHandler) {
+                        PlayerInputHandler playerInputHandler,
+                        Map<String, Screen> screens) {
         this.gsm = gsm;
         this.keyboardInputHandler = keyboardInputHandler;
         this.playerInputHandler = playerInputHandler;
 
         handlerMap = new HashMap<>();
-        handlerMap.put("PLAY",      new PlayScreenInputHandler(keyboardInputHandler, screen, gp));
-        handlerMap.put("PAUSE",     new PauseInputHandler(keyboardInputHandler, screen, gp));
-        handlerMap.put("INVENTORY", new InventoryInputHandler(keyboardInputHandler, screen, gp));
-        handlerMap.put("MARKET",    new MarketInputHandler(keyboardInputHandler, screen, gp));
-        handlerMap.put("SETTINGS",   new SettingScreenInputHandler(keyboardInputHandler, screen, gp));
-        handlerMap.put("MENU",      new MenuInputHandler(keyboardInputHandler, screen, gp));
+        handlerMap.put("PLAY",      new PlayScreenInputHandler(keyboardInputHandler, screens.get("PLAY"), gp));
+        handlerMap.put("PAUSE",     new PauseInputHandler(keyboardInputHandler, screens.get("PAUSE"), gp));
+        handlerMap.put("INVENTORY", new InventoryInputHandler(keyboardInputHandler, screens.get("INVENTORY"), gp));
+        handlerMap.put("MARKET",    new MarketInputHandler(keyboardInputHandler, screens.get("MARKET"), gp));
+        handlerMap.put("SETTINGS",   new SettingScreenInputHandler(keyboardInputHandler, screens.get("SETTINGS"), gp));
+        handlerMap.put("MENU",      new MenuInputHandler(keyboardInputHandler, screens.get("MENU"), gp));
+        handlerMap.put("GAMEOVER", new GameOverInputHandler(keyboardInputHandler, screens.get("GAMEOVER"), gp));
+
+        String initial = gsm.getStateName();
+        ScreenInputHandler first = handlerMap.get(initial);
+        if (first != null) first.bindKeys();
     }
 
     @Override
@@ -40,14 +45,14 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        keyboardInputHandler.handleKeyPress(e.getKeyCode());
+
+        // 2) Now pick up the possibly-new state and re-bind its keys.
         String stateName = gsm.getStateName();
         ScreenInputHandler handler = handlerMap.get(stateName);
-
         if (handler != null) {
             handler.bindKeys();
         }
-
-        keyboardInputHandler.handleKeyPress(e.getKeyCode());
     }
 
     @Override

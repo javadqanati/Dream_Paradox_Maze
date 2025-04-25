@@ -10,14 +10,9 @@ public class PlayScreenInputHandler extends ScreenInputHandler {
     public PlayScreenInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
         bindKeys();
-    }
-
-    @Override
-    public void bindKeys() {
         bindOptionKeys();
     }
 
-    @Override
     public void bindOptionKeys() {
         getKeyboard().bindKey(KeyEvent.VK_P, this::togglePause);
     }

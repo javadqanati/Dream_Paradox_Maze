@@ -3,9 +3,7 @@ package Input;
 import Game.GameEntities.PowerUp;
 import Launcher.GamePanel;
 import UI.Screen;
-
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 import java.util.List;
 
 public class InventoryInputHandler extends ScreenInputHandler {
@@ -17,10 +15,10 @@ public class InventoryInputHandler extends ScreenInputHandler {
 
     @Override
     public void bindKeys() {
+        getScreen().setCommandNum(0);
         bindOptionKeys();
     }
 
-    @Override
     public void bindOptionKeys() {
         getKeyboard().bindKey(KeyEvent.VK_UP, () -> {
             int max = getGp().getPlayer().getPowerUps().size() + 1;
