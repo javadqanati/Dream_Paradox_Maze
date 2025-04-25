@@ -4,8 +4,11 @@ import Audio.AudioManager;
 import Game.GameEntities.*;
 import Game.GameStates.GameStateManager;
 import Input.InputHandler;
+import Input.KeyboardInputHandler;
+import Input.PlayerInputHandler;
 import Market.PowerUpShop;
 import UI.HUD;
+import UI.Screen;
 import graphicals.CollisionChecker;
 
 import javax.swing.*;
@@ -32,9 +35,12 @@ public class GamePanel extends JPanel implements Runnable {
     private final int maxWorldRow = 59;
     private Thread gameThread;
     private final GameStateManager gameStateManager = new GameStateManager();
-    private InputHandler inputHandler = new InputHandler(this, gameStateManager);
     private final HUD hud = new HUD(this, gameStateManager);
     private final PowerUpShop powerUpShop = new PowerUpShop(this);
+    private final KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
+    private final PlayerInputHandler playerHandler =  new PlayerInputHandler(keyboardInputHandler);
+    private final InputHandler inputHandler = new InputHandler(this, new Screen(this),
+                        keyboardInputHandler, playerHandler);
 
     public GamePanel() {
         this.addKeyListener(inputHandler);
@@ -44,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
-        player = new Player(this, inputHandler);
+        player = new Player(this, playerHandler);
         maze = new Maze(this);
         gameEntities = new GameEntities[10];
         entitySetter = new EntitySetter(this);

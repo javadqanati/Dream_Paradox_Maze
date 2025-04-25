@@ -1,7 +1,7 @@
 package Game.GameEntities;
 
 import Audio.AudioManager;
-import Input.InputHandler;
+import Input.PlayerInputHandler;
 import Launcher.GamePanel;
 import Market.PowerUpShop;
 import graphicals.SpriteMaker;
@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player extends Character{
+public class Player extends Character {
     private int collectedFragments = 9;
     private List<PowerUp> powerUps = new ArrayList<>();
-    private final InputHandler input;
+    private final PlayerInputHandler playerInputHandler;
     private final int screenX;
     private final int screenY;
     private final AudioManager audio = new AudioManager();
@@ -31,14 +31,14 @@ public class Player extends Character{
         return screenX;
     }
 
-    public Player(GamePanel gp, InputHandler input) {
+    public Player(GamePanel gp, PlayerInputHandler playerInputHandler) {
         super(gp);
-        this.input = input;
+        this.playerInputHandler = playerInputHandler; // Updated initialization
         setDefaultValues();
         getPlayerImage();
         this.setDirection("down");
-        screenX= gp.getScreenWidth() /2 - (gp.getTileSize()/2);
-        screenY= gp.getScreenHeight() /2- (gp.getTileSize()/2);
+        screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
+        screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
 
         setSolidArea(new Rectangle());
         getSolidArea().x = 2;
@@ -49,7 +49,7 @@ public class Player extends Character{
         setSolidAreaDefaultY(getSolidArea().y);
     }
 
-    public void setDefaultValues(){
+    public void setDefaultValues() {
         setWorldX(9 * getGp().getTileSize());
         setWorldY(9 * getGp().getTileSize());
         setSpeed(4);  // Initialize speed here
@@ -59,7 +59,7 @@ public class Player extends Character{
         setHealth(getMaxHealth());
     }
 
-    public void getPlayerImage(){
+    public void getPlayerImage() {
         SpriteMaker spriteMaker = new SpriteMaker(getGp());
 
         setUp1(spriteMaker.characterSkinSetup("/Player/boy_up_1"));
@@ -72,23 +72,22 @@ public class Player extends Character{
         setLeft2(spriteMaker.characterSkinSetup("/Player/boy_left_2"));
     }
 
-    public void update(){
-        if(input.isUpPressed() || input.isDownPressed() || input.isLeftPressed() || input.isRightPressed()){
-            if (input.isUpPressed()){
+    public void update() {
+        if (playerInputHandler.isUpPressed() || playerInputHandler.isDownPressed() || playerInputHandler.isLeftPressed() || playerInputHandler.isRightPressed()) {
+            if (playerInputHandler.isUpPressed()) {
                 setDirection("up");
-            } else if (input.isDownPressed()){
+            } else if (playerInputHandler.isDownPressed()) {
                 setDirection("down");
-            } else if (input.isLeftPressed()){
+            } else if (playerInputHandler.isLeftPressed()) {
                 setDirection("left");
-            } else if (input.isRightPressed()){
+            } else if (playerInputHandler.isRightPressed()) {
                 setDirection("right");
             }
             setSpriteCounter(getSpriteCounter() + 1);
-            if(getSpriteCounter()>10){
-                if(getSpriteNum()==1){
+            if (getSpriteCounter() > 10) {
+                if (getSpriteNum() == 1) {
                     setSpriteNum(2);
-                }
-                else if(getSpriteNum()==2){
+                } else if (getSpriteNum() == 2) {
                     setSpriteNum(1);
                 }
                 setSpriteCounter(0);
@@ -99,8 +98,8 @@ public class Player extends Character{
             collectFragments(entityIndex);
             getGp().getCollisionChecker().checkEntity(this, getGp().getEnemies());
 
-            if(!isCollisionOn()){
-                switch (getDirection()){
+            if (!isCollisionOn()) {
+                switch (getDirection()) {
                     case "up":
                         setWorldY(getWorldY() - getSpeed());
                         break;
@@ -116,9 +115,9 @@ public class Player extends Character{
                 }
             }
         }
-        if(invincible){
+        if (invincible) {
             invincibleCounter++;
-            if(invincibleCounter > 60){
+            if (invincibleCounter > 60) {
                 invincible = false;
                 invincibleCounter = 0;
             }
@@ -137,7 +136,6 @@ public class Player extends Character{
         return false; // Not found
     }
 
-
     public void updateTrail() {
         Point currentPosition = new Point(getWorldX(), getWorldY());
         // Only add if moved from last recorded position
@@ -153,7 +151,7 @@ public class Player extends Character{
         return trail;
     }
 
-    public boolean usePowerUp(PowerUp powerUp){
+    public boolean usePowerUp(PowerUp powerUp) {
         if (powerUps.contains(powerUp)) {
             powerUp.apply();  // Assuming activate() method exists in PowerUp
             powerUps.remove(powerUp);  // Optional: if one-time use
@@ -163,10 +161,10 @@ public class Player extends Character{
     }
 
     @Override
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
         BufferedImage img = null;
 
-        switch(getDirection()) {
+        switch (getDirection()) {
             case "up":
                 if (getSpriteNum() == 1) {
                     img = getUp1();
@@ -174,7 +172,6 @@ public class Player extends Character{
                 if (getSpriteNum() == 2) {
                     img = getUp2();
                 }
-
                 break;
             case "down":
                 if (getSpriteNum() == 1) {
@@ -202,13 +199,12 @@ public class Player extends Character{
                 break;
         }
         g2.drawImage(img, screenX, screenY, null);
-
     }
 
-    public void collectFragments(int i){
-        if(i != 999){
+    public void collectFragments(int i) {
+        if (i != 999) {
             String name = getGp().getGameEntities()[i].getName();
-            switch (name){
+            switch (name) {
                 case "Memory Fragment":
                     collectedFragments++;
                     getGp().getGameEntities()[i] = null;

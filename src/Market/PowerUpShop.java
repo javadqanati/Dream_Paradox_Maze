@@ -7,10 +7,11 @@ import Game.GameEntities.TimeFreeze;
 import Launcher.GamePanel;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class PowerUpShop {
-    private static final Map<String, PowerUp> availablePowerUps = new HashMap<>();
+    private static final Map<String, PowerUp> availablePowerUps = new LinkedHashMap<>();
 
     public PowerUpShop(GamePanel gp) {
         availablePowerUps.put("SpeedBoost", new SpeedBoost(gp));
