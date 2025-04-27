@@ -1,9 +1,9 @@
 package Game.GameEntities;
 
 import Audio.AudioManager;
+import Game.GameEntities.Powerup.PowerUp;
 import Input.PlayerInputHandler;
 import Launcher.GamePanel;
-import Market.PowerUpShop;
 import graphicals.SpriteMaker;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,113 +12,101 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Player extends Character {
-    private int collectedFragments = 9;
-    private List<PowerUp> powerUps = new ArrayList<>();
+    private int collectedFragments;
+    private final List<PowerUp> powerUps = new ArrayList<>();
     private final PlayerInputHandler playerInputHandler;
-    private final int screenX;
-    private final int screenY;
+    private int screenX;
+    private int screenY;
     private final AudioManager audio = new AudioManager();
     private final LinkedList<Point> trail = new LinkedList<>();
-    private final int MAX_TRAIL_SIZE = 50;
     private boolean invincible = false;
     private int invincibleCounter = 0;
 
-    public Player(GamePanel gp, PlayerInputHandler playerInputHandler) {
+    public Player(GamePanel gp, PlayerInputHandler handler) {
         super(gp);
-        this.playerInputHandler = playerInputHandler; // Updated initialization
-        setDefaultValues();
-        getPlayerImage();
-        this.setDirection("down");
+        this.playerInputHandler = handler;
+        initPlayer(gp);
+    }
+
+    private void initPlayer(GamePanel gp) {
+        setSpeed(4);
+        setSpriteNum(1);
+        setDefaultPosition();
+        restoreLife();
+
+        SpriteMaker maker = new SpriteMaker(gp);
+
+        setSpriteFrames(Direction.UP,
+                maker.characterSkinSetup("/Player/boy_up_1"),
+                maker.characterSkinSetup("/Player/boy_up_2"));
+        setSpriteFrames(Direction.DOWN,
+                maker.characterSkinSetup("/Player/boy_down_1"),
+                maker.characterSkinSetup("/Player/boy_down_2"));
+        setSpriteFrames(Direction.LEFT,
+                maker.characterSkinSetup("/Player/boy_left_1"),
+                maker.characterSkinSetup("/Player/boy_left_2"));
+        setSpriteFrames(Direction.RIGHT,
+                maker.characterSkinSetup("/Player/boy_right_1"),
+                maker.characterSkinSetup("/Player/boy_right_2"));
+
+        setDirection(Direction.DOWN);
         screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
         screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
-
-        setSolidArea(new Rectangle());
-        getSolidArea().x = 2;
-        getSolidArea().y = 3;
-        getSolidArea().width = 30;
-        getSolidArea().height = 30;
+        setSolidArea(new Rectangle(2, 3, 30, 30));
         setSolidAreaDefaultX(getSolidArea().x);
         setSolidAreaDefaultY(getSolidArea().y);
     }
 
-    public void setDefaultValues() {
-        setSpeed(4);
-        setSpriteNum(1);
-        setDefaultPosition();
-        restoreLifeAndFragments();
+    public void setDefaultPosition() {
+        int tileSize = getGp().getTileSize();
+        setWorldX(9 * tileSize);
+        setWorldY(9 * tileSize);
     }
 
-    public void setDefaultPosition(){
-        setWorldX(9 * getGp().getTileSize());
-        setWorldY(9 * getGp().getTileSize());
-        setDirection("down");
-    }
-
-    public void restoreLifeAndFragments(){
+    public void restoreLife() {
         setMaxHealth(6);
         setHealth(getMaxHealth());
-        collectedFragments = 0;
         invincible = false;
     }
 
-
-    public void getPlayerImage() {
-        SpriteMaker spriteMaker = new SpriteMaker(getGp());
-
-        setUp1(spriteMaker.characterSkinSetup("/Player/boy_up_1"));
-        setUp2(spriteMaker.characterSkinSetup("/Player/boy_up_2"));
-        setDown1(spriteMaker.characterSkinSetup("/Player/boy_down_1"));
-        setDown2(spriteMaker.characterSkinSetup("/Player/boy_down_2"));
-        setRight1(spriteMaker.characterSkinSetup("/Player/boy_right_1"));
-        setRight2(spriteMaker.characterSkinSetup("/Player/boy_right_2"));
-        setLeft1(spriteMaker.characterSkinSetup("/Player/boy_left_1"));
-        setLeft2(spriteMaker.characterSkinSetup("/Player/boy_left_2"));
-    }
-
+    @Override
     public void update() {
         checkGameOver();
-        if (playerInputHandler.isUpPressed() || playerInputHandler.isDownPressed() || playerInputHandler.isLeftPressed() || playerInputHandler.isRightPressed()) {
-            if (playerInputHandler.isUpPressed()) {
-                setDirection("up");
-            } else if (playerInputHandler.isDownPressed()) {
-                setDirection("down");
-            } else if (playerInputHandler.isLeftPressed()) {
-                setDirection("left");
-            } else if (playerInputHandler.isRightPressed()) {
-                setDirection("right");
-            }
-            setSpriteCounter(getSpriteCounter() + 1);
-            if (getSpriteCounter() > 10) {
-                if (getSpriteNum() == 1) {
-                    setSpriteNum(2);
-                } else if (getSpriteNum() == 2) {
-                    setSpriteNum(1);
-                }
-                setSpriteCounter(0);
-            }
-            setCollisionOn(false);
-            getGp().getCollisionChecker().checkTile(this);
-            int entityIndex = getGp().getCollisionChecker().checkObject(this, true);
-            collectFragments(entityIndex);
-            getGp().getCollisionChecker().checkEntity(this, getGp().getEnemies());
+        handleInput();
+        updateInvincibility();
+        updateTrail();
+    }
 
-            if (!isCollisionOn()) {
-                switch (getDirection()) {
-                    case "up":
-                        setWorldY(getWorldY() - getSpeed());
-                        break;
-                    case "down":
-                        setWorldY(getWorldY() + getSpeed());
-                        break;
-                    case "left":
-                        setWorldX(getWorldX() - getSpeed());
-                        break;
-                    case "right":
-                        setWorldX(getWorldX() + getSpeed());
-                        break;
-                }
+    private void handleInput() {
+        if (playerInputHandler.isMovementKeyPressed()) {
+            if (playerInputHandler.isUpPressed()) setDirection(Direction.UP);
+            else if (playerInputHandler.isDownPressed()) setDirection(Direction.DOWN);
+            else if (playerInputHandler.isLeftPressed()) setDirection(Direction.LEFT);
+            else if (playerInputHandler.isRightPressed()) setDirection(Direction.RIGHT);
+
+            animate(10);
+            movePlayer();
+        }
+    }
+
+    private void movePlayer() {
+        setCollisionOn(false);
+        getGp().getCollisionChecker().checkTile(this);
+        int objIndex = getGp().getCollisionChecker().checkObject(this, true);
+        collectFragments(objIndex);
+        getGp().getCollisionChecker().checkEntity(this, getGp().getEnemies());
+
+        if (!isCollisionOn()) {
+            switch (getDirection()) {
+                case UP    -> setWorldY(getWorldY() - getSpeed());
+                case DOWN  -> setWorldY(getWorldY() + getSpeed());
+                case LEFT  -> setWorldX(getWorldX() - getSpeed());
+                case RIGHT -> setWorldX(getWorldX() + getSpeed());
             }
         }
+    }
+
+    private void updateInvincibility() {
         if (invincible) {
             invincibleCounter++;
             if (invincibleCounter > 60) {
@@ -126,135 +114,71 @@ public class Player extends Character {
                 invincibleCounter = 0;
             }
         }
-        updateTrail();
     }
 
-    public void checkGameOver(){
-        if(getHealth() <= 0){
+    private void updateTrail() {
+        Point pos = new Point(getWorldX(), getWorldY());
+        if (trail.isEmpty() || !trail.getLast().equals(pos)) {
+            trail.add(pos);
+            if (trail.size() > 50) trail.removeFirst();
+        }
+    }
+
+    private void checkGameOver() {
+        if (getHealth() <= 0) {
             getGp().getHud().setGameFinished(true);
             getGp().getGameStateManager().setGameOver();
         }
     }
 
-    public boolean usePowerUp(String powerUpType) {
-        for (PowerUp powerUp : powerUps) {
-            if (powerUp.getType().equals(powerUpType)) {
-                powerUp.apply();
-                powerUps.remove(powerUp);
+    public boolean usePowerUp(String type) {
+        return powerUps.removeIf(pu -> {
+            if (pu.getType().equals(type)) {
+                pu.apply();
                 return true;
             }
-        }
-        return false;
+            return false;
+        });
     }
 
-    public void updateTrail() {
-        Point currentPosition = new Point(getWorldX(), getWorldY());
-        // Only add if moved from last recorded position
-        if (trail.isEmpty() || !trail.getLast().equals(currentPosition)) {
-            trail.add(currentPosition);
-            if (trail.size() > MAX_TRAIL_SIZE) {
-                trail.removeFirst();
+    private void collectFragments(int i) {
+        if (i == 999) return;
+        String name = getGp().getGameEntities()[i].getName();
+        switch (name) {
+            case "Memory Fragment" -> {
+                collectedFragments++;
+                getGp().getGameEntities()[i] = null;
+                audio.playSE(1);
+            }
+            case "Entrance" -> audio.playSE(3);
+            case "Exit" -> {
+                getGp().getHud().setGameFinished(true);
+                getGp().getAudioManager().playSE(4);
+                getGp().getAudioManager().stopMusic(0);
+            }
+            case "Speed Boost" -> {
+                setSpeed(getSpeed() + 2);
+                getGp().getGameEntities()[i] = null;
+                audio.playSE(2);
             }
         }
-    }
-
-    public LinkedList<Point> getTrail() {
-        return trail;
     }
 
     @Override
     public void draw(Graphics2D g2) {
-        BufferedImage img = null;
-
-        switch (getDirection()) {
-            case "up":
-                if (getSpriteNum() == 1) {
-                    img = getUp1();
-                }
-                if (getSpriteNum() == 2) {
-                    img = getUp2();
-                }
-                break;
-            case "down":
-                if (getSpriteNum() == 1) {
-                    img = getDown1();
-                }
-                if (getSpriteNum() == 2) {
-                    img = getDown2();
-                }
-                break;
-            case "left":
-                if (getSpriteNum() == 1) {
-                    img = getLeft1();
-                }
-                if (getSpriteNum() == 2) {
-                    img = getLeft2();
-                }
-                break;
-            case "right":
-                if (getSpriteNum() == 1) {
-                    img = getRight1();
-                }
-                if (getSpriteNum() == 2) {
-                    img = getRight2();
-                }
-                break;
-        }
+        BufferedImage img = getCurrentSprite();
         g2.drawImage(img, screenX, screenY, null);
     }
 
-    public void collectFragments(int i) {
-        if (i != 999) {
-            String name = getGp().getGameEntities()[i].getName();
-            switch (name) {
-                case "Memory Fragment":
-                    collectedFragments++;
-                    getGp().getGameEntities()[i] = null;
-                    System.out.println(collectedFragments);
-                    audio.playSE(1);
-                    break;
-                case "Entrance":
-                    audio.playSE(3);
-                    break;
-                case "Exit":
-                    getGp().getHud().setGameFinished(true);
-                    getGp().getAudioManager().playSE(4);
-                    getGp().getAudioManager().stopMusic();
-                    break;
-                case "Speed Boost":
-                    setSpeed(getSpeed() + 2);
-                    getGp().getGameEntities()[i] = null;
-                    audio.playSE(2);
-                    break;
-            }
-        }
-    }
-
-    public int getCollectedFragments() {
-        return collectedFragments;
-    }
-    public List<PowerUp> getPowerUps() {
-        return powerUps;
-    }
-    public boolean isInvincible() {
-        return invincible;
-    }
-    public void setInvincible(boolean invincible) {
-        this.invincible = invincible;
-    }
-    public void addPowerUp(PowerUp powerUp) {
-        powerUps.add(powerUp);
-    }
+    public List<PowerUp> getPowerUps() { return powerUps; }
+    public LinkedList<Point> getTrail() { return trail; }
+    public int getCollectedFragments() { return collectedFragments; }
+    public void addPowerUp(PowerUp pu) { powerUps.add(pu); }
     public void setCollectedFragments(int collectedFragments) {
         this.collectedFragments = collectedFragments;
     }
-    public void addFragments(int amount) {
-        collectedFragments += amount;
-    }
-    public int getScreenY() {
-        return screenY;
-    }
-    public int getScreenX() {
-        return screenX;
-    }
+    public boolean isInvincible() { return invincible; }
+    public void setInvincible(boolean invincible) { this.invincible = invincible; }
+    public int getScreenX() { return screenX; }
+    public int getScreenY() { return screenY; }
 }

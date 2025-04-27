@@ -2,7 +2,7 @@ package UI;
 
 
 import Game.GameEntities.Player;
-import Game.GameEntities.PowerUp;
+import Game.GameEntities.Powerup.PowerUp;
 import Launcher.GamePanel;
 import Market.PowerUpShop;
 

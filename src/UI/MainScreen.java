@@ -36,7 +36,7 @@ public class MainScreen extends Screen {
             g2.drawString(">", x - getGp().getTileSize(), y);
         }
 
-        text = "SETTINGS";
+        text = "SAVE GAME";
         x = getXforCenteredText(text, g2);
         y += getGp().getTileSize();
         g2.drawString(text, x, y);
@@ -44,11 +44,19 @@ public class MainScreen extends Screen {
             g2.drawString(">", x - getGp().getTileSize(), y);
         }
 
-        text = "QUIT";
+        text = "SETTINGS";
         x = getXforCenteredText(text, g2);
         y += getGp().getTileSize();
         g2.drawString(text, x, y);
         if(getCommandNum() == 3){
+            g2.drawString(">", x - getGp().getTileSize(), y);
+        }
+
+        text = "QUIT";
+        x = getXforCenteredText(text, g2);
+        y += getGp().getTileSize();
+        g2.drawString(text, x, y);
+        if(getCommandNum() == 4){
             g2.drawString(">", x - getGp().getTileSize(), y);
         }
     }

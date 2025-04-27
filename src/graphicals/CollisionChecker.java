@@ -2,6 +2,7 @@ package graphicals;
 
 import Launcher.GamePanel;
 import Game.GameEntities.Character;
+import java.awt.Rectangle;
 
 public class CollisionChecker {
     private final GamePanel gp;
@@ -10,142 +11,117 @@ public class CollisionChecker {
         this.gp = gp;
     }
 
-    public void checkTile(Character character) {
-        int charLeftX = character.getWorldX() + character.getSolidArea().x;
-        int charRightX = character.getWorldX() + character.getSolidArea().x + character.getSolidArea().width;
-        int charTopY = character.getWorldY() + character.getSolidArea().y;
-        int charButtonY = character.getWorldY() + character.getSolidArea().y + character.getSolidArea().height;
-
-        int entityLeftCol = charLeftX / gp.getTileSize();
-        int entityRightCol = charRightX / gp.getTileSize();
-        int entityTopRow = charTopY / gp.getTileSize();
-        int entityBottomRow = charButtonY / gp.getTileSize();
-
-        int tileNUm1, tileNum2;
-
+    private Rectangle projectedArea(Character character) {
+        Rectangle sa = character.getSolidArea();
+        int x = character.getWorldX() + sa.x;
+        int y = character.getWorldY() + sa.y;
+        Rectangle future = new Rectangle(x, y, sa.width, sa.height);
+        int speed = character.getSpeed();
         switch (character.getDirection()) {
-            case "up":
-                entityTopRow = (charTopY - character.getSpeed()) / gp.getTileSize();
-                tileNUm1 = gp.getMaze().getMapTileNum()[entityLeftCol][entityTopRow];
-                tileNum2 = gp.getMaze().getMapTileNum()[entityRightCol][entityTopRow];
-                if (gp.getMaze().getTile()[tileNUm1].isPassable() || gp.getMaze().getTile()[tileNum2].isPassable()) {
-                    character.setCollisionOn(true);
-                }
-                break;
-            case "down":
-                entityBottomRow = (charButtonY - character.getSpeed()) / gp.getTileSize();
-                tileNUm1 = gp.getMaze().getMapTileNum()[entityLeftCol][entityBottomRow];
-                tileNum2 = gp.getMaze().getMapTileNum()[entityRightCol][entityBottomRow];
-                if (gp.getMaze().getTile()[tileNUm1].isPassable() || gp.getMaze().getTile()[tileNum2].isPassable()) {
-                    character.setCollisionOn(true);
-                }
-                break;
-            case "left":
-                entityLeftCol = (charLeftX - character.getSpeed()) / gp.getTileSize();
-                tileNUm1 = gp.getMaze().getMapTileNum()[entityLeftCol][entityTopRow];
-                tileNum2 = gp.getMaze().getMapTileNum()[entityLeftCol][entityBottomRow];
-                if (gp.getMaze().getTile()[tileNUm1].isPassable() || gp.getMaze().getTile()[tileNum2].isPassable()) {
-                    character.setCollisionOn(true);
-                }
-                break;
-            case "right":
-                entityRightCol = (charRightX - character.getSpeed()) / gp.getTileSize();
-                tileNUm1 = gp.getMaze().getMapTileNum()[entityRightCol][entityTopRow];
-                tileNum2 = gp.getMaze().getMapTileNum()[entityRightCol][entityBottomRow];
-                if (gp.getMaze().getTile()[tileNUm1].isPassable() || gp.getMaze().getTile()[tileNum2].isPassable()) {
-                    character.setCollisionOn(true);
-                }
-                break;
+            case UP    -> future.y -= speed;
+            case DOWN  -> future.y += speed;
+            case LEFT  -> future.x -= speed;
+            case RIGHT -> future.x += speed;
         }
+        return future;
+    }
 
+    public void checkTile(Character character) {
+        Rectangle area = projectedArea(character);
+        int tileSize = gp.getTileSize();
+        int leftCol   = area.x / tileSize;
+        int rightCol  = (area.x + area.width  - 1) / tileSize;
+        int topRow    = area.y / tileSize;
+        int bottomRow = (area.y + area.height - 1) / tileSize;
+
+        var map   = gp.getMaze().getMapTileNum();
+        var tiles = gp.getMaze().getTile();
+
+        boolean collision = false;
+        switch (character.getDirection()) {
+            case UP -> collision =
+                    tiles[map[leftCol][topRow]].isPassable() ||
+                            tiles[map[rightCol][topRow]].isPassable();
+            case DOWN -> collision =
+                    tiles[map[leftCol][bottomRow]].isPassable() ||
+                            tiles[map[rightCol][bottomRow]].isPassable();
+            case LEFT -> collision =
+                    tiles[map[leftCol][topRow]].isPassable() ||
+                            tiles[map[leftCol][bottomRow]].isPassable();
+            case RIGHT -> collision =
+                    tiles[map[rightCol][topRow]].isPassable() ||
+                            tiles[map[rightCol][bottomRow]].isPassable();
+        }
+        if (collision) {
+            character.setCollisionOn(true);
+        }
     }
 
     public int checkObject(Character character, boolean player) {
+        Rectangle area = projectedArea(character);
         int index = 999;
+        var entities = gp.getGameEntities();
 
-        for (int i = 0; i < gp.getGameEntities().length; i++) {
-            if (gp.getGameEntities()[i] != null) {
-                character.getSolidArea().x = character.getWorldX() + character.getSolidArea().x;
-                character.getSolidArea().y = character.getWorldY() + character.getSolidArea().y;
-                gp.getGameEntities()[i].getSolidArea().x = gp.getGameEntities()[i].getWorldX() + gp.getGameEntities()[i].getSolidArea().x;
-                gp.getGameEntities()[i].getSolidArea().y = gp.getGameEntities()[i].getWorldY() + gp.getGameEntities()[i].getSolidArea().y;
+        for (int i = 0; i < entities.length; i++) {
+            var e = entities[i];
+            if (e == null) continue;
 
-                directionSwitch(character);
-                if (character.getSolidArea().intersects(gp.getGameEntities()[i].getSolidArea())) {
-                    if (gp.getGameEntities()[i].isPassable()) {
-                        character.setCollisionOn(true);
-                    }
-                    if (player) {
-                        index = i;
-                    }
+            Rectangle other = new Rectangle(
+                    e.getWorldX() + e.getSolidArea().x,
+                    e.getWorldY() + e.getSolidArea().y,
+                    e.getSolidArea().width,
+                    e.getSolidArea().height
+            );
+
+            if (area.intersects(other)) {
+                if (!e.isPassable()) {
+                    character.setCollisionOn(true);
                 }
-                character.getSolidArea().x = character.getSolidAreaDefaultX();
-                character.getSolidArea().y = character.getSolidAreaDefaultY();
-                gp.getGameEntities()[i].getSolidArea().x = gp.getGameEntities()[i].getSolidAreaX();
-                gp.getGameEntities()[i].getSolidArea().y = gp.getGameEntities()[i].getSolidAreaY();
+                if (player) {
+                    index = i;
+                }
             }
-
         }
         return index;
     }
 
-    public int checkEntity(Character character, Character[] target) {
+    public int checkEntity(Character character, Character[] targets) {
+        Rectangle area = projectedArea(character);
         int index = 999;
 
-        for (int i = 0; i < target.length; i++) {
-            if (target[i] != null) {
-                character.getSolidArea().x = character.getWorldX() + character.getSolidArea().x;
-                character.getSolidArea().y = character.getWorldY() + character.getSolidArea().y;
+        for (int i = 0; i < targets.length; i++) {
+            var t = targets[i];
+            if (t == null) continue;
 
-                target[i].getSolidArea().x = target[i].getWorldX() + target[i].getSolidArea().x;
-                target[i].getSolidArea().y = target[i].getWorldY() + target[i].getSolidArea().y;
+            Rectangle other = new Rectangle(
+                    t.getWorldX() + t.getSolidArea().x,
+                    t.getWorldY() + t.getSolidArea().y,
+                    t.getSolidArea().width,
+                    t.getSolidArea().height
+            );
 
-                directionSwitch(character);
-                if (character.getSolidArea().intersects(target[i].getSolidArea())) {
-                    character.setCollisionOn(true);
-                    index = i;
-                }
-                character.getSolidArea().x = character.getSolidAreaDefaultX();
-                character.getSolidArea().y = character.getSolidAreaDefaultY();
-                target[i].getSolidArea().x = target[i].getSolidAreaX();
-                target[i].getSolidArea().y = target[i].getSolidAreaY();
+            if (area.intersects(other)) {
+                character.setCollisionOn(true);
+                index = i;
             }
-
         }
         return index;
     }
 
     public boolean checkPlayer(Character character) {
-        boolean contactPlayer = false;
+        Rectangle area = projectedArea(character);
+        var player = gp.getPlayer();
+        Rectangle other = new Rectangle(
+                player.getWorldX() + player.getSolidArea().x,
+                player.getWorldY() + player.getSolidArea().y,
+                player.getSolidArea().width,
+                player.getSolidArea().height
+        );
 
-        character.getSolidArea().x = character.getWorldX() + character.getSolidArea().x;
-        character.getSolidArea().y = character.getWorldY() + character.getSolidArea().y;
-
-        gp.getPlayer().getSolidArea().x = gp.getPlayer().getWorldX() + gp.getPlayer().getSolidArea().x;
-        gp.getPlayer().getSolidArea().y = gp.getPlayer().getWorldY() + gp.getPlayer().getSolidArea().y;
-
-        directionSwitch(character);
-
-        if (character.getSolidArea().intersects(gp.getPlayer().getSolidArea())) {
+        if (area.intersects(other)) {
             character.setCollisionOn(true);
-            contactPlayer = true;
+            return true;
         }
-        character.getSolidArea().x = character.getSolidAreaDefaultX();
-        character.getSolidArea().y = character.getSolidAreaDefaultY();
-        gp.getPlayer().getSolidArea().x = gp.getPlayer().getSolidAreaX();
-        gp.getPlayer().getSolidArea().y = gp.getPlayer().getSolidAreaY();
-        return contactPlayer;
-    }
-
-    private void directionSwitch(Character character) {
-        switch (character.getDirection()) {
-            case "up":
-                character.getSolidArea().y -= character.getSpeed();
-                break;
-            case "down":
-                character.getSolidArea().y += character.getSpeed(); break;
-            case "left": character.getSolidArea().x -= character.getSpeed(); break;
-            case "right": character.getSolidArea().x += character.getSpeed(); break;
-        }
+        return false;
     }
 }

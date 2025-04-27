@@ -1,6 +1,6 @@
 package UI;
 
-import Game.GameEntities.GameEntities;
+import Game.GameEntities.Entity;
 import Game.GameEntities.MemoryFragment;
 import Game.GameEntities.PlayerLife;
 import Launcher.GamePanel;
@@ -25,13 +25,15 @@ public class PlayScreen extends Screen {
     public PlayScreen(GamePanel gp) {
         super(gp);
 
-        GameEntities memoryFragment = new MemoryFragment(gp);
-        GameEntities playerLife = new PlayerLife(gp);
+        Entity memoryFragment = new MemoryFragment(gp);
+        Entity playerLife = new PlayerLife(gp);
 
-        memoryFragmentImg = memoryFragment.getImage(0);
-        full_heart = playerLife.getImage(0);
-        half_heart = playerLife.getImage(1);
-        heart_blank = playerLife.getImage(2);
+        memoryFragmentImg = memoryFragment.getCurrentSprite(Entity.Direction.DOWN, 0);
+
+        BufferedImage[] heartFrames = playerLife.getSprites().get(Entity.Direction.DOWN);
+        full_heart = heartFrames[0];  // Full heart is at index 0
+        half_heart = heartFrames[1];  // Half heart is at index 1
+        heart_blank = heartFrames[2];
     }
 
     public void setGameFinished(boolean finished) {
@@ -75,13 +77,11 @@ public class PlayScreen extends Screen {
     public void draw(Graphics2D g2) {
         if (gameFinished) {
             g2.setFont(arial_80B);
-            g2.setColor(Color.yellow);
-
+            g2.setColor(Color.blue);
             String text = "You won this mind trap!";
             int textLength = g2.getFontMetrics().stringWidth(text);
             int x = getGp().getScreenWidth() / 2 - textLength / 2;
             int y = getGp().getScreenHeight() / 2 + (getGp().getTileSize() * 3);
-
             g2.drawString(text, x, y);
             getGp().setGameThread(null);
         } else {

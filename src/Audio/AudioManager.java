@@ -10,10 +10,9 @@ public class AudioManager {
     public void toggleMusicMute() {
         musicMuted = !musicMuted;
         if (musicMuted) {
-            music.stop();
+            stopMusic(0);
         } else {
-            music.play();
-            music.loop();
+            playMusic(0);
         }
     }
 
@@ -29,7 +28,8 @@ public class AudioManager {
         }
     }
 
-    public void stopMusic() {
+    public void stopMusic(int i) {
+        music.setFile(i);
         music.stop();
     }
 

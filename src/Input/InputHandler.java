@@ -45,14 +45,14 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        keyboardInputHandler.handleKeyPress(e.getKeyCode());
-
-        // 2) Now pick up the possibly-new state and re-bind its keys.
         String stateName = gsm.getStateName();
         ScreenInputHandler handler = handlerMap.get(stateName);
         if (handler != null) {
             handler.bindKeys();
         }
+
+        // 2) Then dispatch the keystroke
+        keyboardInputHandler.handleKeyPress(e.getKeyCode());
     }
 
     @Override

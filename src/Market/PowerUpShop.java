@@ -1,12 +1,11 @@
 package Market;
 
-import Game.GameEntities.ExtraLife;
-import Game.GameEntities.PowerUp;
-import Game.GameEntities.SpeedBoost;
-import Game.GameEntities.TimeFreeze;
+import Game.GameEntities.Powerup.ExtraLife;
+import Game.GameEntities.Powerup.PowerUp;
+import Game.GameEntities.Powerup.SpeedBoost;
+import Game.GameEntities.Powerup.TimeFreeze;
 import Launcher.GamePanel;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

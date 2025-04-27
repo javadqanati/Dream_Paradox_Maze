@@ -24,7 +24,11 @@ public class HUD {
     }
 
     public void setGameFinished(boolean finished) {
-        gp.getGameStateManager().setGameOver();
+        ((PlayScreen) screens.get("PLAY")).setGameFinished(finished);
+    }
+
+    public void showMessage(String message) {
+        ((PlayScreen) screens.get("PLAY")).showMessage(message);
     }
 
 }

@@ -1,6 +1,7 @@
 package Launcher;
 
 import Game.GameEntities.*;
+import Game.GameEntities.Powerup.SpeedBoost;
 
 public class EntitySetter {
     private final GamePanel gp;
@@ -43,5 +44,9 @@ public class EntitySetter {
         gp.getEnemies()[0] = new ChaserEnemy(gp);
         gp.getEnemies()[0].setWorldX(25 * gp.getTileSize());
         gp.getEnemies()[0].setWorldY(17 * gp.getTileSize());
+
+        gp.getEnemies()[1] = new ShooterEnemy(gp);
+        gp.getEnemies()[1].setWorldX(39 * gp.getTileSize());
+        gp.getEnemies()[1].setWorldY(28 * gp.getTileSize());
     }
 }

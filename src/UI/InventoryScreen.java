@@ -1,10 +1,11 @@
 package UI;
 
 import Game.GameEntities.Player;
-import Game.GameEntities.PowerUp;
+import Game.GameEntities.Powerup.PowerUp;
 import Launcher.GamePanel;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryScreen extends Screen {
@@ -12,10 +13,19 @@ public class InventoryScreen extends Screen {
 
     public InventoryScreen(GamePanel gp) {
         super(gp);
+        updateOptions();
+    }
+
+    private void updateOptions() {
+        List<String> options = new ArrayList<>();
+        options.add("Back");
+        getGp().getPlayer().getPowerUps().forEach(pu -> options.add(pu.getName()));
+        setOptions(options); // Sync with Screen
     }
 
     @Override
     public void draw(Graphics2D g2) {
+        updateOptions();
         Player player = getGp().getPlayer();
         int tileSize = getGp().getTileSize();
 

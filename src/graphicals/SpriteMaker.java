@@ -48,7 +48,7 @@ public class SpriteMaker {
 //        }
  //   }
 
-    public BufferedImage ObjectImageSetup(String filePath) {
+    public BufferedImage objectImageSetup(String filePath) {
         BufferedImage image = null;
 
         try{

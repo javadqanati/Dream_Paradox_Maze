@@ -1,34 +1,47 @@
 package Data;
 
-import Game.GameEntities.PowerUp;
-import java.util.List;
+import Game.GameEntities.Player;
+import Game.GameEntities.Powerup.PowerUp;
+import Game.GameEntities.Powerup.PowerUpFactory;
+import java.io.*;
+
 
 public class PlayerData {
-    private List<PowerUp> inventory;
-    private int level;
-    private int memoryFragments;
+    private final Player player;
 
-    public List<PowerUp> getInventory() {
-        return inventory;
+    public PlayerData(Player player) {
+        this.player = player;
     }
 
-    public void setInventory(List<PowerUp> inventory) {
-        this.inventory = inventory;
+    public void saveConfig() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("playerConfig.txt"))) {
+
+            if (!player.getPowerUps().isEmpty()) {
+                for (PowerUp powerUp : player.getPowerUps()) {
+                    bw.write(powerUp.getName());
+                    bw.newLine();
+                }
+            } else {
+                bw.write("no powerups");
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public int getLevel() {
-        return level;
-    }
+    public void loadConfig() {
+        try (BufferedReader br = new BufferedReader(new FileReader("playerConfig.txt"))) {
+            String s;
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getMemoryFragments() {
-        return memoryFragments;
-    }
-
-    public void setMemoryFragments(int memoryFragments) {
-        this.memoryFragments = memoryFragments;
+            while ((s = br.readLine()) != null) {
+                if (s.equals("no powerups")) {
+                    break;
+                }
+                player.addPowerUp(PowerUpFactory.create(s, player.getGp()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

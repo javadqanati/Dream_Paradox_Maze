@@ -1,12 +1,22 @@
 package Game.GameEntities;
 
 import Launcher.GamePanel;
+import graphicals.SpriteMaker;
+import java.awt.image.BufferedImage;
 
-public class Entrance extends GameEntities{
+public class Entrance extends Entity {
+    private static final String SPRITE_PATH = "/Object/door";
+
     public Entrance(GamePanel gp) {
         super(gp);
         setName("Entrance");
-        setPassable(true);
-        addImage("/Object/door");
+        setPassable(false);
+
+        SpriteMaker spriteMaker = new SpriteMaker(gp);
+        BufferedImage entranceSprite = spriteMaker.objectImageSetup(SPRITE_PATH);
+
+        if (entranceSprite != null) {
+            setSpriteFrames(Direction.DOWN, entranceSprite);
+        }
     }
 }

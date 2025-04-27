@@ -1,7 +1,7 @@
 package Market;
 
 import Game.GameEntities.Player;
-import Game.GameEntities.PowerUp;
+import Game.GameEntities.Powerup.PowerUp;
 
 public class TransactionHandler {
 

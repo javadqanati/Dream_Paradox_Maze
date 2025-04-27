@@ -1,8 +1,9 @@
-package Game.GameEntities;
+package Game.GameEntities.Powerup;
 
+import Game.GameEntities.Entity;
 import Launcher.GamePanel;
 
-public abstract class PowerUp extends GameEntities {
+public abstract class PowerUp extends Entity {
     private int cost;
     private String type;
 

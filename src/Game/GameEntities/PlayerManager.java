@@ -1,33 +1,31 @@
+// Game.GameEntities.PlayerManager.java
 package Game.GameEntities;
 
 import Data.PlayerData;
+import Launcher.GamePanel;
 
 public class PlayerManager {
-    private Player player;
+    private final Player player;
+    private final PlayerData dataManager;
 
-    public PlayerManager(Player player) {
-        this.player = player;
+    public PlayerManager(GamePanel gp) {
+        this.player = new Player(gp, gp.getPlayerInputHandler());
+        this.dataManager = new PlayerData(player);
+        dataManager.loadConfig();
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void resetPlayer() {
+        player.setDefaultPosition();
+        player.restoreLife();
+        player.getPowerUps().clear();
+        dataManager.loadConfig();
     }
 
-    public void loadPlayerData(PlayerData data){}
-
-    public PlayerData generatePlayerData(){
-        PlayerData newData = new PlayerData();
-        return newData;
+    public void savePlayer() {
+        dataManager.saveConfig();
     }
-
-    public void respawnPlayer(){}
-
-    public void resetPlayer(){}
-
-
-
 }

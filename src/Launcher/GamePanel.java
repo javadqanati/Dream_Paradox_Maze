@@ -1,6 +1,8 @@
 package Launcher;
 
 import Audio.AudioManager;
+import Data.Config;
+import Data.DataSaver;
 import Game.GameEntities.*;
 import Game.GameStates.GameStateManager;
 import Input.InputHandler;
@@ -15,9 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GamePanel extends JPanel implements Runnable {
-    private final Player player;
+    private final PlayerManager playerManager;
+    private final DataSaver dataSaver;
     private final Maze maze;
-    private final GameEntities[] gameEntities;
+    private final Entity[] gameEntities;
     private final Enemy[] enemies = new Enemy[4];
     private final Map<String, Screen> screens = new HashMap<>();
     private final EntitySetter entitySetter;
@@ -40,6 +43,8 @@ public class GamePanel extends JPanel implements Runnable {
     private final KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
     private final PlayerInputHandler playerHandler =  new PlayerInputHandler(keyboardInputHandler);
     private final InputHandler inputHandler;
+    private boolean fullScreen = false;
+    private Config config = new Config(this);
 
     public GamePanel() {
         screenWidth = tileSize * maxScreenCol;
@@ -48,10 +53,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
-        player = new Player(this, playerHandler);
+        playerManager = new PlayerManager(this);
         maze = new Maze(this);
-        gameEntities = new GameEntities[10];
+        gameEntities = new Entity[10];
         entitySetter = new EntitySetter(this);
+        dataSaver = new DataSaver(this);
 
         screens.put("MENU",      new MainScreen(this));
         screens.put("PLAY",      new PlayScreen(this));
@@ -67,8 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void restartGame() {
-        player.setDefaultPosition();
-        player.restoreLifeAndFragments();
+        playerManager.resetPlayer();
         entitySetter.loadEntities();
         entitySetter.setEnemy();
         gameStateManager.setPlay();
@@ -77,8 +82,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void setUpGame() {
         entitySetter.loadEntities();
         entitySetter.setEnemy();
-        audioManager.playMusic(0);
         gameStateManager.setMenu();
+        config.loadConfig();
     }
 
     public void startGameThread() {
@@ -117,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         if (gameStateManager.isPlaying()) {
-            player.update();
+            playerManager.getPlayer().update();
             for (Enemy enemy : enemies) {
                 if (enemy != null) {
                     enemy.update();
@@ -125,7 +130,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
         if (gameStateManager.isPaused()) {
-            // nothing rn
+            gameStateManager.setPause();
         }
     }
 
@@ -137,9 +142,9 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameStateManager.isPlaying()) {
             maze.draw(g2);
 
-            for (GameEntities gameEntity : gameEntities) {
+            for (Entity gameEntity : gameEntities) {
                 if (gameEntity != null) {
-                    gameEntity.draw(g2, this);
+                    gameEntity.draw(g2);
                 }
             }
             for (Enemy enemy: enemies) {
@@ -148,7 +153,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            player.draw(g2);
+            playerManager.getPlayer().draw(g2);
         }
 
         hud.draw(g2);
@@ -181,7 +186,7 @@ public class GamePanel extends JPanel implements Runnable {
         return maxWorldRow;
     }
     public Player getPlayer() {
-        return player;
+        return playerManager.getPlayer();
     }
     public int getTileSize() {
         return tileSize;
@@ -192,7 +197,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Maze getMaze() {
         return maze;
     }
-    public GameEntities[] getGameEntities() {
+    public Entity[] getGameEntities() {
         return gameEntities;
     }
     public GameStateManager getGameStateManager() {
@@ -203,5 +208,21 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public PowerUpShop getPowerUpShop() {
         return powerUpShop;
+    }
+    public boolean fullScreenOn() {return fullScreen;}
+    public Config getConfig() {
+        return config;
+    }
+    public void setConfig(Config config) {
+        this.config = config;
+    }
+    public PlayerInputHandler getPlayerInputHandler() {
+        return playerHandler;
+    }
+    public PlayerManager getPlayerManager() {
+        return playerManager;
+    }
+    public DataSaver getDataSaver() {
+        return dataSaver;
     }
 }
