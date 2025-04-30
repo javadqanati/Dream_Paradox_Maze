@@ -9,7 +9,7 @@ public class PauseInputHandler extends ScreenInputHandler{
 
     public PauseInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
         super(keyboard, screen, gp);
-        screen.setOptions(List.of("Inventory", "Market", "Resume", "Back to Menu"));
+        screen.setOptions(List.of("Inventory", "Trade", "Resume", "Back to Menu"));
 
         setOptionActions(List.of(
                 () -> getGp().getGameStateManager().setInventory(),

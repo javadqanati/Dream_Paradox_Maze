@@ -4,8 +4,9 @@ import Launcher.GamePanel;
 import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
-public class SpeedBoost extends PowerUp {
+public class SpeedBoost extends PowerUp implements TimedPowerUp {
     private static final String SPRITE_PATH = "/Object/boots";
+    private static final int DURATION = 10_000;
 
     public SpeedBoost(GamePanel gp) {
         super(gp);
@@ -23,11 +24,26 @@ public class SpeedBoost extends PowerUp {
 
     @Override
     public void apply() {
-        getGp().getPlayer().setSpeed(getGp().getPlayer().getSpeed() + 2);
+        applyTimed();
     }
 
     @Override
     public PowerUp createNewInstance() {
         return new SpeedBoost(getGp());
+    }
+
+    @Override
+    public int getDurationMs() {
+        return DURATION;
+    }
+
+    @Override
+    public void onStart() {
+        getGp().getPlayer().setSpeed(getGp().getPlayer().getSpeed() + 2);
+    }
+
+    @Override
+    public void onExpire() {
+        getGp().getPlayer().setSpeed(getGp().getPlayer().getSpeed() - 2);
     }
 }

@@ -9,11 +9,6 @@ public class AudioManager {
 
     public void toggleMusicMute() {
         musicMuted = !musicMuted;
-        if (musicMuted) {
-            stopMusic(0);
-        } else {
-            playMusic(0);
-        }
     }
 
     public void toggleSfxMute() {
@@ -21,10 +16,12 @@ public class AudioManager {
     }
 
     public void playMusic(int i) {
+        music.setFile(i);
         if (!musicMuted) {
-            music.setFile(i);
             music.play();
             music.loop();
+        } else {
+            music.stop();
         }
     }
 

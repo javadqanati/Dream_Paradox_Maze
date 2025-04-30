@@ -8,20 +8,22 @@ import Game.GameStates.GameStateManager;
 import Input.InputHandler;
 import Input.KeyboardInputHandler;
 import Input.PlayerInputHandler;
-import Market.PowerUpShop;
+import Trade.PowerUpShop;
 import UI.*;
+import Utils.LevelManager;
 import graphicals.CollisionChecker;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 public class GamePanel extends JPanel implements Runnable {
     private final PlayerManager playerManager;
     private final DataSaver dataSaver;
     private final Maze maze;
     private final Entity[] gameEntities;
-    private final Enemy[] enemies = new Enemy[4];
+    private final Enemy[] enemies = new Enemy[10];
     private final Map<String, Screen> screens = new HashMap<>();
     private final EntitySetter entitySetter;
     private final int originalTileSize = 16;
@@ -34,17 +36,16 @@ public class GamePanel extends JPanel implements Runnable {
     private final AudioManager audioManager = new AudioManager();
     private int FPS = 60;
     private final CollisionChecker collisionChecker = new CollisionChecker(this);
-    private final int maxWorldCol = 53;
-    private final int maxWorldRow = 59;
+    private final int maxWorldCol = 70;
+    private final int maxWorldRow = 70;
     private Thread gameThread;
     private final GameStateManager gameStateManager = new GameStateManager();
     private final HUD hud;
     private final PowerUpShop powerUpShop = new PowerUpShop(this);
     private final KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
     private final PlayerInputHandler playerHandler =  new PlayerInputHandler(keyboardInputHandler);
-    private final InputHandler inputHandler;
-    private boolean fullScreen = false;
     private Config config = new Config(this);
+    private final LevelManager lvlMgr;
 
     public GamePanel() {
         screenWidth = tileSize * maxScreenCol;
@@ -55,9 +56,12 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         playerManager = new PlayerManager(this);
         maze = new Maze(this);
-        gameEntities = new Entity[10];
+        gameEntities = new Entity[15];
         entitySetter = new EntitySetter(this);
         dataSaver = new DataSaver(this);
+        List<String> levelFiles = List.of("level1.json", "level2.json", "level3.json", "level4.json", "level5.json");
+        lvlMgr = new LevelManager(this, levelFiles);
+        lvlMgr.loadCurrentLevel();
 
         screens.put("MENU",      new MainScreen(this));
         screens.put("PLAY",      new PlayScreen(this));
@@ -66,24 +70,62 @@ public class GamePanel extends JPanel implements Runnable {
         screens.put("INVENTORY", new InventoryScreen(this));
         screens.put("MARKET",    new MarketScreen(this));
         screens.put("GAMEOVER",  new GameOverScreen(this));
+        screens.put("LOAD",  new LoadScreen(this));
+        screens.put("STORY", screens.get("PLAY"));
 
         hud = new HUD(this, gameStateManager, screens);
-        inputHandler = new InputHandler(this, gameStateManager, keyboardInputHandler, playerHandler, screens);
+        InputHandler inputHandler = new InputHandler(this, gameStateManager, keyboardInputHandler, playerHandler, screens);
         this.addKeyListener(inputHandler);
+    }
+
+    private PlayScreen getPlayScreen() {
+        return (PlayScreen) screens.get("PLAY");
     }
 
     public void restartGame() {
         playerManager.resetPlayer();
-        entitySetter.loadEntities();
-        entitySetter.setEnemy();
+        ((PlayScreen)screens.get("PLAY")).resetTimer();
+        lvlMgr.loadCurrentLevel();
         gameStateManager.setPlay();
     }
 
     public void setUpGame() {
-        entitySetter.loadEntities();
-        entitySetter.setEnemy();
+        playerManager.resetPlayer();
+        ((PlayScreen)screens.get("PLAY")).resetTimer();
+        lvlMgr.loadCurrentLevel();
         gameStateManager.setMenu();
         config.loadConfig();
+        if (!AudioManager.isMusicMuted()) {
+            audioManager.playMusic(0);
+        }
+    }
+
+    public void onLevelComplete() {
+        lvlMgr.nextLevel();
+        playerManager.resetPlayer();
+        PlayScreen ps = getPlayScreen();
+        ps.resetTimer();
+        String storyPath = "/stories/level" + lvlMgr.getCurrentIndex() + ".txt";
+        ps.loadStory(storyPath);
+        gameStateManager.setLoad();
+    }
+
+    public void startNewGameFromMenu() {
+        lvlMgr.startNewGame();
+        playerManager.resetPlayer();
+        PlayScreen ps = getPlayScreen();
+        ps.resetTimer();
+        ps.loadStory("/stories/level1.txt");
+        gameStateManager.setLoad();
+    }
+
+    public void loadGame() {
+        lvlMgr.loadProgressAndBegin();
+        playerManager.resetPlayer();
+        PlayScreen ps = getPlayScreen();
+        ps.resetTimer();
+        ps.loadStory("/stories/level" + (lvlMgr.getCurrentIndex() + 1) + ".txt");
+        gameStateManager.setLoad();
     }
 
     public void startGameThread() {
@@ -139,25 +181,13 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (gameStateManager.isPlaying()) {
+        if (gameStateManager.isPlaying() || gameStateManager.isStory()) {
             maze.draw(g2);
-
-            for (Entity gameEntity : gameEntities) {
-                if (gameEntity != null) {
-                    gameEntity.draw(g2);
-                }
-            }
-            for (Enemy enemy: enemies) {
-                if (enemy != null) {
-                    enemy.draw(g2);
-                }
-            }
-
+            for (Entity e : gameEntities) if (e != null) e.draw(g2);
+            for (Enemy en : enemies)    if (en != null) en.draw(g2);
             playerManager.getPlayer().draw(g2);
         }
-
         hud.draw(g2);
-
         g2.dispose();
     }
 
@@ -209,7 +239,8 @@ public class GamePanel extends JPanel implements Runnable {
     public PowerUpShop getPowerUpShop() {
         return powerUpShop;
     }
-    public boolean fullScreenOn() {return fullScreen;}
+    public boolean fullScreenOn() {
+        return false;}
     public Config getConfig() {
         return config;
     }
@@ -224,5 +255,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public DataSaver getDataSaver() {
         return dataSaver;
+    }
+    public Map<String, Screen> getScreens() {
+        return screens;
+    }
+    public EntitySetter getEntitySetter() {
+        return entitySetter;
     }
 }

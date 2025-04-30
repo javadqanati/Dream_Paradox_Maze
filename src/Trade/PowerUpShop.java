@@ -1,4 +1,4 @@
-package Market;
+package Trade;
 
 import Game.GameEntities.Powerup.ExtraLife;
 import Game.GameEntities.Powerup.PowerUp;

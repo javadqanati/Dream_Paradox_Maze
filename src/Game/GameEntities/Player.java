@@ -59,8 +59,8 @@ public class Player extends Character {
 
     public void setDefaultPosition() {
         int tileSize = getGp().getTileSize();
-        setWorldX(9 * tileSize);
-        setWorldY(9 * tileSize);
+        setWorldX(12 * tileSize);
+        setWorldY(12 * tileSize);
     }
 
     public void restoreLife() {

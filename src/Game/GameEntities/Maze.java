@@ -5,6 +5,7 @@ import graphicals.SpriteMaker;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
@@ -19,42 +20,45 @@ public class Maze{
         tile = new Tile[10];
         mapTileNum = new int[gamePanel.getMaxWorldCol()][gamePanel.getMaxWorldRow()];
         getTileImage();
-        loadMaze("/maps/maze01.txt");
     }
 
     public void loadMaze(String filepath){
-        try{
+        try {
             InputStream is = getClass().getResourceAsStream(filepath);
-            assert is != null;
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            int col = 0;
-            int row= 0;
+            if (is == null) {
+                throw new IllegalArgumentException(
+                        "Could not find map file on classpath: " + filepath);
+            }
 
-            while(col < gamePanel.getMaxWorldCol() && row < gamePanel.getMaxWorldRow()){
-                String line = br.readLine();
-                while(col < gamePanel.getMaxWorldCol()) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+                int col = 0, row = 0;
+                while (col < gamePanel.getMaxWorldCol() && row < gamePanel.getMaxWorldRow()) {
+                    String line = br.readLine();
+                    if (line == null) {
+                        throw new IOException("Unexpected end of file in " + filepath);
+                    }
                     String[] numbers = line.split(" ");
-                    int num = Integer.parseInt(numbers[col]);
-                    mapTileNum[col][row] = num;
-                    col++;
-                }
-                if(col == gamePanel.getMaxWorldCol()){
+                    for (col = 0; col < numbers.length && col < gamePanel.getMaxWorldCol(); col++) {
+                        mapTileNum[col][row] = Integer.parseInt(numbers[col]);
+                    }
                     col = 0;
                     row++;
                 }
             }
-            br.close();
-        }catch (Exception e){
+        } catch (Exception e) {
+
+            System.err.println("Error loading maze '" + filepath + "': " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+
     public void getTileImage() {
-            setUpTile(0, "grass", false);
-            setUpTile(1, "wall", true);
+            setUpTile(1, "grass", false);
+            setUpTile(4, "wall", true);
             setUpTile(2, "water", true);
             setUpTile(3, "earth", false);
-            setUpTile(4, "tree", true);
+            setUpTile(0, "tree", true);
             setUpTile(5, "sand", false);
     }
 

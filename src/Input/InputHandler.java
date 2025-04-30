@@ -2,7 +2,7 @@ package Input;
 
 import Game.GameStates.GameStateManager;
 import Launcher.GamePanel;
-import UI.Screen;
+import UI.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -32,6 +32,7 @@ public class InputHandler implements KeyListener {
         handlerMap.put("SETTINGS",   new SettingScreenInputHandler(keyboardInputHandler, screens.get("SETTINGS"), gp));
         handlerMap.put("MENU",      new MenuInputHandler(keyboardInputHandler, screens.get("MENU"), gp));
         handlerMap.put("GAMEOVER", new GameOverInputHandler(keyboardInputHandler, screens.get("GAMEOVER"), gp));
+        handlerMap.put("STORY", handlerMap.get("PLAY"));
 
         String initial = gsm.getStateName();
         ScreenInputHandler first = handlerMap.get(initial);

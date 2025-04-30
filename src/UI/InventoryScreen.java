@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryScreen extends Screen {
-    private final Font arial_80B = new Font("Arial", Font.BOLD, 50);
 
     public InventoryScreen(GamePanel gp) {
         super(gp);
@@ -20,7 +19,7 @@ public class InventoryScreen extends Screen {
         List<String> options = new ArrayList<>();
         options.add("Back");
         getGp().getPlayer().getPowerUps().forEach(pu -> options.add(pu.getName()));
-        setOptions(options); // Sync with Screen
+        setOptions(options);
     }
 
     @Override
@@ -30,15 +29,14 @@ public class InventoryScreen extends Screen {
         int tileSize = getGp().getTileSize();
 
         // Title
-        g2.setFont(arial_80B);
+        g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
         g2.setColor(Color.white);
         String text = "INVENTORY";
         int titleX = getXforCenteredText(text, g2);
         int y = tileSize * 2;
         g2.drawString(text, titleX, y);
 
-        // Back button
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 36F));
+        g2.setFont(getScreenfont().deriveFont(Font.BOLD, 36f));
         text = "BACK";
         int backX = tileSize * 2;
         y += tileSize * 2;
@@ -47,8 +45,7 @@ public class InventoryScreen extends Screen {
             g2.drawString(">", backX - tileSize, y);
         }
 
-        // Owned Power-Ups
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30F));
+        g2.setFont(getScreenfont().deriveFont(Font.PLAIN, 30F));
         java.util.List<PowerUp> ownedPowerUps = player.getPowerUps(); // Now using actual PowerUp objects
         int startY = y + tileSize;
 
@@ -62,17 +59,14 @@ public class InventoryScreen extends Screen {
                 String description = getPowerUpDescription(name);
                 int currentY = startY + (i * spacing);
 
-                // Cursor
                 if (getCommandNum() == i + 1) {
                     g2.drawString(">", tileSize, currentY);
                 }
 
-                // Name
-                g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30F));
+                g2.setFont(getScreenfont().deriveFont(Font.PLAIN, 30F));
                 g2.drawString(name, tileSize * 2, currentY);
 
-                // Description
-                g2.setFont(g2.getFont().deriveFont(Font.ITALIC, 24F));
+                g2.setFont(getScreenfont().deriveFont(Font.ITALIC, 24F));
                 g2.drawString(description, tileSize * 2 + 30, currentY + 28);
             }
         }

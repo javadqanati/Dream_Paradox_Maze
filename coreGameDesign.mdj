@@ -17205,7 +17205,7 @@
 											"top": 1990,
 											"width": 719,
 											"height": 13,
-											"text": "Market"
+											"text": "Trade"
 										},
 										{
 											"_type": "LabelView",
@@ -17342,7 +17342,7 @@
 											"top": -2880,
 											"width": 78,
 											"height": 13,
-											"text": "(from Market)"
+											"text": "(from Trade)"
 										},
 										{
 											"_type": "LabelView",
@@ -18712,7 +18712,7 @@
 											"top": -2592,
 											"width": 78,
 											"height": 13,
-											"text": "(from Market)"
+											"text": "(from Trade)"
 										},
 										{
 											"_type": "LabelView",
@@ -18957,7 +18957,7 @@
 											"top": -2672,
 											"width": 78,
 											"height": 13,
-											"text": "(from Market)"
+											"text": "(from Trade)"
 										},
 										{
 											"_type": "LabelView",
@@ -19893,7 +19893,7 @@
 											"top": -3904,
 											"width": 78,
 											"height": 13,
-											"text": "(from Market)"
+											"text": "(from Trade)"
 										},
 										{
 											"_type": "LabelView",
@@ -37352,7 +37352,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Market",
+					"name": "Trade",
 					"ownedElements": [
 						{
 							"_type": "UMLClass",
@@ -37506,7 +37506,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGWAJLF/JRTrDU="
 							},
-							"name": "Market",
+							"name": "Trade",
 							"attributes": [
 								{
 									"_type": "UMLAttribute",

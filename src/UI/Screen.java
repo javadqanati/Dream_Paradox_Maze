@@ -1,17 +1,20 @@
 package UI;
 
 import Launcher.GamePanel;
+
 import java.util.List;
 import java.awt.*;
 
-public class Screen {
+public class Screen implements CustomFontProvider {
     private final GamePanel gp;
     private int commandNum = 0;
     private String selectionMessage;
     private List<String> options;
+    private final Font font;
 
     public Screen(GamePanel gp) {
         this.gp = gp;
+        font = getCustomFont();
     }
 
     public int getXforCenteredText(String text, Graphics g2) {
@@ -49,4 +52,9 @@ public class Screen {
     public int getNumScreenOptions() {
         return options == null ? 0 : options.size();
     }
+
+    public Font getScreenfont() {
+        return font;
+    }
+
 }

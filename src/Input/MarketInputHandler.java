@@ -1,8 +1,8 @@
 package Input;
 
 import Launcher.GamePanel;
-import Market.PurchaseValidator;
-import Market.TransactionHandler;
+import Trade.PurchaseValidator;
+import Trade.TransactionHandler;
 import UI.Screen;
 import java.util.List;
 

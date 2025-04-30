@@ -1,7 +1,9 @@
 package Launcher;
 
 import Game.GameEntities.*;
-import Game.GameEntities.Powerup.SpeedBoost;
+import Utils.EntityConfig;
+
+import java.util.List;
 
 public class EntitySetter {
     private final GamePanel gp;
@@ -10,43 +12,21 @@ public class EntitySetter {
         this.gp = gp;
     }
 
-    public void loadEntities() {
-        gp.getGameEntities()[0] = new Entrance(gp); // Subtyping
-        gp.getGameEntities()[0].setWorldX(26 * gp.getTileSize());
-        gp.getGameEntities()[0].setWorldY(11 * gp.getTileSize());
+    public void loadEntities(List<EntityConfig> ents, List<EntityConfig> enms) {
 
-        gp.getGameEntities()[1] = new Exit(gp);
-        gp.getGameEntities()[1].setWorldX(45 * gp.getTileSize());
-        gp.getGameEntities()[1].setWorldY(51  * gp.getTileSize());
-
-        gp.getGameEntities()[2] = new MemoryFragment(gp);
-        gp.getGameEntities()[2].setWorldX(12 * gp.getTileSize());
-        gp.getGameEntities()[2].setWorldY(16  * gp.getTileSize());
-
-        gp.getGameEntities()[3] = new MemoryFragment(gp);
-        gp.getGameEntities()[3].setWorldX(9 * gp.getTileSize());
-        gp.getGameEntities()[3].setWorldY(12  * gp.getTileSize());
-
-        gp.getGameEntities()[4] = new MemoryFragment(gp);
-        gp.getGameEntities()[4].setWorldX(13 * gp.getTileSize());
-        gp.getGameEntities()[4].setWorldY(27  * gp.getTileSize());
-
-        gp.getGameEntities()[5] = new MemoryFragment(gp);
-        gp.getGameEntities()[5].setWorldX(44 * gp.getTileSize());
-        gp.getGameEntities()[5].setWorldY(47  * gp.getTileSize());
-
-        gp.getGameEntities()[6] = new SpeedBoost(gp);
-        gp.getGameEntities()[6].setWorldX(15 * gp.getTileSize());
-        gp.getGameEntities()[6].setWorldY(44  * gp.getTileSize());
-    }
-
-    public void setEnemy(){
-        gp.getEnemies()[0] = new ChaserEnemy(gp);
-        gp.getEnemies()[0].setWorldX(25 * gp.getTileSize());
-        gp.getEnemies()[0].setWorldY(17 * gp.getTileSize());
-
-        gp.getEnemies()[1] = new ShooterEnemy(gp);
-        gp.getEnemies()[1].setWorldX(39 * gp.getTileSize());
-        gp.getEnemies()[1].setWorldY(28 * gp.getTileSize());
+        for (int i = 0; i < ents.size(); i++) {
+            EntityConfig cfg = ents.get(i);
+            Entity e = EntityFactory.create(cfg.getType(), gp);
+            e.setWorldX(cfg.getX() * gp.getTileSize());
+            e.setWorldY(cfg.getY() * gp.getTileSize());
+            gp.getGameEntities()[i] = e;
+        }
+        for (int i = 0; i < enms.size(); i++) {
+            EntityConfig cfg = enms.get(i);
+            Entity e = EntityFactory.create(cfg.getType(), gp);
+            e.setWorldX(cfg.getX() * gp.getTileSize());
+            e.setWorldY(cfg.getY() * gp.getTileSize());
+            gp.getEnemies()[i] = (Enemy) e;
+        }
     }
 }
