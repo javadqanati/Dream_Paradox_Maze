@@ -6,7 +6,7 @@ import java.awt.*;
 public class GameOverScreen extends Screen {
 
     public GameOverScreen(GamePanel gp) {
-        super(gp);
+        super(gp, "GAMEOVER");
     }
 
     @Override

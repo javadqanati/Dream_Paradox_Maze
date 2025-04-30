@@ -8,7 +8,7 @@ import java.util.List;
 public class SettingScreenInputHandler extends ScreenInputHandler {
 
     public SettingScreenInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
-        super(keyboard, screen, gp);
+        super("SETTINGS", keyboard, screen, gp); // Use the provided keyboard parameter
 
         screen.setOptions(List.of(
                 "Music",
@@ -18,7 +18,8 @@ public class SettingScreenInputHandler extends ScreenInputHandler {
 
         setOptionActions(List.of(
                 () -> {
-                    getGp().getAudioManager().toggleMusicMute(); System.out.println("▶ toggling music mute");
+                    getGp().getAudioManager().toggleMusicMute();
+                    System.out.println("▶ toggling music mute");
                 },
                 () -> getGp().getAudioManager().toggleSfxMute(),
                 () -> getGp().getGameStateManager().setMenu()

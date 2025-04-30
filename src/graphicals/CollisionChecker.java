@@ -1,8 +1,11 @@
+
 package graphicals;
 
+import Game.GameEntities.Enemy;
 import Launcher.GamePanel;
 import Game.GameEntities.Character;
 import java.awt.Rectangle;
+import java.util.List;
 
 public class CollisionChecker {
     private final GamePanel gp;
@@ -60,10 +63,10 @@ public class CollisionChecker {
     public int checkObject(Character character, boolean player) {
         Rectangle area = projectedArea(character);
         int index = 999;
-        var entities = gp.getGameEntities();
+        var entities = gp.getEntitySetter().getEntities();
 
-        for (int i = 0; i < entities.length; i++) {
-            var e = entities[i];
+        for (int i = 0; i < entities.size(); i++) {
+            var e = entities.get(i);
             if (e == null) continue;
 
             Rectangle other = new Rectangle(
@@ -85,12 +88,12 @@ public class CollisionChecker {
         return index;
     }
 
-    public int checkEntity(Character character, Character[] targets) {
+    public int checkEntity(Character character, List<Enemy> targets) {
         Rectangle area = projectedArea(character);
         int index = 999;
 
-        for (int i = 0; i < targets.length; i++) {
-            var t = targets[i];
+        for (int i = 0; i < targets.size(); i++) {
+            var t = targets.get(i);
             if (t == null) continue;
 
             Rectangle other = new Rectangle(

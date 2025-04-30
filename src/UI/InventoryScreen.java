@@ -11,7 +11,7 @@ import java.util.List;
 public class InventoryScreen extends Screen {
 
     public InventoryScreen(GamePanel gp) {
-        super(gp);
+        super(gp, "INVENTORY");
         updateOptions();
     }
 

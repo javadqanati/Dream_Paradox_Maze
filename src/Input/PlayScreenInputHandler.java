@@ -13,7 +13,7 @@ public class PlayScreenInputHandler extends ScreenInputHandler {
     public PlayScreenInputHandler(KeyboardInputHandler keyboard,
                                   Screen screen,
                                   GamePanel gp) {
-        super(keyboard, screen, gp);
+        super("PLAY", keyboard, screen, gp);
         this.gp     = gp;
         this.screen = screen;
 

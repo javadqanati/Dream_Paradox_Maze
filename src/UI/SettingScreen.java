@@ -8,7 +8,8 @@ public class SettingScreen extends Screen {
     private final String[] options = {"Music", "Sound Effects", "Back"};
 
     public SettingScreen(GamePanel gp) {
-        super(gp);
+
+        super(gp, "SETTINGS");
     }
 
     @Override

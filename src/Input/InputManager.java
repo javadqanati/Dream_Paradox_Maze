@@ -1,8 +1,8 @@
 package Input;
 
-import Game.GameStates.GameStateManager;
+import Utils.GameStateManager;
 import Launcher.GamePanel;
-import UI.Screen;
+import UI.*;
 
 import java.util.Map;
 
@@ -15,9 +15,16 @@ public class InputManager {
                         PlayerInputHandler playerHandler,
                         Map<String, Screen> screens) {
 
-        this.inputHandler = new InputHandler(gp, gsm, keyboard, playerHandler, screens);
+        new PlayScreenInputHandler(keyboard, screens.get("PLAY"), gp);
+        new PauseInputHandler(keyboard, screens.get("PAUSE"), gp);
+        new MenuInputHandler(keyboard, screens.get("MENU"), gp);
+        new SettingScreenInputHandler(keyboard, screens.get("SETTINGS"), gp);
+        new InventoryInputHandler(keyboard, screens.get("INVENTORY"), gp);
+        new MarketInputHandler(keyboard, screens.get("MARKET"), gp);
+        new GameOverInputHandler(keyboard, screens.get("GAMEOVER"), gp);
+
+        inputHandler = new InputHandler(gsm, keyboard, playerHandler);
         gp.addKeyListener(inputHandler);
-        gp.setFocusable(true);
     }
 
     public InputHandler getInputHandler() {

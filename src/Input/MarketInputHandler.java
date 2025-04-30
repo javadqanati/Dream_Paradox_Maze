@@ -7,11 +7,11 @@ import UI.Screen;
 import java.util.List;
 
 public class MarketInputHandler extends ScreenInputHandler {
-    private final PurchaseValidator validator     = new PurchaseValidator();
+    private final PurchaseValidator validator = new PurchaseValidator();
     private final TransactionHandler transactionHandler = new TransactionHandler();
 
     public MarketInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
-        super(keyboard, screen, gp);
+        super("MARKET", keyboard, screen, gp);
 
         screen.setOptions(List.of(
                 "Back",
@@ -22,39 +22,23 @@ public class MarketInputHandler extends ScreenInputHandler {
 
         setOptionActions(List.of(
                 () -> getGp().getGameStateManager().setPause(),
-
-                () -> {
-                    var player = getGp().getPlayer();
-                    var pu = getGp().getPowerUpShop()
-                            .getAvailablePowerUps()
-                            .get("SpeedBoost");
-                    if (validator.canPurchase(player, pu)) {
-                        transactionHandler.processPurchase(player, pu);
-                    }
-                },
-
-                () -> {
-                    var player = getGp().getPlayer();
-                    var pu = getGp().getPowerUpShop()
-                            .getAvailablePowerUps()
-                            .get("TimeFreeze");
-                    if (validator.canPurchase(player, pu)) {
-                        transactionHandler.processPurchase(player, pu);
-                    }
-                },
-
-                () -> {
-                    var player = getGp().getPlayer();
-                    var pu = getGp().getPowerUpShop()
-                            .getAvailablePowerUps()
-                            .get("ExtraLife");
-                    if (validator.canPurchase(player, pu)) {
-                        transactionHandler.processPurchase(player, pu);
-                    }
-                }
+                () -> attemptPurchase("SpeedBoost"),
+                () -> attemptPurchase("TimeFreeze"),
+                () -> attemptPurchase("ExtraLife")
         ));
-        getScreen().setCommandNum(0);
 
+        getScreen().setCommandNum(0);
         bindKeys();
+    }
+
+    private void attemptPurchase(String powerUpType) {
+        var player = getGp().getPlayer();
+        var pu = getGp().getPowerUpShop()
+                .getAvailablePowerUps()
+                .get(powerUpType);
+
+        if (validator.canPurchase(player, pu)) {
+            transactionHandler.processPurchase(player, pu);
+        }
     }
 }

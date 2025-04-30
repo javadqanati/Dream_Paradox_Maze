@@ -1,36 +1,65 @@
 package Input;
 
+import Utils.GameStateManager;
 import Launcher.GamePanel;
 import UI.Screen;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
-public class PauseInputHandler extends ScreenInputHandler{
+public class PauseInputHandler extends ScreenInputHandler {
 
     public PauseInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
-        super(keyboard, screen, gp);
-        screen.setOptions(List.of("Inventory", "Trade", "Resume", "Back to Menu"));
-
-        setOptionActions(List.of(
-                () -> getGp().getGameStateManager().setInventory(),
-                () -> getGp().getGameStateManager().setMarket(),
-                () -> getGp().getGameStateManager().setPlay(),
-                () -> getGp().getGameStateManager().setMenu()
-        ));
-        getScreen().setCommandNum(0);
+        super("PAUSE", keyboard, screen, gp);
+        initializePauseMenu();
         bindKeys();
-        bindOptionKeys();
     }
 
-    public void bindOptionKeys() {
+    private void initializePauseMenu() {
+        getScreen().setOptions(List.of(
+                "Inventory",
+                "Trade",
+                "Resume",
+                "Back to Menu"
+        ));
+
+        setOptionActions(List.of(
+                this::openInventory,
+                this::openMarket,
+                this::resumeGame,
+                this::returnToMenu
+        ));
+
+        getScreen().setCommandNum(0);
+    }
+
+    @Override
+    public void bindKeys() {
+        super.bindKeys();
         getKeyboard().bindKey(KeyEvent.VK_P, this::togglePause);
     }
 
+    private void openInventory() {
+        getGp().getGameStateManager().setInventory();
+    }
+
+    private void openMarket() {
+        getGp().getGameStateManager().setMarket();
+    }
+
+    private void resumeGame() {
+        getGp().getGameStateManager().setPlay();
+    }
+
+    private void returnToMenu() {
+        getGp().getGameStateManager().setMenu();
+    }
+
     private void togglePause() {
-        if (getGp().getGameStateManager().isPlaying()) {
-            getGp().getGameStateManager().setPause();
+        GameStateManager gsm = getGp().getGameStateManager();
+        if (gsm.isPlaying()) {
+            gsm.setPause();
         } else {
-            getGp().getGameStateManager().setPlay();
+            gsm.setPlay();
         }
     }
 }

@@ -5,6 +5,7 @@ import Game.GameEntities.Powerup.PowerUp;
 import Input.PlayerInputHandler;
 import Launcher.GamePanel;
 import graphicals.SpriteMaker;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -15,16 +16,20 @@ public class Player extends Character {
     private int collectedFragments;
     private final List<PowerUp> powerUps = new ArrayList<>();
     private final PlayerInputHandler playerInputHandler;
-    private int screenX;
-    private int screenY;
-    private final AudioManager audio = new AudioManager();
+    private final AudioManager audio;
     private final LinkedList<Point> trail = new LinkedList<>();
     private boolean invincible = false;
-    private int invincibleCounter = 0;
+    private int     invincibleCounter = 0;
+    private final int screenX;
+    private final int screenY;
 
     public Player(GamePanel gp, PlayerInputHandler handler) {
         super(gp);
         this.playerInputHandler = handler;
+        this.audio              = gp.getAudioManager();
+        this.screenX            = gp.getScreenWidth()  / 2 - (gp.getTileSize() / 2);
+        this.screenY            = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
+
         initPlayer(gp);
     }
 
@@ -35,7 +40,6 @@ public class Player extends Character {
         restoreLife();
 
         SpriteMaker maker = new SpriteMaker(gp);
-
         setSpriteFrames(Direction.UP,
                 maker.characterSkinSetup("/Player/boy_up_1"),
                 maker.characterSkinSetup("/Player/boy_up_2"));
@@ -50,8 +54,6 @@ public class Player extends Character {
                 maker.characterSkinSetup("/Player/boy_right_2"));
 
         setDirection(Direction.DOWN);
-        screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
-        screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
         setSolidArea(new Rectangle(2, 3, 30, 30));
         setSolidAreaDefaultX(getSolidArea().x);
         setSolidAreaDefaultY(getSolidArea().y);
@@ -67,6 +69,7 @@ public class Player extends Character {
         setMaxHealth(6);
         setHealth(getMaxHealth());
         invincible = false;
+        invincibleCounter = 0;
     }
 
     @Override
@@ -78,23 +81,26 @@ public class Player extends Character {
     }
 
     private void handleInput() {
-        if (playerInputHandler.isMovementKeyPressed()) {
-            if (playerInputHandler.isUpPressed()) setDirection(Direction.UP);
-            else if (playerInputHandler.isDownPressed()) setDirection(Direction.DOWN);
-            else if (playerInputHandler.isLeftPressed()) setDirection(Direction.LEFT);
-            else if (playerInputHandler.isRightPressed()) setDirection(Direction.RIGHT);
+        if (!playerInputHandler.isMovementKeyPressed()) return;
+        if (playerInputHandler.isUpPressed())    setDirection(Direction.UP);
+        else if (playerInputHandler.isDownPressed())  setDirection(Direction.DOWN);
+        else if (playerInputHandler.isLeftPressed())  setDirection(Direction.LEFT);
+        else if (playerInputHandler.isRightPressed()) setDirection(Direction.RIGHT);
 
-            animate(10);
-            movePlayer();
-        }
+        animate(10);
+        movePlayer();
     }
 
     private void movePlayer() {
         setCollisionOn(false);
         getGp().getCollisionChecker().checkTile(this);
+
+        List<Entity> entities = gp.getEntitySetter().getEntities();
         int objIndex = getGp().getCollisionChecker().checkObject(this, true);
-        collectFragments(objIndex);
-        getGp().getCollisionChecker().checkEntity(this, getGp().getEnemies());
+        collectFragment(entities, objIndex);
+
+        List<Enemy> enemies = gp.getEntitySetter().getEnemies();
+        getGp().getCollisionChecker().checkEntity(this, enemies);
 
         if (!isCollisionOn()) {
             switch (getDirection()) {
@@ -107,12 +113,10 @@ public class Player extends Character {
     }
 
     private void updateInvincibility() {
-        if (invincible) {
-            invincibleCounter++;
-            if (invincibleCounter > 60) {
-                invincible = false;
-                invincibleCounter = 0;
-            }
+        if (!invincible) return;
+        if (++invincibleCounter > 60) {
+            invincible = false;
+            invincibleCounter = 0;
         }
     }
 
@@ -125,42 +129,39 @@ public class Player extends Character {
     }
 
     private void checkGameOver() {
-        if (getHealth() <= 0) {
-            getGp().getHud().setGameFinished(true);
-            getGp().getGameStateManager().setGameOver();
-        }
+        if (getHealth() > 0) return;
+        getGp().getHud().setGameFinished(true);
+        getGp().getGameStateManager().setGameOver();
     }
 
-    public boolean usePowerUp(String type) {
-        return powerUps.removeIf(pu -> {
-            if (pu.getType().equals(type)) {
-                pu.apply();
-                return true;
-            }
-            return false;
-        });
-    }
+    /**
+     * Safely collect a fragment or trigger an item effect.
+     * @param entities current list of non-enemy entities
+     * @param idx      index returned by collisionChecker, or -1 if none
+     */
+    private void collectFragment(List<Entity> entities, int idx) {
+        if (idx < 0 || idx >= entities.size()) return;
+        Entity ent = entities.get(idx);
+        String name = ent.getName();
 
-    private void collectFragments(int i) {
-        if (i == 999) return;
-        String name = getGp().getGameEntities()[i].getName();
         switch (name) {
             case "Memory Fragment" -> {
                 collectedFragments++;
-                getGp().getGameEntities()[i] = null;
+                entities.remove(idx);
                 audio.playSE(1);
             }
             case "Entrance" -> audio.playSE(3);
             case "Exit" -> {
                 getGp().getHud().setGameFinished(true);
-                getGp().getAudioManager().playSE(4);
+                audio.playSE(4);
                 getGp().getAudioManager().stopMusic(0);
             }
             case "Speed Boost" -> {
                 setSpeed(getSpeed() + 2);
-                getGp().getGameEntities()[i] = null;
+                entities.remove(idx);
                 audio.playSE(2);
             }
+            default -> { /* no-op for other entities */ }
         }
     }
 
@@ -170,15 +171,28 @@ public class Player extends Character {
         g2.drawImage(img, screenX, screenY, null);
     }
 
-    public List<PowerUp> getPowerUps() { return powerUps; }
-    public LinkedList<Point> getTrail() { return trail; }
-    public int getCollectedFragments() { return collectedFragments; }
-    public void addPowerUp(PowerUp pu) { powerUps.add(pu); }
+    // ─── Getters / PowerUp API ───────────────────────────────────────────────────
+
+    public List<PowerUp> getPowerUps()        { return powerUps; }
+    public LinkedList<Point> getTrail()       { return trail; }
+    public int getCollectedFragments()        { return collectedFragments; }
+    public boolean usePowerUp(String type) {
+        return powerUps.removeIf(pu -> {
+            if (pu.getType().equals(type)) {
+                pu.apply();
+                return true;
+            }
+            return false;
+        });
+    }
+    public boolean isInvincible()             { return invincible; }
+    public void    setInvincible(boolean inv) { this.invincible = inv; }
+    public int     getScreenX()               { return screenX; }
+    public int     getScreenY()               { return screenY; }
+
     public void setCollectedFragments(int collectedFragments) {
         this.collectedFragments = collectedFragments;
     }
-    public boolean isInvincible() { return invincible; }
-    public void setInvincible(boolean invincible) { this.invincible = invincible; }
-    public int getScreenX() { return screenX; }
-    public int getScreenY() { return screenY; }
+
+    public void addPowerUp(PowerUp pu) { powerUps.add(pu); }
 }

@@ -10,7 +10,7 @@ public class MainScreen extends Screen {
     private static final int NOTIFICATION_DURATION = 120;
 
     public MainScreen(GamePanel gp) {
-        super(gp);
+        super(gp, "MENU");
     }
 
     @Override

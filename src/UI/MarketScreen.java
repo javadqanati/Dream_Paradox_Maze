@@ -12,7 +12,7 @@ import java.util.Map;
 public class MarketScreen extends Screen {
 
     public MarketScreen(GamePanel gp) {
-        super(gp);
+        super(gp, "MARKET");
     }
 
     @Override

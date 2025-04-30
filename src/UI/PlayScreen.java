@@ -20,7 +20,7 @@ public class PlayScreen extends Screen {
     private int     messageCounter = 0;
 
     public PlayScreen(GamePanel gp) {
-        super(gp);
+        super(gp, "PLAY");
         this.timer = new GameTimer(100);
 
         Entity memoryFragment = new MemoryFragment(gp);

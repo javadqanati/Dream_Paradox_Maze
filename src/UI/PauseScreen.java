@@ -7,7 +7,7 @@ import java.awt.*;
 public class PauseScreen extends Screen {
 
     public PauseScreen(GamePanel gp) {
-        super(gp);
+        super(gp, "PAUSE");
     }
 
     @Override

@@ -8,7 +8,7 @@ public class LoadScreen extends Screen {
     private long startTime = -1;
 
     public LoadScreen(GamePanel gp) {
-        super(gp);
+        super(gp, "LOAD");
         this.gp = gp;
     }
 

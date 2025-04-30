@@ -2,31 +2,40 @@ package Launcher;
 
 import Game.GameEntities.*;
 import Utils.EntityConfig;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntitySetter {
     private final GamePanel gp;
+    private final List<Entity> entities = new ArrayList<>();
+    private final List<Enemy>  enemies  = new ArrayList<>();
 
     public EntitySetter(GamePanel gp) {
         this.gp = gp;
     }
 
     public void loadEntities(List<EntityConfig> ents, List<EntityConfig> enms) {
+        entities.clear();
+        enemies.clear();
 
-        for (int i = 0; i < ents.size(); i++) {
-            EntityConfig cfg = ents.get(i);
+        for (EntityConfig cfg : ents) {
             Entity e = EntityFactory.create(cfg.getType(), gp);
             e.setWorldX(cfg.getX() * gp.getTileSize());
             e.setWorldY(cfg.getY() * gp.getTileSize());
-            gp.getGameEntities()[i] = e;
+            entities.add(e);
         }
-        for (int i = 0; i < enms.size(); i++) {
-            EntityConfig cfg = enms.get(i);
-            Entity e = EntityFactory.create(cfg.getType(), gp);
+        for (EntityConfig cfg : enms) {
+            Enemy e = (Enemy) EntityFactory.create(cfg.getType(), gp);
             e.setWorldX(cfg.getX() * gp.getTileSize());
             e.setWorldY(cfg.getY() * gp.getTileSize());
-            gp.getEnemies()[i] = (Enemy) e;
+            enemies.add(e);
         }
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+    public List<Enemy> getEnemies() {
+        return enemies;
     }
 }

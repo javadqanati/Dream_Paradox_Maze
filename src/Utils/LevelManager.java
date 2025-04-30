@@ -3,6 +3,7 @@ package Utils;
 import Launcher.GamePanel;
 import UI.PlayScreen;
 import com.google.gson.Gson;
+
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -31,7 +32,6 @@ public class LevelManager {
                 e.printStackTrace();
             }
         }
-        // always start new; don't auto-load progress on construct
         this.currentIndex = 0;
     }
 
@@ -77,10 +77,29 @@ public class LevelManager {
     private void saveProgress() {
         try {
             Files.writeString(progressFile, String.valueOf(currentIndex));
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    /** @return the zero-based index of the currently loaded level */
     public int getCurrentIndex() {
         return currentIndex;
+    }
+
+    /**
+     * @return the list of EntityConfig for non-enemy entities
+     *         in the current level.
+     */
+    public List<EntityConfig> getEntityConfigs() {
+        return levels.get(currentIndex).getEntities();
+    }
+
+    /**
+     * @return the list of EntityConfig for enemies
+     *         in the current level.
+     */
+    public List<EntityConfig> getEnemyConfigs() {
+        return levels.get(currentIndex).getEnemies();
     }
 }

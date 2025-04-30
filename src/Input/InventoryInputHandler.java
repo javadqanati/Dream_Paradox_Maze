@@ -7,8 +7,9 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class InventoryInputHandler extends ScreenInputHandler {
+
     public InventoryInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
-        super(keyboard, screen, gp);
+        super("INVENTORY", keyboard, screen, gp);
         bindKeys();
     }
 
@@ -18,7 +19,6 @@ public class InventoryInputHandler extends ScreenInputHandler {
     }
 
     public void bindOptionKeys() {
-
         getKeyboard().bindKey(KeyEvent.VK_UP, () -> {
             int maxOptions = getGp().getPlayer().getPowerUps().size() + 1;
             int currentCmd = getScreen().getCommandNum();

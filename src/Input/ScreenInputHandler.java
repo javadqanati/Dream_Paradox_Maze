@@ -11,10 +11,14 @@ public abstract class ScreenInputHandler {
     private final GamePanel gp;
     private List<Runnable> optionActions;
 
-    public ScreenInputHandler(KeyboardInputHandler keyboard, Screen screen, GamePanel gp) {
+    public ScreenInputHandler(String stateName,
+                              KeyboardInputHandler keyboard,
+                              Screen screen,
+                              GamePanel gp) {
         this.keyboard = keyboard;
         this.screen = screen;
         this.gp = gp;
+        InputHandlerRegistry.register(stateName, this);
     }
 
     public Screen getScreen() {

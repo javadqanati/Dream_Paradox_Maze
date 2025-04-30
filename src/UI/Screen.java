@@ -11,10 +11,17 @@ public class Screen implements CustomFontProvider {
     private String selectionMessage;
     private List<String> options;
     private final Font font;
+    private final String stateName;
 
-    public Screen(GamePanel gp) {
+    public Screen(GamePanel gp, String stateName) {
         this.gp = gp;
         font = getCustomFont();
+        this.stateName = stateName;
+        ScreenManager.register(stateName, this);
+    }
+
+    public String getStateName() {
+        return stateName;
     }
 
     public int getXforCenteredText(String text, Graphics g2) {

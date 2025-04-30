@@ -1,6 +1,6 @@
 package UI;
 
-import Game.GameStates.GameStateManager;
+import Utils.GameStateManager;
 import Launcher.GamePanel;
 import java.awt.*;
 import java.util.Map;
@@ -13,9 +13,6 @@ public class HUD {
     public HUD(GamePanel gp, GameStateManager gsm, Map<String, Screen> sharedScreens) {
         this.gsm = gsm;
         this.screens = sharedScreens;
-
-
-
     }
 
     public void draw(Graphics2D g2) {
@@ -30,6 +27,4 @@ public class HUD {
     public void showMessage(String message) {
         ((PlayScreen) screens.get("PLAY")).showMessage(message);
     }
-
-
 }
