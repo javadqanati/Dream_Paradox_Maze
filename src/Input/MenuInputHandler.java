@@ -14,7 +14,7 @@ public class MenuInputHandler extends ScreenInputHandler {
                 () -> getGp().startNewGameFromMenu(),
                 () -> getGp().getGameStateManager().setLoad(),
                 () -> {
-                    getGp().getDataSaver().saveData();
+                    getGp().getPersistence().saveGameData();
                     MainScreen ms = (MainScreen) screen;
                     ms.showNotification("Game saved!");
                 },

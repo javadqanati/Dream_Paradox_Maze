@@ -1,11 +1,11 @@
 package Launcher;
 
 import Audio.AudioManager;
-import Data.Config;
-import Data.DataSaver;
+import Data.FilePersistenceService;
+import Data.PersistenceService;
 import Game.GameEntities.*;
 import Game.GameStates.GameStateManager;
-import Input.InputHandler;
+import Input.InputManager;
 import Input.KeyboardInputHandler;
 import Input.PlayerInputHandler;
 import Trade.PowerUpShop;
@@ -20,7 +20,6 @@ import java.util.List;
 
 public class GamePanel extends JPanel {
     private final PlayerManager playerManager;
-    private final DataSaver dataSaver;
     private final Maze maze;
     private final Entity[] gameEntities;
     private final Enemy[] enemies = new Enemy[10];
@@ -34,19 +33,17 @@ public class GamePanel extends JPanel {
     private static int screenHeight;
     private final int tileSize = originalTileSize * scale;
     private final AudioManager audioManager = new AudioManager();
-    private int FPS = 60;
     private final CollisionChecker collisionChecker = new CollisionChecker(this);
     private final int maxWorldCol = 70;
     private final int maxWorldRow = 70;
-    private Thread gameThread;
     private final GameStateManager gameStateManager = new GameStateManager();
     private final HUD hud;
     private final PowerUpShop powerUpShop = new PowerUpShop(this);
     private final KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
     private final PlayerInputHandler playerHandler =  new PlayerInputHandler(keyboardInputHandler);
-    private Config config = new Config(this);
     private final LevelManager lvlMgr;
-
+    private final GameRenderer renderer = new GameRenderer(this);
+    private final FilePersistenceService persistence;
     public GamePanel() {
         screenWidth = tileSize * maxScreenCol;
         screenHeight = tileSize * maxScreenRow;
@@ -58,10 +55,15 @@ public class GamePanel extends JPanel {
         maze = new Maze(this);
         gameEntities = new Entity[15];
         entitySetter = new EntitySetter(this);
-        dataSaver = new DataSaver(this);
+
         List<String> levelFiles = List.of("level1.json", "level2.json", "level3.json", "level4.json", "level5.json");
         lvlMgr = new LevelManager(this, levelFiles);
         lvlMgr.loadCurrentLevel();
+
+
+        persistence = new FilePersistenceService(this);
+        persistence.loadConfig();
+
 
         screens.put("MENU",      new MainScreen(this));
         screens.put("PLAY",      new PlayScreen(this));
@@ -74,8 +76,7 @@ public class GamePanel extends JPanel {
         screens.put("STORY", screens.get("PLAY"));
 
         hud = new HUD(this, gameStateManager, screens);
-        InputHandler inputHandler = new InputHandler(this, gameStateManager, keyboardInputHandler, playerHandler, screens);
-        this.addKeyListener(inputHandler);
+        InputManager inputManager = new InputManager(this, gameStateManager, keyboardInputHandler, playerHandler, screens);
     }
 
     private PlayScreen getPlayScreen() {
@@ -94,7 +95,6 @@ public class GamePanel extends JPanel {
         ((PlayScreen)screens.get("PLAY")).resetTimer();
         lvlMgr.loadCurrentLevel();
         gameStateManager.setMenu();
-        config.loadConfig();
         if (!AudioManager.isMusicMuted()) {
             audioManager.playMusic(0);
         }
@@ -154,16 +154,10 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
-        if (gameStateManager.isPlaying() || gameStateManager.isStory()) {
-            maze.draw(g2);
-            for (Entity e : gameEntities) if (e != null) e.draw(g2);
-            for (Enemy en : enemies)    if (en != null) en.draw(g2);
-            playerManager.getPlayer().draw(g2);
-        }
-        hud.draw(g2);
+        renderer.render(g2);       // <— delegate all drawing
         g2.dispose();
     }
+
 
     public AudioManager getAudioManager() {
         return audioManager;
@@ -176,9 +170,6 @@ public class GamePanel extends JPanel {
     }
     public int getScreenHeight() {
         return screenHeight;
-    }
-    public Thread getGameThread() {
-        return gameThread;
     }
     public int getMaxWorldCol() {
         return maxWorldCol;
@@ -212,20 +203,11 @@ public class GamePanel extends JPanel {
     }
     public boolean fullScreenOn() {
         return false;}
-    public Config getConfig() {
-        return config;
-    }
-    public void setConfig(Config config) {
-        this.config = config;
-    }
     public PlayerInputHandler getPlayerInputHandler() {
         return playerHandler;
     }
     public PlayerManager getPlayerManager() {
         return playerManager;
-    }
-    public DataSaver getDataSaver() {
-        return dataSaver;
     }
     public Map<String, Screen> getScreens() {
         return screens;
@@ -233,8 +215,10 @@ public class GamePanel extends JPanel {
     public EntitySetter getEntitySetter() {
         return entitySetter;
     }
-
     public GameLoop getLoop() {
         return loop;
+    }
+    public FilePersistenceService getPersistence() {
+        return persistence;
     }
 }
