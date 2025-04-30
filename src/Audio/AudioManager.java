@@ -2,13 +2,23 @@ package Audio;
 
 public class AudioManager {
     private final static Sound music = new BackGroundSound();
-    private final static Sound sfx = new SoundEffect();
+    private final static Sound sfx   = new SoundEffect();
 
     private static boolean musicMuted = false;
-    private static boolean sfxMuted = false;
+    private static boolean sfxMuted   = false;
+
+    // ← add this field
+    private static int currentMusicIndex = 0;
 
     public void toggleMusicMute() {
         musicMuted = !musicMuted;
+
+        if (musicMuted) {
+            music.stop();
+        } else {
+            // resume whatever index was last played
+            playMusic(currentMusicIndex);
+        }
     }
 
     public void toggleSfxMute() {
@@ -16,12 +26,13 @@ public class AudioManager {
     }
 
     public void playMusic(int i) {
+        // remember the track so toggleMusicMute can restart it
+        currentMusicIndex = i;
+
         music.setFile(i);
         if (!musicMuted) {
             music.play();
             music.loop();
-        } else {
-            music.stop();
         }
     }
 
@@ -36,6 +47,7 @@ public class AudioManager {
             sfx.play();
         }
     }
+
 
     public static boolean isMusicMuted() {
         return musicMuted;

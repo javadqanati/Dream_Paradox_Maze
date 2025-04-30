@@ -18,6 +18,6 @@ public class GameLauncher {
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         gamePanel.setUpGame();
-        gamePanel.startGameThread();
+        gamePanel.getLoop().start();
     }
 }

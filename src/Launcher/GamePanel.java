@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel {
     private final PlayerManager playerManager;
     private final DataSaver dataSaver;
     private final Maze maze;
@@ -128,39 +128,13 @@ public class GamePanel extends JPanel implements Runnable {
         gameStateManager.setLoad();
     }
 
-    public void startGameThread() {
-        gameThread = new Thread(this);
-        getGameThread().start();
-    }
-
-    @Override
-    public void run() {
-        double drawInterval = 1000000000 / FPS;
-        double delta = 0;
-        long lastTime = System.nanoTime();
-        long currentTime;
-        long timer = 0;
-        long drawCount = 0;
-
-        while (gameThread != null) {
-            currentTime = System.nanoTime();
-            delta += (currentTime - lastTime) / drawInterval;
-            timer += (currentTime - lastTime);
-            lastTime = currentTime;
-
-            if (delta >= 1) {
-                update();
-                repaint();
-                delta--;
-                drawCount += 1;
-            }
-            if (timer >= 1000000000) {
-                System.out.println("FPS: " + drawCount);
-                drawCount = 0;
-                timer = 0;
-            }
-        }
-    }
+    private final GameLoop loop = new GameLoop(
+            new GameLoop.LoopListener() {
+                @Override public void update() { GamePanel.this.update(); }
+                @Override public void render() { GamePanel.this.repaint(); }
+            },
+            60
+    );
 
     public void update() {
         if (gameStateManager.isPlaying()) {
@@ -191,9 +165,6 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    public void setGameThread(Thread gameThread) {
-        this.gameThread = gameThread;
-    }
     public AudioManager getAudioManager() {
         return audioManager;
     }
@@ -261,5 +232,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public EntitySetter getEntitySetter() {
         return entitySetter;
+    }
+
+    public GameLoop getLoop() {
+        return loop;
     }
 }

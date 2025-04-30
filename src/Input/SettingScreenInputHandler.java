@@ -12,12 +12,14 @@ public class SettingScreenInputHandler extends ScreenInputHandler {
 
         screen.setOptions(List.of(
                 "Music",
-                "Sound effects",
+                "Sound Effects",
                 "Back"
         ));
 
         setOptionActions(List.of(
-                () -> getGp().getAudioManager().toggleMusicMute(),
+                () -> {
+                    getGp().getAudioManager().toggleMusicMute(); System.out.println("▶ toggling music mute");
+                },
                 () -> getGp().getAudioManager().toggleSfxMute(),
                 () -> getGp().getGameStateManager().setMenu()
         ));
