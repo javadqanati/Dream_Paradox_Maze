@@ -10,34 +10,25 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryWindow {
+public class StoryWindow implements CustomFontProvider {
     private final GamePanel gp;
     private final List<String> lines = new ArrayList<>();
-    private Font purisaB;
+    private final Font font;
 
     public StoryWindow(GamePanel gp, String resourcePath) {
         this.gp = gp;
+        float fontSize = 26f;
+        this.font = getCustomFont().deriveFont(Font.PLAIN, fontSize);  // Consistent font size
         loadStory(resourcePath);
     }
 
     private void loadStory(String resourcePath) {
-        // First: load + size the font
-        try ( InputStream fis = getClass().getResourceAsStream("/font/Purisa Bold.ttf") ) {
-            purisaB = Font.createFont(Font.TRUETYPE_FONT, fis)
-                    .deriveFont(Font.PLAIN, 18f);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // maybe fall back to a default system font:
-            purisaB = new Font("Serif", Font.PLAIN, gp.getTileSize());
-        }
-
-        // Now you know purisaB has a real size, so you can wrap lines against it:
         int boxWidthPx = gp.getScreenWidth() - gp.getTileSize() * 6;
-        try ( InputStream is = getClass().getResourceAsStream(resourcePath);
-              BufferedReader reader = new BufferedReader(new InputStreamReader(is)) ) {
+        try (InputStream is = getClass().getResourceAsStream(resourcePath);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             String raw;
             while ((raw = reader.readLine()) != null) {
-                wrapAndAddLine(raw, purisaB, boxWidthPx);
+                wrapAndAddLine(raw, boxWidthPx);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,24 +36,28 @@ public class StoryWindow {
         }
     }
 
-
-    private void wrapAndAddLine(String text, Font font, int maxWidth) {
-        BufferedImage img = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+    private void wrapAndAddLine(String text, int maxWidth) {
+        // Use temp graphics to get FontMetrics
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
-        g2.setFont(purisaB);
+        g2.setFont(font);
         FontMetrics fm = g2.getFontMetrics();
 
         String[] words = text.split(" ");
         StringBuilder line = new StringBuilder();
+
         for (String word : words) {
-            String test = line.length() == 0 ? word : line + " " + word;
-            if (fm.stringWidth(test) > maxWidth) {
+            String testLine = line.length() == 0 ? word : line + " " + word;
+            int testWidth = fm.stringWidth(testLine);
+
+            if (testWidth > maxWidth && line.length() > 0) {
                 lines.add(line.toString());
-                line = new StringBuilder(word);
+                line = new StringBuilder(word);  // Start new line with current word
             } else {
-                line = new StringBuilder(test);
+                line = new StringBuilder(testLine);
             }
         }
+
         if (line.length() > 0) {
             lines.add(line.toString());
         }
@@ -75,7 +70,7 @@ public class StoryWindow {
         int y = padding / 2;
         int width = gp.getScreenWidth() - padding * 4;
 
-        g2.setFont(purisaB);
+        g2.setFont(font);
         FontMetrics fm = g2.getFontMetrics();
         int lineHeight = fm.getHeight();
         int totalTextHeight = lines.size() * lineHeight;
@@ -96,7 +91,7 @@ public class StoryWindow {
     }
 
     private void drawText(Graphics2D g2, int startX, int startY, int lineHeight) {
-        g2.setFont(purisaB);
+        g2.setFont(font);
         g2.setColor(Color.WHITE);
         int y = startY;
         for (String line : lines) {

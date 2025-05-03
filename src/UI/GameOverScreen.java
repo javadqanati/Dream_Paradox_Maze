@@ -13,7 +13,7 @@ public class GameOverScreen extends Screen {
     public void draw(Graphics2D g2){
         int tileSize = getGp().getTileSize();
 
-        g2.setFont(getScreenfont());
+        g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
         g2.setColor(Color.white);
         String text = "GAME OVER!";
         int titleX = getXforCenteredText(text, g2);

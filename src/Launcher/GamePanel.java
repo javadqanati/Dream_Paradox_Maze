@@ -126,7 +126,7 @@ public class GamePanel extends JPanel {
         lvlMgr.loadCurrentLevel();
         gameStateManager.setMenu();
         if (!AudioManager.isMusicMuted()) {
-            audioManager.playMusic(0);
+            audioManager.playCurrentTrack();
         }
     }
 

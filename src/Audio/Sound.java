@@ -12,11 +12,21 @@ public class Sound {
     private final List<URL> clipUrls = new ArrayList<>();
 
     public Sound(String directoryPath) {
+        loadFromDirectory(directoryPath);
+    }
+
+    public Sound() {
+
+    }
+
+    public void loadFromDirectory(String directoryPath) {
         try {
             Path soundDir = Paths.get(directoryPath);
-            if (!Files.exists(soundDir)) throw new IllegalArgumentException("Missing folder: " + directoryPath);
+            if (!Files.exists(soundDir))
+                throw new IllegalArgumentException("Missing folder: " + directoryPath);
 
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(soundDir, "*.{wav,mp3,aiff}")) {
+            try (DirectoryStream<Path> stream =
+                         Files.newDirectoryStream(soundDir, "*.{wav,mp3,aiff}")) {
                 for (Path file : stream) {
                     clipUrls.add(file.toUri().toURL());
                 }
@@ -58,5 +68,9 @@ public class Sound {
 
     public List<URL> getClipUrls() {
         return clipUrls;
+    }
+
+    public Clip getClip() {
+        return clip;
     }
 }

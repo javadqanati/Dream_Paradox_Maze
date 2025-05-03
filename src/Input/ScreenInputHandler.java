@@ -1,5 +1,7 @@
 package Input;
 
+import Audio.AudioManager;
+import Audio.SoundEffect;
 import Launcher.GamePanel;
 import UI.Screen;
 import java.util.List;
@@ -10,6 +12,7 @@ public abstract class ScreenInputHandler {
     private final Screen screen;
     private final GamePanel gp;
     private List<Runnable> optionActions;
+    private final AudioManager audio;
 
     public ScreenInputHandler(String stateName,
                               KeyboardInputHandler keyboard,
@@ -18,6 +21,7 @@ public abstract class ScreenInputHandler {
         this.keyboard = keyboard;
         this.screen = screen;
         this.gp = gp;
+        audio = gp.getAudioManager();
         InputHandlerRegistry.register(stateName, this);
     }
 
@@ -39,6 +43,7 @@ public abstract class ScreenInputHandler {
         final int max = getScreen().getNumScreenOptions();
 
         getKeyboard().bindKey(KeyEvent.VK_UP, () -> {
+            audio.playSE(1);
             int current = getScreen().getCommandNum();
             int c = current - 1;
             if (max == 0) return; // No options
@@ -51,6 +56,7 @@ public abstract class ScreenInputHandler {
         });
 
         getKeyboard().bindKey(KeyEvent.VK_DOWN, () -> {
+            audio.playSE(1);
             int current = getScreen().getCommandNum();
             int c = current + 1;
             if (max == 0) return; // No options

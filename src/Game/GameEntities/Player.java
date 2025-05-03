@@ -1,6 +1,7 @@
 package Game.GameEntities;
 
 import Audio.AudioManager;
+import Audio.SoundEffect;
 import Game.GameEntities.Powerup.PowerUp;
 import Input.PlayerInputHandler;
 import Launcher.GamePanel;
@@ -148,21 +149,20 @@ public class Player extends Character {
             case "Memory Fragment" -> {
                 collectedFragments++;
                 entities.remove(idx);
-                audio.playSE(1);
-            }
-            case "Entrance" -> audio.playSE(3);
-            case "Exit" -> {
-                getGp().getHud().setGameFinished(true);
-                audio.playSE(4);
-                getGp().getAudioManager().stopMusic(0);
+                audio.playSE(SoundEffect.MEMORY_FRAGMENT);
             }
             case "Speed Boost" -> {
                 setSpeed(getSpeed() + 2);
                 entities.remove(idx);
-                audio.playSE(2);
+                audio.playSE(SoundEffect.MEMORY_FRAGMENT);
             }
-            default -> { /* no-op for other entities */ }
+            case "Entrance" -> audio.playSE(SoundEffect.MEMORY_FRAGMENT);
+            case "Exit" -> {
+                getGp().getHud().setGameFinished(true);
+                audio.playSE(SoundEffect.MEMORY_FRAGMENT);
+            }
         }
+
     }
 
     @Override

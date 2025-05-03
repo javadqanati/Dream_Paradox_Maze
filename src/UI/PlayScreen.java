@@ -21,7 +21,7 @@ public class PlayScreen extends Screen {
 
     public PlayScreen(GamePanel gp) {
         super(gp, "PLAY");
-        this.timer = new GameTimer(100);
+        this.timer = new GameTimer(120);
 
         Entity memoryFragment = new MemoryFragment(gp);
         Entity playerLife     = new PlayerLife(gp);

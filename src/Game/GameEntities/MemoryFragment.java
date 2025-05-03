@@ -5,7 +5,7 @@ import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
 public class MemoryFragment extends Entity {
-    private static final String SPRITE_PATH = "/Object/key";
+    private static final String SPRITE_PATH = "/Object/Magic";
 
     public MemoryFragment(GamePanel gp) {
         super(gp);
