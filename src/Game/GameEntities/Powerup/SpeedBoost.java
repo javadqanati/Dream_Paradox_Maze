@@ -28,7 +28,7 @@ public class SpeedBoost extends PowerUp implements TimedPowerUp, Interactable {
     @Override
     public void onPlayerInteract(Player player) {
         player.addPowerUp(createNewInstance());
-        getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
+        getGp().getAudioManager().playSE("Memory Fragment");
         player.getGp().getEntitySetter().getEntities().remove(this);
     }
 

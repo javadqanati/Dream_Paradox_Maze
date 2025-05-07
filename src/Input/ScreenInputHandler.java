@@ -43,7 +43,7 @@ public abstract class ScreenInputHandler {
         final int max = getScreen().getNumScreenOptions();
 
         getKeyboard().bindKey(KeyEvent.VK_UP, () -> {
-            audio.playSE(1);
+            audio.playSE("Cursor");
             int current = getScreen().getCommandNum();
             int c = current - 1;
             if (max == 0) return;
@@ -56,7 +56,7 @@ public abstract class ScreenInputHandler {
         });
 
         getKeyboard().bindKey(KeyEvent.VK_DOWN, () -> {
-            audio.playSE(1);
+            audio.playSE("Cursor");
             int current = getScreen().getCommandNum();
             int c = current + 1;
             if (max == 0) return;

@@ -22,7 +22,7 @@ public class MemoryFragment extends Entity implements Interactable{
 
     @Override
     public void onPlayerInteract(Player player) {
-        getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
+        getGp().getAudioManager().playSE("Memory Fragment");
         player.setCollectedFragments(player.getCollectedFragments() + 1);
         player.getGp().getEntitySetter().getEntities().remove(this);
     }

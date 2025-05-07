@@ -10,15 +10,14 @@ public abstract class Entity {
     private int worldX, worldY;
     private String name;
     private boolean passable = false;
-    private Rectangle solidArea = new Rectangle(0, 0, 48, 48);
-    private int solidAreaDefaultX, solidAreaDefaultY;
+    private int solidAreaDefaultX = 0, solidAreaDefaultY = 0;
     public enum Direction { UP, DOWN, LEFT, RIGHT }
     private Direction direction = Direction.DOWN;
     private final EnumMap<Direction, BufferedImage[]> sprites = new EnumMap<>(Direction.class);
     private int spriteCounter = 0;
     private int spriteNum = 1;
-
     protected final GamePanel gp;
+    private Rectangle solidArea = new Rectangle(solidAreaDefaultX, solidAreaDefaultY, 48, 48);
 
     public Entity(GamePanel gp) {
         this.gp = gp;

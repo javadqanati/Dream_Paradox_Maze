@@ -23,7 +23,7 @@ public class Entrance extends Entity implements Interactable {
 
     @Override
     public void onPlayerInteract(Player player) {
-        getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
+        getGp().getAudioManager().playSE("Memory Fragment");
         player.getGp().getEntitySetter().getEntities().remove(this);
     }
 }

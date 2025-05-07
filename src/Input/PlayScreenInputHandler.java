@@ -5,6 +5,7 @@ import UI.PlayScreen;
 import UI.Screen;
 
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class PlayScreenInputHandler extends ScreenInputHandler {
     private final GamePanel gp;
@@ -16,6 +17,11 @@ public class PlayScreenInputHandler extends ScreenInputHandler {
         super("PLAY", keyboard, screen, gp);
         this.gp     = gp;
         this.screen = screen;
+
+        getScreen().setOptions(List.of(
+                "Next Level",
+                "Back to menu"
+        ));
 
         bindKeys();
     }
@@ -29,7 +35,7 @@ public class PlayScreenInputHandler extends ScreenInputHandler {
             if (gp.getGameStateManager().isStory()) {
                 gp.getGameStateManager().setPlay();
             }
-            else if (ps.isGameFinished()) {
+            if (ps.isGameFinished()) {
                 int cmd = screen.getCommandNum();
                 if (cmd == 0) {
                     gp.onLevelComplete();

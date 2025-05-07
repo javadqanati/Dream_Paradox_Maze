@@ -24,7 +24,7 @@ public class Exit extends Entity implements Interactable{
 
     @Override
     public void onPlayerInteract(Player player) {
-        getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
+        getGp().getAudioManager().playSE("Memory Fragment");
         PlayScreen ps = (PlayScreen) (gp.getScreenManager().all().get("PLAY"));
         ps.setGameFinished(true);
     }

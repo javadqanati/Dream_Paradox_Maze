@@ -1,20 +1,35 @@
 package Audio;
 
-import java.net.MalformedURLException;
-import java.nio.file.Paths;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import java.net.URL;
 
 public class SoundEffect extends Sound {
-    public static final int MEMORY_FRAGMENT = 0;
 
     public SoundEffect() {
         super();
+
+        setSoundEffect("Memory Fragment", "memory_fragment");
+        setSoundEffect("Cursor", "cursor");
+        setSoundEffect("Next Level", "levelup");
+        setSoundEffect("Game Over", "gameover");
+    }
+
+    public void setSoundEffect(String name, String path) {
+        getClipUrls().put(name, getClass().getResource("/sound/sfx/" + path + ".wav"));
+        System.out.println(getClipUrls().get(name)+ "has been set");
+    }
+
+    public void setEffect(String name) {
         try {
-            getClipUrls().add(Paths.get("res/sound/sfx/memory_fragment.wav")
-                    .toUri().toURL());
-            getClipUrls().add(Paths.get("res/sound/sfx/cursor.wav")
-                    .toUri().toURL());
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            URL url = getClipUrls().get(name);
+            if (url == null) throw new IllegalArgumentException("Sound not found: " + name);
+
+            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
+            AudioSystem.getClip().open(ais);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -4,12 +4,12 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Sound {
+public abstract class Sound {
     private Clip clip;
-    private final List<URL> clipUrls = new ArrayList<>();
+    private static final Map<String, URL> soundClips = new HashMap<>();
 
     public Sound(String directoryPath) {
         loadFromDirectory(directoryPath);
@@ -27,25 +27,13 @@ public class Sound {
 
             try (DirectoryStream<Path> stream =
                          Files.newDirectoryStream(soundDir, "*.{wav,mp3,aiff}")) {
+                int i = 0;
                 for (Path file : stream) {
-                    clipUrls.add(file.toUri().toURL());
+                    soundClips.put("track" + i, file.toUri().toURL());
+                    i++;
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setFile(int i) {
-        try {
-            if (i < 0 || i >= clipUrls.size()) {
-                throw new IndexOutOfBoundsException("Invalid sound index: " + i);
-            }
-            URL url = clipUrls.get(i);
-            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
-            clip = AudioSystem.getClip();
-            clip.open(ais);
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -63,11 +51,11 @@ public class Sound {
     }
 
     public int clipCount() {
-        return clipUrls.size();
+        return soundClips.size();
     }
 
-    public List<URL> getClipUrls() {
-        return clipUrls;
+    public Map<String, URL> getClipUrls() {
+        return soundClips;
     }
 
     public Clip getClip() {

@@ -138,6 +138,7 @@ public class Player extends Character {
         if (getHealth() > 0) return;
         getGp().getHud().setGameFinished(true);
         getGp().getGameStateManager().setGameOver();
+        getGp().getAudioManager().playSE("Game Over");
     }
 
     // ─── Getters / PowerUp API ───────────────────────────────────────────────────

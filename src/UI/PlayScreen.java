@@ -86,6 +86,7 @@ public class PlayScreen extends Screen {
             return;
         }
         if (optionsOn) {
+            getGp().getAudioManager().playSE("Next Level");
             g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
             g2.setColor(Color.BLUE);
             String title = "Level Complete!";
