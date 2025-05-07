@@ -122,20 +122,7 @@ public final class ShooterEnemy extends Enemy {
 
     @Override
     public void draw(Graphics2D g2) {
-        if (isOnScreen()) return;
-
-        BufferedImage img = getCurrentSprite(getDirection(), getSpriteNum());
-        if (img != null) {
-            int tile = getGp().getTileSize();
-            int px = getGp().getPlayer().getWorldX();
-            int py = getGp().getPlayer().getWorldY();
-            int sx = getGp().getPlayer().getScreenX();
-            int sy = getGp().getPlayer().getScreenY();
-            int screenX = getWorldX() - px + sx;
-            int screenY = getWorldY() - py + sy;
-            g2.drawImage(img, screenX, screenY, null);
-        }
-
+        super.draw(g2);
         for (Projectile p : projectiles) p.draw(g2);
     }
 }

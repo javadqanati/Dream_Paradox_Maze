@@ -2,17 +2,15 @@ package Game.GameEntities;
 
 import Launcher.GamePanel;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 public abstract class Projectile extends Enemy {
-    private int speed;
+    private final int speed;
     private int dx, dy;
-    private boolean alive;
 
     public Projectile(GamePanel gp, int speed) {
         super(gp);
         this.speed = speed;
-        this.alive = false;
+        setAlive(false);
     }
 
     public void fire(int startX, int startY, int dx, int dy) {
@@ -20,7 +18,7 @@ public abstract class Projectile extends Enemy {
         setWorldY(startY);
         this.dx = dx;
         this.dy = dy;
-        this.alive = true;
+        setAlive(true);
         setDirection(computeCardinalDirection(dx, dy));
         setHealth(getMaxHealth());
     }
@@ -35,43 +33,29 @@ public abstract class Projectile extends Enemy {
 
     @Override
     public void update() {
-        if (!alive) return;
+        if (!isAlive()) return;
 
-        // move
         setWorldX(getWorldX() + dx * speed);
         setWorldY(getWorldY() + dy * speed);
 
-        // check tile collision
         getGp().getCollisionChecker().checkTile(this);
         if (isCollisionOn()) {
-            alive = false;
+            setAlive(false);
             return;
         }
 
-        // animation
         animate(8);
 
-        // check player collision
         boolean hit = getGp().getCollisionChecker().checkPlayer(this);
         if (hit && !getGp().getPlayer().isInvincible()) {
             attack();
-            alive = false;
+            setAlive(false);
         }
     }
 
     @Override
     public void draw(Graphics2D g2) {
-        if (!alive || isOnScreen()) return;
-        BufferedImage img = getCurrentSprite(getDirection(), getSpriteNum());
-        if (img != null) {
-            int tileSize = getGp().getTileSize();
-            int px = getGp().getPlayer().getWorldX();
-            int py = getGp().getPlayer().getWorldY();
-            int sx = getGp().getPlayer().getScreenX();
-            int sy = getGp().getPlayer().getScreenY();
-            int screenX = getWorldX() - px + sx;
-            int screenY = getWorldY() - py + sy;
-            g2.drawImage(img, screenX, screenY, null);
-        }
+        if (!isAlive()) return;
+        super.draw(g2);
     }
 }

@@ -117,15 +117,6 @@ public final class ChaserEnemy extends Enemy {
         }
     }
 
-    @Override
-    public void draw(Graphics2D g2) {
-        if (isOnScreen()) return;
-        BufferedImage img = getCurrentSprite();
-        if (img != null) {
-            g2.drawImage(img, getScreenX(), getScreenY(), null);
-        }
-    }
-
     private int getScreenX() {
         return getWorldX() - getGp().getPlayer().getWorldX() + getGp().getPlayer().getScreenX();
     }

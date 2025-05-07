@@ -2,6 +2,7 @@ package Game.GameEntities;
 
 import Audio.SoundEffect;
 import Launcher.GamePanel;
+import UI.PlayScreen;
 import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
@@ -24,6 +25,7 @@ public class Exit extends Entity implements Interactable{
     @Override
     public void onPlayerInteract(Player player) {
         getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
-        player.getGp().getEntitySetter().getEntities().remove(this);
+        PlayScreen ps = (PlayScreen) (gp.getScreenManager().all().get("PLAY"));
+        ps.setGameFinished(true);
     }
 }

@@ -208,4 +208,7 @@ public class GamePanel extends JPanel {
     public GameRenderer getRenderer() {
         return renderer;
     }
+    public ScreenManager getScreenManager() {
+        return screenManager;
+    }
 }

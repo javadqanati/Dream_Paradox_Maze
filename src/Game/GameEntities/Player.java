@@ -73,6 +73,22 @@ public class Player extends Character {
         updateTrail();
     }
 
+    @Override
+    public void draw(Graphics2D g2) {
+        BufferedImage img = getCurrentSprite();
+        g2.drawImage(img, screenX, screenY, null);
+    }
+
+    @Override
+    protected Point calculateScreenPosition() {
+        return new Point(screenX, screenY);
+    }
+
+    @Override
+    protected boolean isOnScreen() {
+        return true;
+    }
+
     private void handleInput() {
         if (!playerInputHandler.isMovementKeyPressed()) return;
         if (playerInputHandler.isUpPressed())    setDirection(Direction.UP);
@@ -87,8 +103,6 @@ public class Player extends Character {
     private void movePlayer() {
         setCollisionOn(false);
         getGp().getCollisionChecker().checkTile(this);
-
-        // handle entity interaction and collision dispatch
         getGp().getCollisionChecker().checkObject(this, true);
 
         List<Enemy> enemies = gp.getEntitySetter().getEnemies();
@@ -124,12 +138,6 @@ public class Player extends Character {
         if (getHealth() > 0) return;
         getGp().getHud().setGameFinished(true);
         getGp().getGameStateManager().setGameOver();
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        BufferedImage img = getCurrentSprite();
-        g2.drawImage(img, screenX, screenY, null);
     }
 
     // ─── Getters / PowerUp API ───────────────────────────────────────────────────

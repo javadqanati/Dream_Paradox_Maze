@@ -20,7 +20,6 @@ public class ScreenManager {
         new MarketScreen(gp);
         new GameOverScreen(gp);
         new LoadScreen(gp);
-        // "STORY" can reuse "PLAY"
         screens.put("STORY", screens.get("PLAY"));
     }
 

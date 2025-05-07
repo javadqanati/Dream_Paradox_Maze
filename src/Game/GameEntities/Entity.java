@@ -1,9 +1,8 @@
 package Game.GameEntities;
 
-import Audio.SoundEffect;
+
 import Launcher.GamePanel;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.EnumMap;
 
@@ -28,22 +27,38 @@ public abstract class Entity {
     }
 
     public void draw(Graphics2D g2) {
-        BufferedImage img = getCurrentSprite(direction, spriteNum);
+        if (!isOnScreen()) return;
+
+        BufferedImage img = getCurrentSprite(getDirection(), getSpriteNum());
         if (img == null) return;
 
-        int tileSize = gp.getTileSize();
-        int px = gp.getPlayer().getWorldX();
-        int py = gp.getPlayer().getWorldY();
-        int sx = gp.getPlayer().getScreenX();
-        int sy = gp.getPlayer().getScreenY();
+        Point screenPos = calculateScreenPosition();
+        g2.drawImage(img, screenPos.x, screenPos.y, null);
+    }
 
-        int screenX = worldX - px + sx;
-        int screenY = worldY - py + sy;
+    protected Point calculateScreenPosition() {
+        int px = getGp().getPlayer().getWorldX();
+        int py = getGp().getPlayer().getWorldY();
+        int sx = getGp().getPlayer().getScreenX();
+        int sy = getGp().getPlayer().getScreenY();
 
-        if (worldX + tileSize > px - sx && worldX - tileSize < px + sx
-                && worldY + tileSize > py - sy && worldY - tileSize < py + sy) {
-            g2.drawImage(img, screenX, screenY, null);
-        }
+        return new Point(
+                getWorldX() - px + sx,
+                getWorldY() - py + sy
+        );
+    }
+
+    protected boolean isOnScreen() {
+        int tile = getGp().getTileSize();
+        int px = getGp().getPlayer().getWorldX();
+        int py = getGp().getPlayer().getWorldY();
+        int sx = getGp().getPlayer().getScreenX();
+        int sy = getGp().getPlayer().getScreenY();
+
+        return getWorldX() + tile > px - sx &&
+                getWorldX() - tile < px + sx &&
+                getWorldY() + tile > py - sy &&
+                getWorldY() - tile < py + sy;
     }
 
     protected void setSpriteFrames(Direction dir, BufferedImage... frames) {
@@ -65,47 +80,35 @@ public abstract class Entity {
         return frames[idx];
     }
 
-    public int getWorldX() { return worldX; }
-    public void setWorldX(int worldX) { this.worldX = worldX; }
-
-    public int getWorldY() { return worldY; }
-    public void setWorldY(int worldY) { this.worldY = worldY; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public boolean isPassable() { return passable; }
-    public void setPassable(boolean passable) { this.passable = passable; }
-
     public Rectangle getSolidArea() { return solidArea; }
     public void setSolidArea(Rectangle solidArea) {
         this.solidArea = solidArea;
         this.solidAreaDefaultX = solidArea.x;
         this.solidAreaDefaultY = solidArea.y;
     }
-    public int getSolidAreaDefaultX() { return solidAreaDefaultX; }
-    public int getSolidAreaDefaultY() { return solidAreaDefaultY; }
 
     public void setSolidAreaDefaultX(int solidAreaDefaultX) {
         this.solidAreaDefaultX = solidAreaDefaultX;
     }
-
     public void setSolidAreaDefaultY(int solidAreaDefaultY) {
         this.solidAreaDefaultY = solidAreaDefaultY;
     }
-
-    public Direction getDirection() { return direction; }
-    public void setDirection(Direction direction) { this.direction = direction; }
-
-    public int getSpriteCounter() { return spriteCounter; }
-    public void setSpriteCounter(int spriteCounter) { this.spriteCounter = spriteCounter; }
-
-    public int getSpriteNum() { return spriteNum; }
-    public void setSpriteNum(int spriteNum) { this.spriteNum = spriteNum; }
-
-    protected GamePanel getGp() { return gp; }
-
+    public Direction getDirection()                         { return direction; }
+    public void setDirection(Direction direction)           { this.direction = direction; }
+    public int getSpriteCounter()                           { return spriteCounter; }
+    public void setSpriteCounter(int spriteCounter)         { this.spriteCounter = spriteCounter; }
+    public int getSpriteNum()                               { return spriteNum; }
+    public void setSpriteNum(int spriteNum)                 { this.spriteNum = spriteNum; }
+    public GamePanel getGp()                                { return gp; }
     public EnumMap<Direction, BufferedImage[]> getSprites() {
         return sprites;
     }
+    public int getWorldX()                                  { return worldX; }
+    public void setWorldX(int worldX)                       { this.worldX = worldX; }
+    public int getWorldY()                                  { return worldY; }
+    public void setWorldY(int worldY)                       { this.worldY = worldY; }
+    public String getName()                                 { return name; }
+    public void setName(String name)                        { this.name = name; }
+    public boolean isPassable()                             { return passable; }
+    public void setPassable(boolean passable)               { this.passable = passable; }
 }
