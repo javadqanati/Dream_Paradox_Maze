@@ -61,7 +61,7 @@ public abstract class Projectile extends Enemy {
 
     @Override
     public void draw(Graphics2D g2) {
-        if (!alive || !isOnScreen()) return;
+        if (!alive || isOnScreen()) return;
         BufferedImage img = getCurrentSprite(getDirection(), getSpriteNum());
         if (img != null) {
             int tileSize = getGp().getTileSize();
@@ -73,17 +73,5 @@ public abstract class Projectile extends Enemy {
             int screenY = getWorldY() - py + sy;
             g2.drawImage(img, screenX, screenY, null);
         }
-    }
-
-    private boolean isOnScreen() {
-        int tile = getGp().getTileSize();
-        int px = getGp().getPlayer().getWorldX();
-        int py = getGp().getPlayer().getWorldY();
-        int sx = getGp().getPlayer().getScreenX();
-        int sy = getGp().getPlayer().getScreenY();
-        int wx = getWorldX();
-        int wy = getWorldY();
-        return wx + tile > px - sx && wx - tile < px + sx
-                && wy + tile > py - sy && wy - tile < py + sy;
     }
 }

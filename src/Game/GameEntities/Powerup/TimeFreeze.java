@@ -1,13 +1,16 @@
 package Game.GameEntities.Powerup;
 
+import Audio.SoundEffect;
+import Game.GameEntities.Interactable;
+import Game.GameEntities.Player;
 import Launcher.GamePanel;
 import UI.PlayScreen;
 import UI.Screen;
 import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
-public class TimeFreeze extends PowerUp implements TimedPowerUp {
-    private static final String SPRITE_PATH = "/Object/boots";
+public class TimeFreeze extends PowerUp implements TimedPowerUp, Interactable {
+    private static final String SPRITE_PATH = "/Object/time";
     private static final int DURATION = 10_000;
 
     public TimeFreeze(GamePanel gp) {
@@ -27,6 +30,7 @@ public class TimeFreeze extends PowerUp implements TimedPowerUp {
     @Override
     public void apply() {
         applyTimed();
+        System.out.println("apply function");
     }
 
 
@@ -52,5 +56,12 @@ public class TimeFreeze extends PowerUp implements TimedPowerUp {
         Screen s = getGp().getScreens().get("PLAY");
         if (s instanceof PlayScreen ps)
             ps.getTimer().unfreezeTime();
+    }
+
+    @Override
+    public void onPlayerInteract(Player player) {
+        player.addPowerUp(createNewInstance());
+        getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
+        player.getGp().getEntitySetter().getEntities().remove(this);
     }
 }

@@ -50,6 +50,18 @@ public abstract class Enemy extends Character {
         this.actionLockCounter = actionLockCounter;
     }
 
+    public boolean isOnScreen() {
+        int tile = getGp().getTileSize();
+        int px = getGp().getPlayer().getWorldX();
+        int py = getGp().getPlayer().getWorldY();
+        int sx = getGp().getPlayer().getScreenX();
+        int sy = getGp().getPlayer().getScreenY();
+        int wx = getWorldX();
+        int wy = getWorldY();
+        return wx + tile <= px - sx || wx - tile >= px + sx
+                || wy + tile <= py - sy || wy - tile >= py + sy;
+    }
+
     public SpriteMaker getMaker() {
         return maker;
     }

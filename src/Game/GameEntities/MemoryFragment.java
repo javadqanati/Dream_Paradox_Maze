@@ -1,10 +1,11 @@
 package Game.GameEntities;
 
+import Audio.SoundEffect;
 import Launcher.GamePanel;
 import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
-public class MemoryFragment extends Entity {
+public class MemoryFragment extends Entity implements Interactable{
     private static final String SPRITE_PATH = "/Object/Magic";
 
     public MemoryFragment(GamePanel gp) {
@@ -17,5 +18,12 @@ public class MemoryFragment extends Entity {
         if (sprite != null) {
             setSpriteFrames(Direction.DOWN, sprite);
         }
+    }
+
+    @Override
+    public void onPlayerInteract(Player player) {
+        getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
+        player.setCollectedFragments(player.getCollectedFragments() + 1);
+        player.getGp().getEntitySetter().getEntities().remove(this);
     }
 }

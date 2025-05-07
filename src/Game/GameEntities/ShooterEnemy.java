@@ -2,7 +2,6 @@ package Game.GameEntities;
 
 import Launcher.GamePanel;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +21,6 @@ public final class ShooterEnemy extends Enemy {
         setSpeed(2);
         setMaxHealth(4);
         setHealth(getMaxHealth());
-        Rectangle area = new Rectangle(3, 18, 42, 30);
-        setSolidArea(area);
-        setSolidAreaDefaultX(area.x);
-        setSolidAreaDefaultY(area.y);
         getEnemyImage();
         setDirection(Direction.DOWN);
         shootCooldown = SHOOT_INTERVAL;
@@ -125,21 +120,9 @@ public final class ShooterEnemy extends Enemy {
         return dirs[(int)(Math.random() * dirs.length)];
     }
 
-    private boolean isOnScreen() {
-        int tile = getGp().getTileSize();
-        int px = getGp().getPlayer().getWorldX();
-        int py = getGp().getPlayer().getWorldY();
-        int sx = getGp().getPlayer().getScreenX();
-        int sy = getGp().getPlayer().getScreenY();
-        int wx = getWorldX();
-        int wy = getWorldY();
-        return wx + tile > px - sx && wx - tile < px + sx
-                && wy + tile > py - sy && wy - tile < py + sy;
-    }
-
     @Override
     public void draw(Graphics2D g2) {
-        if (!isOnScreen()) return;
+        if (isOnScreen()) return;
 
         BufferedImage img = getCurrentSprite(getDirection(), getSpriteNum());
         if (img != null) {

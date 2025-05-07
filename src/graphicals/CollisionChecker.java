@@ -2,6 +2,8 @@
 package graphicals;
 
 import Game.GameEntities.Enemy;
+import Game.GameEntities.Interactable;
+import Game.GameEntities.Player;
 import Launcher.GamePanel;
 import Game.GameEntities.Character;
 import java.awt.Rectangle;
@@ -60,7 +62,7 @@ public class CollisionChecker {
         }
     }
 
-    public int checkObject(Character character, boolean player) {
+    public void checkObject(Character character, boolean player) {
         Rectangle area = projectedArea(character);
         int index = 999;
         var entities = gp.getEntitySetter().getEntities();
@@ -77,6 +79,9 @@ public class CollisionChecker {
             );
 
             if (area.intersects(other)) {
+                if (player && e instanceof Interactable interactable && character instanceof Player p) {
+                    interactable.onPlayerInteract(p);
+                }
                 if (!e.isPassable()) {
                     character.setCollisionOn(true);
                 }
@@ -85,7 +90,6 @@ public class CollisionChecker {
                 }
             }
         }
-        return index;
     }
 
     public int checkEntity(Character character, List<Enemy> targets) {

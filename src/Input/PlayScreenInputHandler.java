@@ -33,7 +33,8 @@ public class PlayScreenInputHandler extends ScreenInputHandler {
                 int cmd = screen.getCommandNum();
                 if (cmd == 0) {
                     gp.onLevelComplete();
-                } else {
+                }
+                if (cmd == 1){
                     gp.getGameStateManager().setMenu();
                 }
             }

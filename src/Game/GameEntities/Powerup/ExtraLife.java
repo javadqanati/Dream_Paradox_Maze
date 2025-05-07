@@ -1,11 +1,13 @@
 package Game.GameEntities.Powerup;
 
+import Audio.SoundEffect;
+import Game.GameEntities.Interactable;
 import Game.GameEntities.Player;
 import Launcher.GamePanel;
 import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
-public class ExtraLife extends PowerUp {
+public class ExtraLife extends PowerUp implements Interactable {
     private static final String SPRITE_PATH = "/Object/heart_full";
 
     public ExtraLife(GamePanel gp) {
@@ -31,6 +33,13 @@ public class ExtraLife extends PowerUp {
         if (p.getHealth() < p.getMaxHealth()) {
             p.setHealth(p.getHealth() + 2);
         }
+    }
+
+    @Override
+    public void onPlayerInteract(Player player) {
+        player.addPowerUp(createNewInstance());
+        getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
+        player.getGp().getEntitySetter().getEntities().remove(this);
     }
 
     @Override

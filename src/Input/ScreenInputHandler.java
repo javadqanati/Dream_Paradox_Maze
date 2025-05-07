@@ -46,10 +46,10 @@ public abstract class ScreenInputHandler {
             audio.playSE(1);
             int current = getScreen().getCommandNum();
             int c = current - 1;
-            if (max == 0) return; // No options
+            if (max == 0) return;
             if (c < 0) {
                 c = max - 1;
-            } else if (c >= max) { // Handle overflow after decrement
+            } else if (c >= max) {
                 c = max - 1;
             }
             getScreen().setCommandNum(c);
@@ -59,7 +59,7 @@ public abstract class ScreenInputHandler {
             audio.playSE(1);
             int current = getScreen().getCommandNum();
             int c = current + 1;
-            if (max == 0) return; // No options
+            if (max == 0) return;
             if (c >= max) {
                 c = 0;
             }

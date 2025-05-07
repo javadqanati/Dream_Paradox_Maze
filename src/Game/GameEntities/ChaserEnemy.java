@@ -19,7 +19,6 @@ public final class ChaserEnemy extends Enemy {
         setSpeed(3);
         setMaxHealth(4);
         setHealth(getMaxHealth());
-        configureSolidArea();
         getEnemyImage();
         setDirection(Direction.DOWN);
     }
@@ -39,13 +38,6 @@ public final class ChaserEnemy extends Enemy {
                     ? (dx < 0 ? Direction.LEFT : Direction.RIGHT)
                     : (dy < 0 ? Direction.UP : Direction.DOWN));
         }
-    }
-
-    private void configureSolidArea() {
-        Rectangle area = new Rectangle(3, 18, 42, 30);
-        setSolidArea(area);
-        setSolidAreaDefaultX(area.x);
-        setSolidAreaDefaultY(area.y);
     }
 
     @Override
@@ -86,7 +78,12 @@ public final class ChaserEnemy extends Enemy {
         getGp().getCollisionChecker().checkTile(this);
         getGp().getCollisionChecker().checkObject(this, false);
         boolean contact = getGp().getCollisionChecker().checkPlayer(this);
-        if (contact) attack();
+        if (contact) {
+            attack();
+            flipDirection();
+            moveInDirection();
+            flipDirection();
+        }
     }
 
     @Override
@@ -122,23 +119,11 @@ public final class ChaserEnemy extends Enemy {
 
     @Override
     public void draw(Graphics2D g2) {
-        if (!isOnScreen()) return;
+        if (isOnScreen()) return;
         BufferedImage img = getCurrentSprite();
         if (img != null) {
             g2.drawImage(img, getScreenX(), getScreenY(), null);
         }
-    }
-
-    private boolean isOnScreen() {
-        int tile = getGp().getTileSize();
-        int px = getGp().getPlayer().getWorldX();
-        int py = getGp().getPlayer().getWorldY();
-        int sx = getGp().getPlayer().getScreenX();
-        int sy = getGp().getPlayer().getScreenY();
-        int wx = getWorldX();
-        int wy = getWorldY();
-        return wx + tile > px - sx && wx - tile < px + sx
-                && wy + tile > py - sy && wy - tile < py + sy;
     }
 
     private int getScreenX() {

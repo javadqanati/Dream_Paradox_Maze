@@ -1,11 +1,14 @@
 package Game.GameEntities.Powerup;
 
+import Audio.SoundEffect;
+import Game.GameEntities.Interactable;
+import Game.GameEntities.Player;
 import Launcher.GamePanel;
 import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
-public class SpeedBoost extends PowerUp implements TimedPowerUp {
-    private static final String SPRITE_PATH = "/Object/boots";
+public class SpeedBoost extends PowerUp implements TimedPowerUp, Interactable {
+    private static final String SPRITE_PATH = "/Object/speed";
     private static final int DURATION = 10_000;
 
     public SpeedBoost(GamePanel gp) {
@@ -20,6 +23,13 @@ public class SpeedBoost extends PowerUp implements TimedPowerUp {
         }
 
         initialize("SpeedBoost", 3);
+    }
+
+    @Override
+    public void onPlayerInteract(Player player) {
+        player.addPowerUp(createNewInstance());
+        getGp().getAudioManager().playSE(SoundEffect.MEMORY_FRAGMENT);
+        player.getGp().getEntitySetter().getEntities().remove(this);
     }
 
     @Override

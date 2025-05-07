@@ -1,5 +1,6 @@
 package Game.GameEntities;
 
+import Audio.SoundEffect;
 import Launcher.GamePanel;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -12,7 +13,6 @@ public abstract class Entity {
     private boolean passable = false;
     private Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     private int solidAreaDefaultX, solidAreaDefaultY;
-
     public enum Direction { UP, DOWN, LEFT, RIGHT }
     private Direction direction = Direction.DOWN;
     private final EnumMap<Direction, BufferedImage[]> sprites = new EnumMap<>(Direction.class);

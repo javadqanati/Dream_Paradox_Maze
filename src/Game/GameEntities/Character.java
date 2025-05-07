@@ -1,7 +1,8 @@
 package Game.GameEntities;
 
 import Launcher.GamePanel;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Character extends Entity {
@@ -13,6 +14,10 @@ public abstract class Character extends Entity {
 
     public Character(GamePanel gp) {
         super(gp);
+
+        setSolidArea(new Rectangle(8, 16, 32, 32));
+        setSolidAreaDefaultX(getSolidArea().x);
+        setSolidAreaDefaultY(getSolidArea().y);
     }
 
     public abstract void update();
