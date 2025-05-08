@@ -25,13 +25,13 @@ public abstract class Sound {
             if (!Files.exists(soundDir))
                 throw new IllegalArgumentException("Missing folder: " + directoryPath);
 
-            try (DirectoryStream<Path> stream =
-                         Files.newDirectoryStream(soundDir, "*.{wav,mp3,aiff}")) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(soundDir, "*.{wav,mp3,aiff}")) {
                 int i = 0;
                 for (Path file : stream) {
                     soundClips.put("track" + i, file.toUri().toURL());
                     i++;
                 }
+                System.out.println("Loaded " + i + " music tracks");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,7 +57,9 @@ public abstract class Sound {
     public Map<String, URL> getClipUrls() {
         return soundClips;
     }
-
+    public void setClip(Clip newClip) {
+        this.clip = newClip;
+    }
     public Clip getClip() {
         return clip;
     }

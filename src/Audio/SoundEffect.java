@@ -3,6 +3,7 @@ package Audio;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.net.URL;
 
 public class SoundEffect extends Sound {
@@ -26,8 +27,14 @@ public class SoundEffect extends Sound {
             URL url = getClipUrls().get(name);
             if (url == null) throw new IllegalArgumentException("Sound not found: " + name);
 
+            if (getClip() != null && getClip().isOpen()) {
+                getClip().close();
+            }
+
             AudioInputStream ais = AudioSystem.getAudioInputStream(url);
-            AudioSystem.getClip().open(ais);
+            Clip newClip = AudioSystem.getClip();
+            newClip.open(ais);
+            setClip(newClip);
         } catch (Exception e) {
             e.printStackTrace();
         }
