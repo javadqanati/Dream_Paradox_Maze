@@ -39,7 +39,11 @@ public abstract class Sound {
     }
 
     public void play() {
-        if (clip != null) clip.start();
+        if (clip != null) {
+            clip.stop();          // Stop ongoing playback
+            clip.setFramePosition(0); // Reset to start
+            clip.start();
+        }
     }
 
     public void loop() {

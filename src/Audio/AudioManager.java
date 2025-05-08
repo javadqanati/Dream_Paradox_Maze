@@ -65,7 +65,6 @@ public class AudioManager {
 
     public void playSE(String name) {
         if (!sfxMuted) {
-            sfx.stop();
             sfx.setEffect(name);
             sfx.play();
         }

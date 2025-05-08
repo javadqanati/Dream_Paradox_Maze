@@ -25,10 +25,10 @@ public class SoundEffect extends Sound {
     public void setEffect(String name) {
         try {
             URL url = getClipUrls().get(name);
-            if (url == null) throw new IllegalArgumentException("Sound not found: " + name);
+            if (url == null) return;
 
-            if (getClip() != null && getClip().isOpen()) {
-                getClip().close();
+            if (getClip() != null && getClip().isRunning()) {
+                getClip().stop();
             }
 
             AudioInputStream ais = AudioSystem.getAudioInputStream(url);
