@@ -1,6 +1,5 @@
 package Game.GameEntities;
 
-import Audio.SoundEffect;
 import Launcher.GamePanel;
 import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;

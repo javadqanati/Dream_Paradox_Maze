@@ -1,6 +1,5 @@
 package Game.GameEntities.Powerup;
 
-import Audio.SoundEffect;
 import Game.GameEntities.Interactable;
 import Game.GameEntities.Player;
 import Launcher.GamePanel;

@@ -10,7 +10,7 @@ public abstract class Entity {
     private int worldX, worldY;
     private String name;
     private boolean passable = false;
-    private int solidAreaDefaultX = 0, solidAreaDefaultY = 0;
+    private int solidAreaDefaultX, solidAreaDefaultY;
     public enum Direction { UP, DOWN, LEFT, RIGHT }
     private Direction direction = Direction.DOWN;
     private final EnumMap<Direction, BufferedImage[]> sprites = new EnumMap<>(Direction.class);
@@ -94,8 +94,6 @@ public abstract class Entity {
     }
     public Direction getDirection()                         { return direction; }
     public void setDirection(Direction direction)           { this.direction = direction; }
-    public int getSpriteCounter()                           { return spriteCounter; }
-    public void setSpriteCounter(int spriteCounter)         { this.spriteCounter = spriteCounter; }
     public int getSpriteNum()                               { return spriteNum; }
     public void setSpriteNum(int spriteNum)                 { this.spriteNum = spriteNum; }
     public GamePanel getGp()                                { return gp; }

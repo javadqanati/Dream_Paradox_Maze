@@ -41,15 +41,12 @@ public abstract class Enemy extends Character {
     public abstract void getEnemyImage();
     public abstract void setAction();
     public abstract void attack();
-
     public int getActionLockCounter() {
         return actionLockCounter;
     }
-
     public void setActionLockCounter(int actionLockCounter) {
         this.actionLockCounter = actionLockCounter;
     }
-
     public SpriteMaker getMaker() {
         return maker;
     }

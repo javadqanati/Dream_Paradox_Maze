@@ -47,7 +47,7 @@ public abstract class Projectile extends Enemy {
         animate(8);
 
         boolean hit = getGp().getCollisionChecker().checkPlayer(this);
-        if (hit && !getGp().getPlayer().isInvincible()) {
+        if (hit && getGp().getPlayer().isInvincible()) {
             attack();
             setAlive(false);
         }

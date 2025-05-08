@@ -41,6 +41,7 @@ public class PlayScreen extends Screen {
     public void setGameFinished(boolean finished) {
         this.gameFinished = finished;
         if (finished) {
+            getGp().getAudioManager().playSE("Next Level");
             this.optionsOn = true;
         }
     }
@@ -86,7 +87,6 @@ public class PlayScreen extends Screen {
             return;
         }
         if (optionsOn) {
-            getGp().getAudioManager().playSE("Next Level");
             g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
             g2.setColor(Color.BLUE);
             String title = "Level Complete!";

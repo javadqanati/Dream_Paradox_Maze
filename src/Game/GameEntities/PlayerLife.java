@@ -27,8 +27,6 @@ public class PlayerLife extends Entity {
             frames[i] = sprite;
         }
 
-
-        // Now, setup the DOWN direction with the array
         setSpriteFrames(Direction.DOWN, frames);
     }
 

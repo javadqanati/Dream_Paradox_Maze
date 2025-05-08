@@ -156,7 +156,7 @@ public class Player extends Character {
             return false;
         });
     }
-    public boolean isInvincible()         { return invincible; }
+    public boolean isInvincible()         { return !invincible; }
     public void setInvincible(boolean inv){ this.invincible = inv; }
     public int getScreenX()               { return screenX; }
     public int getScreenY()               { return screenY; }

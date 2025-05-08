@@ -88,7 +88,7 @@ public final class ChaserEnemy extends Enemy {
 
     @Override
     public void attack() {
-        if (!getGp().getPlayer().isInvincible()) {
+        if (getGp().getPlayer().isInvincible()) {
             getGp().getPlayer().setHealth(getGp().getPlayer().getHealth() - 1);
             getGp().getPlayer().setInvincible(true);
         }

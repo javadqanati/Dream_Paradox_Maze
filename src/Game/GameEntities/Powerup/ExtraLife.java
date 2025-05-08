@@ -1,6 +1,5 @@
 package Game.GameEntities.Powerup;
 
-import Audio.SoundEffect;
 import Game.GameEntities.Interactable;
 import Game.GameEntities.Player;
 import Launcher.GamePanel;
@@ -16,7 +15,6 @@ public class ExtraLife extends PowerUp implements Interactable {
         PowerUpFactory.register(getName(), ExtraLife::new);
         SpriteMaker spriteMaker = new SpriteMaker(gp);
         BufferedImage sprite = spriteMaker.objectImageSetup(SPRITE_PATH);
-
         if (sprite != null) {
             setSpriteFrames(Direction.DOWN, sprite);
         }
