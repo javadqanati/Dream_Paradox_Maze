@@ -1,32 +1,40 @@
 package Audio;
 
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class BackGroundSound extends Sound {
 
     public BackGroundSound() {
-        super("res/sound/music");
+        loadFromDirectory("res/sound/music");
     }
 
-    public void setFile(int i) {
-        try {
-            if (i < 0 || i >= getClipUrls().size()) {
-                throw new IndexOutOfBoundsException("Invalid sound index: " + i);
-            }
-            URL url = getClipUrls().get("track" + i);
-            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
+    public void setFile(int trackIndex) {
+        URL url = getClipUrls().get("track" + trackIndex);
+        if (url != null) {
+            loadClip(url);
+        }
+    }
 
-            if (getClip() != null && getClip().isOpen()) {
-                getClip().close();
+    public void loadFromDirectory(String directoryPath) {
+        try {
+            Path soundDir = Paths.get(directoryPath);
+            if (!Files.exists(soundDir))
+                throw new IllegalArgumentException("Missing folder: " + directoryPath);
+
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(soundDir, "*.{wav,mp3,aiff}")) {
+                int i = 0;
+                for (Path file : stream) {
+                    getClipUrls().put("track" + i, file.toUri().toURL());
+                    i++;
+                }
+                System.out.println("Loaded " + i + " music tracks");
             }
-            Clip newClip = AudioSystem.getClip();
-            newClip.open(ais);
-            setClip(newClip);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

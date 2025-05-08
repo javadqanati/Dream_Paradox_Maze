@@ -5,7 +5,8 @@ import Launcher.GamePanel;
 import java.awt.*;
 
 public class SettingScreen extends Screen {
-    private final String[] options = {"Music", "Sound Effects", "Back"};
+    private final String[] options = {"Full Screen", "Music", "Sound Effects", "Back"};
+
 
     public SettingScreen(GamePanel gp) {
 
@@ -26,11 +27,14 @@ public class SettingScreen extends Screen {
         g2.setFont(getScreenfont().deriveFont(36f));
         for (int i = 0; i < options.length; i++) {
             String text = options[i];
-            if (text.equals("Music")) {
+            if (text.equals("Full Screen")) {
+                text += ": " + (getGp().fullScreenOn() ? "ON" : "OFF");
+            } else if (text.equals("Music")) {
                 text += ": " + (AudioManager.isMusicMuted() ? "OFF" : "ON");
             } else if (text.equals("Sound Effects")) {
                 text += ": " + (AudioManager.isSfxMuted() ? "OFF" : "ON");
             }
+
 
             x = getXforCenteredText(text, g2);
 

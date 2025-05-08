@@ -22,6 +22,8 @@ public class GamePanel extends JPanel {
     private final LevelManager        lvlMgr;
     private final GameStateManager    gameStateManager = new GameStateManager();
     private final CollisionChecker    collisionChecker = new CollisionChecker(this);
+    private boolean isFullScreen = false;
+    private WindowManager windowManager;
 
     // ─── RENDERING & LOOP ────────────────────────────────────────────────────────
     private final int originalTileSize = 16;
@@ -52,7 +54,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         // compute dimensions
-        screenWidth  = tileSize * 16;
+        screenWidth  = tileSize * 20;
         screenHeight = tileSize * 12;
         setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.black);
@@ -93,8 +95,7 @@ public class GamePanel extends JPanel {
         loop.start();
     }
 
-    /** Helper to grab the PLAY screen instance. */
-    private PlayScreen getPlayScreen() {
+    public PlayScreen getPlayScreen() {
         return (PlayScreen) screenManager.get("PLAY");
     }
 
@@ -180,6 +181,12 @@ public class GamePanel extends JPanel {
 
     // ─── GETTERS ──────────────────────────────────────────────────────────────────
 
+    public int getOriginalScreenWidth() {
+        return screenWidth;
+    }
+    public int getOriginalScreenHeight() {
+        return screenHeight;
+    }
     public int getTileSize()        { return tileSize; }
     public int getScreenWidth()     { return screenWidth; }
     public int getScreenHeight()    { return screenHeight; }
@@ -196,8 +203,11 @@ public class GamePanel extends JPanel {
     public PersistenceService getPersistence()  { return persistence; }
     public Map<String,Screen> getScreens()      { return screenManager.all(); }
     public GameLoop getLoop()                  { return loop; }
-    public boolean fullScreenOn(){
-        return false;
+    public boolean fullScreenOn() {
+        return isFullScreen;
+    }
+    public void setFullScreenOn(boolean fullScreenOn) {
+        this.isFullScreen = fullScreenOn;
     }
     public EntitySetter getEntitySetter() {
         return entitySetter;
@@ -211,4 +221,14 @@ public class GamePanel extends JPanel {
     public ScreenManager getScreenManager() {
         return screenManager;
     }
+    public void setWindowManager(WindowManager wm) {
+        this.windowManager = wm;
+    }
+    public void toggleFullScreen() {
+        if (windowManager != null) {
+            windowManager.toggleFullscreen();
+            setFullScreenOn(!fullScreenOn());
+        }
+    }
+
 }

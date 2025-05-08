@@ -128,7 +128,7 @@ public class PlayScreen extends Screen {
             getGp().getGameStateManager().setGameOver();
             return;
         }
-        g2.drawString("Time: " + timer.getFormatted(), getGp().getTileSize()*11, 65);
+        g2.drawString("Time: " + timer.getFormatted(), getGp().getTileSize()*15, 65);
 
         drawPlayerLife(g2);
 

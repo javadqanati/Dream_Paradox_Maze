@@ -12,9 +12,6 @@ public class AudioManager {
     private int currentTrackIndex = 0;
     private LineListener trackEndListener;
 
-    public AudioManager() {
-    }
-
     public void toggleMusicMute() {
         musicMuted = !musicMuted;
         System.out.println("musicMuted = " + musicMuted);

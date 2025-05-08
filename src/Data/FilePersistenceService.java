@@ -37,9 +37,9 @@ public class FilePersistenceService implements PersistenceService {
         try (BufferedReader br = new BufferedReader(new FileReader(configFile))) {
             String line = br.readLine();
             if ("Full Screen On".equals(line)) {
-                // gp.setFullScreenOn(true);
+                gp.setFullScreenOn(true);
+                gp.toggleFullScreen();
             }
-            // skip second line if null
             line = br.readLine();
             if (line != null) AudioManager.setMusicMuted(Boolean.parseBoolean(line));
             line = br.readLine();

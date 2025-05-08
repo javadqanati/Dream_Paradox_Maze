@@ -1,9 +1,5 @@
 package Audio;
 
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.net.URL;
 
 public class SoundEffect extends Sound {
@@ -23,20 +19,17 @@ public class SoundEffect extends Sound {
     }
 
     public void setEffect(String name) {
-        try {
-            URL url = getClipUrls().get(name);
-            if (url == null) return;
+        URL url = getClipUrls().get(name);
+        if (url != null) {
+            loadClip(url);
+        }
+    }
 
-            if (getClip() != null && getClip().isRunning()) {
-                getClip().stop();
-            }
-
-            AudioInputStream ais = AudioSystem.getAudioInputStream(url);
-            Clip newClip = AudioSystem.getClip();
-            newClip.open(ais);
-            setClip(newClip);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void play() {
+        if (getClip() != null) {
+            getClip().stop();
+            getClip().setFramePosition(0);
+            getClip().start();
         }
     }
 }
