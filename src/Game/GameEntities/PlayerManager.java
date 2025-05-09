@@ -22,6 +22,7 @@ public class PlayerManager {
         player.setDefaultPosition();
         player.restoreLife();
         player.getPowerUps().clear();
+        player.setCollectedFragments(0);
         dataManager.loadConfig();
     }
 

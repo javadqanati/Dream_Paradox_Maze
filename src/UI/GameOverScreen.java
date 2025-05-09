@@ -11,6 +11,7 @@ public class GameOverScreen extends Screen {
 
     @Override
     public void draw(Graphics2D g2){
+        super.draw(g2);
         int tileSize = getGp().getTileSize();
 
         g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));

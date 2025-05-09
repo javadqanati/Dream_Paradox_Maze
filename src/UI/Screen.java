@@ -30,6 +30,9 @@ public class Screen implements CustomFontProvider {
     }
 
     public void draw(Graphics2D g2){
+        Color darkBlue = new Color(15, 28, 67);
+        g2.setColor(darkBlue);
+        g2.fillRect(0, 0, gp.getScreenWidth(), gp.getScreenHeight());
     }
 
     public GamePanel getGp() {

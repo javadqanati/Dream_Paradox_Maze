@@ -53,6 +53,7 @@ public class AudioManager {
 
     private void nextTrack() {
         currentTrackIndex = (currentTrackIndex + 1) % music.clipCount();
+        music.setFile(currentTrackIndex);
         playCurrentTrack();
     }
 

@@ -81,7 +81,7 @@ public class StoryWindow implements CustomFontProvider {
     }
 
     private void drawSubWindow(Graphics2D g2, int x, int y, int w, int h) {
-        Color bg = new Color(0, 0, 0, 200);
+        Color bg = new Color(15, 28, 67, 200);
         g2.setColor(bg);
         g2.fillRoundRect(x, y, w, h, 35, 35);
 

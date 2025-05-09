@@ -98,12 +98,19 @@ public final class ShooterEnemy extends Enemy {
     }
 
     private void loadSprites() {
-        BufferedImage f1 = getMaker().characterSkinSetup("/Monster/greenslime_down_1");
-        BufferedImage f2 = getMaker().characterSkinSetup("/Monster/greenslime_down_2");
-        setSpriteFrames(Direction.UP, f1, f2);
-        setSpriteFrames(Direction.DOWN, f1, f2);
-        setSpriteFrames(Direction.LEFT, f1, f2);
-        setSpriteFrames(Direction.RIGHT, f1, f2);
+        BufferedImage up1 = getMaker().characterSkinSetup("/Monster/dalli_up1");
+        BufferedImage up2 = getMaker().characterSkinSetup("/Monster/dalli_up2");
+        BufferedImage left1 = getMaker().characterSkinSetup("/Monster/dalli_left1");
+        BufferedImage left2 = getMaker().characterSkinSetup("/Monster/dalli_left2");
+        BufferedImage right1 = getMaker().characterSkinSetup("/Monster/dalli_right1");
+        BufferedImage right2 = getMaker().characterSkinSetup("/Monster/dalli_right2");
+        BufferedImage down1 = getMaker().characterSkinSetup("/Monster/dalli_down1");
+        BufferedImage down2 = getMaker().characterSkinSetup("/Monster/dalli_down2");
+
+        setSpriteFrames(Direction.UP, up1, up2);
+        setSpriteFrames(Direction.DOWN, down1, down2);
+        setSpriteFrames(Direction.LEFT, left1, left2);
+        setSpriteFrames(Direction.RIGHT, right1, right2);
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public abstract class Sound {
     private Clip clip;
-    private static final Map<String, URL> soundClips = new HashMap<>();
+    private final Map<String, URL> soundClips = new HashMap<>();
 
     protected void loadClip(URL url) {
         try {

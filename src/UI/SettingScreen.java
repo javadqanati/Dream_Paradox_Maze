@@ -9,12 +9,12 @@ public class SettingScreen extends Screen {
 
 
     public SettingScreen(GamePanel gp) {
-
         super(gp, "SETTINGS");
     }
 
     @Override
     public void draw(Graphics2D g2){
+        super.draw(g2);
         g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
         g2.setColor(Color.white);
 

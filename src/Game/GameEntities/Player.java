@@ -136,7 +136,6 @@ public class Player extends Character {
 
     private void checkGameOver() {
         if (getHealth() > 0) return;
-        getGp().getHud().setGameFinished(true);
         getGp().getGameStateManager().setGameOver();
         getGp().getAudioManager().playSE("Game Over");
     }

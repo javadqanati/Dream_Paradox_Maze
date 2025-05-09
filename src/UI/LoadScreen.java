@@ -14,14 +14,14 @@ public class LoadScreen extends Screen {
 
     @Override
     public void draw(Graphics2D g2) {
+
         if (startTime == -1) {
-            startTime = System.currentTimeMillis();  // <-- when first draw happens
+            startTime = System.currentTimeMillis();
         }
 
-        g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, gp.getScreenWidth(), gp.getScreenHeight());
+        super.draw(g2);
 
-        long elapsed = System.currentTimeMillis() - startTime;  // <-- now real elapsed time
+        long elapsed = System.currentTimeMillis() - startTime;
 
         int dots = (int)((elapsed / 500) % 4);
         String text = "Loading" + ".".repeat(Math.max(0, dots));

@@ -17,6 +17,7 @@ public class MarketScreen extends Screen {
 
     @Override
     public void draw(Graphics2D g2) {
+        super.draw(g2);
         Player player = getGp().getPlayer();
         int tileSize = getGp().getTileSize();
 

@@ -24,6 +24,7 @@ public class InventoryScreen extends Screen {
 
     @Override
     public void draw(Graphics2D g2) {
+        super.draw(g2);
         updateOptions();
         Player player = getGp().getPlayer();
         int tileSize = getGp().getTileSize();
