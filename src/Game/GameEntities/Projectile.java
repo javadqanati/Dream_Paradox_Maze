@@ -23,11 +23,11 @@ public abstract class Projectile extends Enemy {
         setHealth(getMaxHealth());
     }
 
-    private Direction computeCardinalDirection(int dx, int dy) {
+    private DirectionType computeCardinalDirection(int dx, int dy) {
         if (Math.abs(dx) > Math.abs(dy)) {
-            return dx < 0 ? Direction.LEFT : Direction.RIGHT;
+            return dx < 0 ? LEFT() : RIGHT();
         } else {
-            return dy < 0 ? Direction.UP : Direction.DOWN;
+            return dy < 0 ? UP() : DOWN();
         }
     }
 

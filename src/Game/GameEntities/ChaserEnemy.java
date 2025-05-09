@@ -19,7 +19,7 @@ public final class ChaserEnemy extends Enemy {
         setMaxHealth(4);
         setHealth(getMaxHealth());
         getImages();
-        setDirection(Direction.DOWN);
+        setDirection(DOWN());
     }
 
     public void followPlayerTrail() {
@@ -34,8 +34,8 @@ public final class ChaserEnemy extends Enemy {
             currentTargetIndex++;
         } else {
             setDirection((Math.abs(dx) > Math.abs(dy))
-                    ? (dx < 0 ? Direction.LEFT : Direction.RIGHT)
-                    : (dy < 0 ? Direction.UP : Direction.DOWN));
+                    ? (dx < 0 ? LEFT() : RIGHT())
+                    : (dy < 0 ? UP() : DOWN()));
         }
     }
 
@@ -49,27 +49,17 @@ public final class ChaserEnemy extends Enemy {
         if (!isCollisionOn()) {
             moveInDirection();
         } else {
-            flipDirection();
+            setDirection(randomDirection());
         }
         detectPlayerAndAttack();
     }
 
     private void moveInDirection() {
-        switch (getDirection()) {
-            case UP -> setWorldY(getWorldY() - getSpeed());
-            case DOWN -> setWorldY(getWorldY() + getSpeed());
-            case LEFT -> setWorldX(getWorldX() - getSpeed());
-            case RIGHT -> setWorldX(getWorldX() + getSpeed());
-        }
-    }
-
-    private void flipDirection() {
-        setDirection(switch (getDirection()) {
-            case UP -> Direction.DOWN;
-            case DOWN -> Direction.UP;
-            case LEFT -> Direction.RIGHT;
-            case RIGHT -> Direction.LEFT;
-        });
+        DirectionType dir = getDirection();
+        if      (dir == UP())    setWorldY(getWorldY() - getSpeed());
+        else if (dir == DOWN())  setWorldY(getWorldY() + getSpeed());
+        else if (dir == LEFT())  setWorldX(getWorldX() - getSpeed());
+        else if (dir == RIGHT()) setWorldX(getWorldX() + getSpeed());
     }
 
     private void detectPlayerAndAttack() {
@@ -79,9 +69,7 @@ public final class ChaserEnemy extends Enemy {
         boolean contact = getGp().getCollisionChecker().checkPlayer(this);
         if (contact) {
             attack();
-            flipDirection();
-            moveInDirection();
-            flipDirection();
+            setDirection(randomDirection());
         }
     }
 
@@ -104,17 +92,9 @@ public final class ChaserEnemy extends Enemy {
     @Override
     public void setAction() {
         setActionLockCounter(getActionLockCounter() + 1);
-        if (getActionLockCounter() >= 15) {
+        if (getActionLockCounter() >= 30) {
             followPlayerTrail();
             setActionLockCounter(0);
         }
-    }
-
-    private int getScreenX() {
-        return getWorldX() - getGp().getPlayer().getWorldX() + getGp().getPlayer().getScreenX();
-    }
-
-    private int getScreenY() {
-        return getWorldY() - getGp().getPlayer().getWorldY() + getGp().getPlayer().getScreenY();
     }
 }

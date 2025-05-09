@@ -18,13 +18,13 @@ public class Exit extends Entity implements Interactable{
         BufferedImage exitSprite = getMaker().objectImageSetup("/Object/door");
 
         if (exitSprite != null) {
-            setSpriteFrames(Direction.DOWN, exitSprite);
+            setSpriteFrames(getDirection(), exitSprite);
         }
     }
 
     @Override
     public void onPlayerInteract(Player player) {
-        PlayScreen ps = (PlayScreen) (gp.getScreenManager().all().get("PLAY"));
+        PlayScreen ps = (PlayScreen) (getGp().getScreenManager().all().get("PLAY"));
         ps.setGameFinished(true);
     }
 }

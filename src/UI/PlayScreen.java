@@ -5,9 +5,12 @@ import Game.GameEntities.MemoryFragment;
 import Game.GameEntities.PlayerLife;
 import Launcher.GamePanel;
 import Utils.GameTimer;
-
+import static Game.GameEntities.Entity.UP;
+import static Game.GameEntities.Entity.DOWN;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import static Game.GameEntities.Entity.DOWN;
 
 public class PlayScreen extends Screen {
     private final BufferedImage memoryFragmentImg;
@@ -26,9 +29,9 @@ public class PlayScreen extends Screen {
         Entity memoryFragment = new MemoryFragment(gp);
         Entity playerLife     = new PlayerLife(gp);
 
-        memoryFragmentImg = memoryFragment.getCurrentSprite(Entity.Direction.DOWN, 0);
+        memoryFragmentImg = memoryFragment.getCurrentSprite(DOWN(), 0);
 
-        BufferedImage[] heartFrames = playerLife.getSprites().get(Entity.Direction.DOWN);
+        BufferedImage[] heartFrames = playerLife.getSprites().get(DOWN());
         full_heart  = heartFrames[0];
         half_heart  = heartFrames[1];
         heart_blank = heartFrames[2];

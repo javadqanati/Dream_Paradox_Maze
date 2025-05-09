@@ -20,7 +20,7 @@ public class PlayerManager {
         player.setDefaultPosition();
         player.restoreLife();
         player.getImages();
-        player.setDirection(Entity.Direction.DOWN);
+        player.setDirection(Entity.DOWN());
     }
 
     public Player getPlayer() {

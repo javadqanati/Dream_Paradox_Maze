@@ -36,15 +36,12 @@ public abstract class Character extends Entity {
         BufferedImage down1 = getMaker().characterSkinSetup(pathDown1);
         BufferedImage down2 = getMaker().characterSkinSetup(pathDown2);
 
-        setSpriteFrames(Direction.UP, up1, up2);
-        setSpriteFrames(Direction.DOWN, down1, down2);
-        setSpriteFrames(Direction.LEFT, left1, left2);
-        setSpriteFrames(Direction.RIGHT, right1, right2);
+        setSpriteFrames(UP(), up1, up2);
+        setSpriteFrames(DOWN(), down1, down2);
+        setSpriteFrames(LEFT(), left1, left2);
+        setSpriteFrames(RIGHT(), right1, right2);
     }
 
-    protected BufferedImage getCurrentSprite() {
-        return super.getCurrentSprite(getDirection(), getSpriteNum());
-    }
     public boolean isCollisionOn()             { return collisionOn; }
     public void setCollisionOn(boolean collisionOn) { this.collisionOn = collisionOn; }
     public int getHealth()                     { return health; }

@@ -1,13 +1,14 @@
 
 package graphicals;
 
-import Game.GameEntities.Enemy;
-import Game.GameEntities.Interactable;
-import Game.GameEntities.Player;
-import Launcher.GamePanel;
+import Game.GameEntities.*;
 import Game.GameEntities.Character;
+import Launcher.GamePanel;
+
 import java.awt.Rectangle;
 import java.util.List;
+
+import static Game.GameEntities.Entity.*;
 
 public class CollisionChecker {
     private final GamePanel gp;
@@ -22,11 +23,15 @@ public class CollisionChecker {
         int y = character.getWorldY() + sa.y;
         Rectangle future = new Rectangle(x, y, sa.width, sa.height);
         int speed = character.getSpeed();
-        switch (character.getDirection()) {
-            case UP    -> future.y -= speed;
-            case DOWN  -> future.y += speed;
-            case LEFT  -> future.x -= speed;
-            case RIGHT -> future.x += speed;
+        DirectionType dir = character.getDirection();
+        if (dir == UP()) {
+            future.y -= speed;
+        } else if (dir == DOWN()) {
+            future.y += speed;
+        } else if (dir == LEFT()) {
+            future.x -= speed;
+        } else if (dir == RIGHT()) {
+            future.x += speed;
         }
         return future;
     }
@@ -43,19 +48,20 @@ public class CollisionChecker {
         var tiles = gp.getMaze().getTile();
 
         boolean collision = false;
-        switch (character.getDirection()) {
-            case UP -> collision =
-                    tiles[map[leftCol][topRow]].isPassable() ||
-                            tiles[map[rightCol][topRow]].isPassable();
-            case DOWN -> collision =
-                    tiles[map[leftCol][bottomRow]].isPassable() ||
-                            tiles[map[rightCol][bottomRow]].isPassable();
-            case LEFT -> collision =
-                    tiles[map[leftCol][topRow]].isPassable() ||
-                            tiles[map[leftCol][bottomRow]].isPassable();
-            case RIGHT -> collision =
-                    tiles[map[rightCol][topRow]].isPassable() ||
-                            tiles[map[rightCol][bottomRow]].isPassable();
+        DirectionType dir = character.getDirection();
+
+        if (dir == UP()) {
+            collision = tiles[map[leftCol][topRow]].isPassable() ||
+                    tiles[map[rightCol][topRow]].isPassable();
+        } else if (dir == DOWN()) {
+            collision = tiles[map[leftCol][bottomRow]].isPassable() ||
+                    tiles[map[rightCol][bottomRow]].isPassable();
+        } else if (dir == LEFT()) {
+            collision = tiles[map[leftCol][topRow]].isPassable() ||
+                    tiles[map[leftCol][bottomRow]].isPassable();
+        } else if (dir == RIGHT()) {
+            collision = tiles[map[rightCol][topRow]].isPassable() ||
+                    tiles[map[rightCol][bottomRow]].isPassable();
         }
         if (collision) {
             character.setCollisionOn(true);

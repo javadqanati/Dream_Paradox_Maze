@@ -9,7 +9,7 @@ public class Entrance extends Entity implements Interactable {
         super(gp);
         setName("Entrance");
         setPassable(false);
-
+        getImages();
     }
 
     @Override
@@ -17,7 +17,7 @@ public class Entrance extends Entity implements Interactable {
         BufferedImage entranceSprite = getMaker().objectImageSetup("/Object/door");
 
         if (entranceSprite != null) {
-            setSpriteFrames(Direction.DOWN, entranceSprite);
+            setSpriteFrames(getDirection(), entranceSprite);
         }
     }
 

@@ -20,7 +20,7 @@ public final class ExtraLife extends PowerUp implements Interactable {
         BufferedImage sprite = getMaker().objectImageSetup("/Object/heart_full");
 
         if (sprite != null) {
-            setSpriteFrames(Direction.DOWN, sprite);
+            setSpriteFrames(getDirection(), sprite);
         }
     }
 

@@ -28,12 +28,21 @@ public abstract class Enemy extends Character {
     }
 
     private void reverseDirection() {
-        switch (getDirection()) {
-            case UP    -> setWorldY(getWorldY() - getSpeed());
-            case DOWN  -> setWorldY(getWorldY() + getSpeed());
-            case LEFT  -> setWorldX(getWorldX() - getSpeed());
-            case RIGHT -> setWorldX(getWorldX() + getSpeed());
-        }
+        DirectionType dir = getDirection();
+        if      (dir == UP())    setWorldY(getWorldY() - getSpeed());
+        else if (dir == DOWN())  setWorldY(getWorldY() + getSpeed());
+        else if (dir == LEFT())  setWorldX(getWorldX() - getSpeed());
+        else if (dir == RIGHT()) setWorldX(getWorldX() + getSpeed());
+    }
+
+    public void flipDirection() {
+        setDirection(randomDirection());
+    }
+
+    public DirectionType randomDirection() {
+        DirectionType[] dirs = new DirectionType[]{ UP(), DOWN(), LEFT(), RIGHT() };
+        int idx = (int)(Math.random() * dirs.length);
+        return dirs[idx];
     }
 
     public abstract void setAction();

@@ -28,7 +28,7 @@ public class PlayerLife extends Entity {
             frames[i] = sprite;
         }
 
-        setSpriteFrames(Direction.DOWN, frames);
+        setSpriteFrames(DOWN(), frames);
     }
 
 

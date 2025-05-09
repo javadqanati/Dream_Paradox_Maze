@@ -23,7 +23,7 @@ public final class TimeFreeze extends PowerUp implements TimedPowerUp, Interacta
         BufferedImage sprite = getMaker().objectImageSetup("/Object/time");
 
         if (sprite != null) {
-            setSpriteFrames(Direction.DOWN, sprite);
+            setSpriteFrames(getDirection(), sprite);
         }
     }
 

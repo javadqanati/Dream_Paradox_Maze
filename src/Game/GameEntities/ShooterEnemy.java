@@ -17,11 +17,11 @@ public final class ShooterEnemy extends Enemy {
 
     private void initializeShooter() {
         setName("Shooter");
-        setSpeed(2);
+        setSpeed(1);
         setMaxHealth(4);
         setHealth(getMaxHealth());
         getImages();
-        setDirection(Direction.DOWN);
+        setDirection(DOWN());
         shootCooldown = SHOOT_INTERVAL;
     }
 
@@ -45,21 +45,11 @@ public final class ShooterEnemy extends Enemy {
     }
 
     private void moveInDirection() {
-        switch (getDirection()) {
-            case UP    -> setWorldY(getWorldY() - getSpeed());
-            case DOWN  -> setWorldY(getWorldY() + getSpeed());
-            case LEFT  -> setWorldX(getWorldX() - getSpeed());
-            case RIGHT -> setWorldX(getWorldX() + getSpeed());
-        }
-    }
-
-    private void flipDirection() {
-        setDirection(switch (getDirection()) {
-            case UP    -> Direction.DOWN;
-            case DOWN  -> Direction.UP;
-            case LEFT  -> Direction.RIGHT;
-            case RIGHT -> Direction.LEFT;
-        });
+        DirectionType dir = getDirection();
+        if (dir == UP()) setWorldY(getWorldY() - getSpeed());
+        else if (dir == DOWN()) setWorldY(getWorldY() + getSpeed());
+        else if (dir == LEFT()) setWorldX(getWorldX() - getSpeed());
+        else if (dir == RIGHT()) setWorldX(getWorldX() + getSpeed());
     }
 
     private void handleShooting() {
@@ -102,15 +92,10 @@ public final class ShooterEnemy extends Enemy {
     @Override
     public void setAction() {
         setActionLockCounter(getActionLockCounter() + 1);
-        if (getActionLockCounter() >= 30) {
+        if (getActionLockCounter() >= 120) {
             setDirection(randomDirection());
             setActionLockCounter(0);
         }
-    }
-
-    private Direction randomDirection() {
-        Direction[] dirs = Direction.values();
-        return dirs[(int)(Math.random() * dirs.length)];
     }
 
     @Override

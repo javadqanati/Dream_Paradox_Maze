@@ -73,10 +73,10 @@ public final class Player extends Character {
 
     private void handleInput() {
         if (!playerInputHandler.isMovementKeyPressed()) return;
-        if (playerInputHandler.isUpPressed())    setDirection(Direction.UP);
-        else if (playerInputHandler.isDownPressed())  setDirection(Direction.DOWN);
-        else if (playerInputHandler.isLeftPressed())  setDirection(Direction.LEFT);
-        else if (playerInputHandler.isRightPressed()) setDirection(Direction.RIGHT);
+        if (playerInputHandler.isUpPressed())    setDirection(UP());
+        else if (playerInputHandler.isDownPressed())  setDirection(DOWN());
+        else if (playerInputHandler.isLeftPressed())  setDirection(LEFT());
+        else if (playerInputHandler.isRightPressed()) setDirection(RIGHT());
 
         animate(10);
         movePlayer();
@@ -87,16 +87,15 @@ public final class Player extends Character {
         getGp().getCollisionChecker().checkTile(this);
         getGp().getCollisionChecker().checkObject(this, true);
 
-        List<Enemy> enemies = gp.getEntitySetter().getEnemies();
+        List<Enemy> enemies = getGp().getEntitySetter().getEnemies();
         getGp().getCollisionChecker().checkEntity(this, enemies);
 
         if (!isCollisionOn()) {
-            switch (getDirection()) {
-                case UP    -> setWorldY(getWorldY() - getSpeed());
-                case DOWN  -> setWorldY(getWorldY() + getSpeed());
-                case LEFT  -> setWorldX(getWorldX() - getSpeed());
-                case RIGHT -> setWorldX(getWorldX() + getSpeed());
-            }
+            DirectionType dir = getDirection();
+            if      (dir == UP())    setWorldY(getWorldY() - getSpeed());
+            else if (dir == DOWN())  setWorldY(getWorldY() + getSpeed());
+            else if (dir == LEFT())  setWorldX(getWorldX() - getSpeed());
+            else if (dir == RIGHT()) setWorldX(getWorldX() + getSpeed());
         }
     }
 
@@ -143,7 +142,6 @@ public final class Player extends Character {
     }
     public int getScreenX()               { return screenX; }
     public int getScreenY()               { return screenY; }
-
     public static void setCollectedFragments(int collectedFragments) {
         Player.collectedFragments = collectedFragments;
     }
