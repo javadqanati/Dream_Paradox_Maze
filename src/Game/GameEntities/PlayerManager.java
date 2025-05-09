@@ -1,4 +1,3 @@
-// Game.GameEntities.PlayerManager.java
 package Game.GameEntities;
 
 import Data.PlayerData;
@@ -12,6 +11,16 @@ public class PlayerManager {
         this.player = new Player(gp, gp.getPlayerInputHandler());
         this.dataManager = new PlayerData(player);
         dataManager.loadConfig();
+        initPlayer();
+    }
+
+    protected void initPlayer() {
+        player.setSpeed(4);
+        player.setSpriteNum(1);
+        player.setDefaultPosition();
+        player.restoreLife();
+        player.getImages();
+        player.setDirection(Entity.Direction.DOWN);
     }
 
     public Player getPlayer() {
@@ -22,7 +31,7 @@ public class PlayerManager {
         player.setDefaultPosition();
         player.restoreLife();
         player.getPowerUps().clear();
-        player.setCollectedFragments(0);
+        Player.setCollectedFragments(0);
         dataManager.loadConfig();
     }
 

@@ -6,8 +6,11 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class BackGroundSound extends Sound {
+public final class BackGroundSound extends Sound {
+    private static final Logger LOGGER = Logger.getLogger(BackGroundSound.class.getName());
 
     public BackGroundSound() {
         loadFromDirectory("res/sound/music");
@@ -35,7 +38,7 @@ public class BackGroundSound extends Sound {
                 System.out.println("Loaded " + i + " music tracks");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed loading audio from " + directoryPath, e);
         }
     }
 }

@@ -3,23 +3,25 @@ package Game.GameEntities.Powerup;
 import Game.GameEntities.Interactable;
 import Game.GameEntities.Player;
 import Launcher.GamePanel;
-import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
-public class ExtraLife extends PowerUp implements Interactable {
-    private static final String SPRITE_PATH = "/Object/heart_full";
+public final class ExtraLife extends PowerUp implements Interactable {
 
     public ExtraLife(GamePanel gp) {
         super(gp);
         setName("Extra Life");
         PowerUpFactory.register(getName(), ExtraLife::new);
-        SpriteMaker spriteMaker = new SpriteMaker(gp);
-        BufferedImage sprite = spriteMaker.objectImageSetup(SPRITE_PATH);
+        getImages();
+        initialize("ExtraLife", 3);
+    }
+
+    @Override
+    public void getImages() {
+        BufferedImage sprite = getMaker().objectImageSetup("/Object/heart_full");
+
         if (sprite != null) {
             setSpriteFrames(Direction.DOWN, sprite);
         }
-
-        initialize("ExtraLife", 3);
     }
 
     @Override

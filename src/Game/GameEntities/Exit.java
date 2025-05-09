@@ -2,19 +2,20 @@ package Game.GameEntities;
 
 import Launcher.GamePanel;
 import UI.PlayScreen;
-import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
 public class Exit extends Entity implements Interactable{
-    private static final String SPRITE_PATH = "/Object/door";
 
     public Exit(GamePanel gp) {
         super(gp);
         setName("Exit");
         setPassable(false);
+        getImages();
+    }
 
-        SpriteMaker spriteMaker = new SpriteMaker(gp);
-        BufferedImage exitSprite = spriteMaker.objectImageSetup(SPRITE_PATH);
+    @Override
+    public void getImages() {
+        BufferedImage exitSprite = getMaker().objectImageSetup("/Object/door");
 
         if (exitSprite != null) {
             setSpriteFrames(Direction.DOWN, exitSprite);

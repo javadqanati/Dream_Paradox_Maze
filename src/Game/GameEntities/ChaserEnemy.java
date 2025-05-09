@@ -3,7 +3,6 @@ package Game.GameEntities;
 
 import Launcher.GamePanel;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 public final class ChaserEnemy extends Enemy {
@@ -19,7 +18,7 @@ public final class ChaserEnemy extends Enemy {
         setSpeed(3);
         setMaxHealth(4);
         setHealth(getMaxHealth());
-        getEnemyImage();
+        getImages();
         setDirection(Direction.DOWN);
     }
 
@@ -90,22 +89,16 @@ public final class ChaserEnemy extends Enemy {
     public void attack() {
         if (getGp().getPlayer().isInvincible()) {
             getGp().getPlayer().setHealth(getGp().getPlayer().getHealth() - 1);
-            getGp().getPlayer().setInvincible(true);
+            Player.setInvincible(true);
         }
     }
 
     @Override
-    public void getEnemyImage() {
-        loadSprites();
-    }
-
-    private void loadSprites() {
-        BufferedImage f1 = getMaker().characterSkinSetup("/Monster/greenslime_down_1");
-        BufferedImage f2 = getMaker().characterSkinSetup("/Monster/greenslime_down_2");
-        setSpriteFrames(Direction.UP, f1, f2);
-        setSpriteFrames(Direction.DOWN, f1, f2);
-        setSpriteFrames(Direction.LEFT, f1, f2);
-        setSpriteFrames(Direction.RIGHT, f1, f2);
+    public void getImages() {
+        loadSprites("/Monster/greenslime_down_1", "/Monster/greenslime_down_2",
+                "/Monster/greenslime_down_1" , "/Monster/greenslime_down_2",
+                "/Monster/greenslime_down_1", "/Monster/greenslime_down_2",
+                "/Monster/greenslime_down_1", "/Monster/greenslime_down_2");
     }
 
     @Override

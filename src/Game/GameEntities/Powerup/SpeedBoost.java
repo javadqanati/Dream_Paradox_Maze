@@ -3,25 +3,26 @@ package Game.GameEntities.Powerup;
 import Game.GameEntities.Interactable;
 import Game.GameEntities.Player;
 import Launcher.GamePanel;
-import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
-public class SpeedBoost extends PowerUp implements TimedPowerUp, Interactable {
-    private static final String SPRITE_PATH = "/Object/speed";
+public final class SpeedBoost extends PowerUp implements TimedPowerUp, Interactable {
     private static final int DURATION = 10_000;
 
     public SpeedBoost(GamePanel gp) {
         super(gp);
         setName("Speed Boost");
         PowerUpFactory.register(getName(), SpeedBoost::new);
-        SpriteMaker spriteMaker = new SpriteMaker(gp);
-        BufferedImage sprite = spriteMaker.objectImageSetup(SPRITE_PATH);
+        getImages();
+        initialize("SpeedBoost", 3);
+    }
+
+    @Override
+    public void getImages() {
+        BufferedImage sprite = getMaker().objectImageSetup("/Object/speed");
 
         if (sprite != null) {
             setSpriteFrames(Direction.DOWN, sprite);
         }
-
-        initialize("SpeedBoost", 3);
     }
 
     @Override

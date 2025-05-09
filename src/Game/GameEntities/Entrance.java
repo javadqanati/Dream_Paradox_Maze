@@ -1,19 +1,20 @@
 package Game.GameEntities;
 
 import Launcher.GamePanel;
-import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
 public class Entrance extends Entity implements Interactable {
-    private static final String SPRITE_PATH = "/Object/door";
 
     public Entrance(GamePanel gp) {
         super(gp);
         setName("Entrance");
         setPassable(false);
 
-        SpriteMaker spriteMaker = new SpriteMaker(gp);
-        BufferedImage entranceSprite = spriteMaker.objectImageSetup(SPRITE_PATH);
+    }
+
+    @Override
+    public void getImages() {
+        BufferedImage entranceSprite = getMaker().objectImageSetup("/Object/door");
 
         if (entranceSprite != null) {
             setSpriteFrames(Direction.DOWN, entranceSprite);

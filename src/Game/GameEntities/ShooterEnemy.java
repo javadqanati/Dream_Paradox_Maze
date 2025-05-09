@@ -2,7 +2,6 @@ package Game.GameEntities;
 
 import Launcher.GamePanel;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public final class ShooterEnemy extends Enemy {
         setSpeed(2);
         setMaxHealth(4);
         setHealth(getMaxHealth());
-        getEnemyImage();
+        getImages();
         setDirection(Direction.DOWN);
         shootCooldown = SHOOT_INTERVAL;
     }
@@ -88,29 +87,16 @@ public final class ShooterEnemy extends Enemy {
     public void attack() {
         if (getGp().getPlayer().isInvincible()) {
             getGp().getPlayer().setHealth(getGp().getPlayer().getHealth() - 1);
-            getGp().getPlayer().setInvincible(true);
+            Player.setInvincible(true);
         }
     }
 
     @Override
-    public void getEnemyImage() {
-        loadSprites();
-    }
-
-    private void loadSprites() {
-        BufferedImage up1 = getMaker().characterSkinSetup("/Monster/dalli_up1");
-        BufferedImage up2 = getMaker().characterSkinSetup("/Monster/dalli_up2");
-        BufferedImage left1 = getMaker().characterSkinSetup("/Monster/dalli_left1");
-        BufferedImage left2 = getMaker().characterSkinSetup("/Monster/dalli_left2");
-        BufferedImage right1 = getMaker().characterSkinSetup("/Monster/dalli_right1");
-        BufferedImage right2 = getMaker().characterSkinSetup("/Monster/dalli_right2");
-        BufferedImage down1 = getMaker().characterSkinSetup("/Monster/dalli_down1");
-        BufferedImage down2 = getMaker().characterSkinSetup("/Monster/dalli_down2");
-
-        setSpriteFrames(Direction.UP, up1, up2);
-        setSpriteFrames(Direction.DOWN, down1, down2);
-        setSpriteFrames(Direction.LEFT, left1, left2);
-        setSpriteFrames(Direction.RIGHT, right1, right2);
+    public void getImages() {
+        loadSprites("/Monster/dalli_up1", "/Monster/dalli_up2",
+                "/Monster/dalli_left1", "/Monster/dalli_left2",
+                "/Monster/dalli_right1", "/Monster/dalli_right2",
+                "/Monster/dalli_down1", "/Monster/dalli_down2");
     }
 
     @Override

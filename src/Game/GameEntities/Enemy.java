@@ -1,12 +1,10 @@
 
 package Game.GameEntities;
-
 import Launcher.GamePanel;
-import graphicals.SpriteMaker;
+
 
 public abstract class Enemy extends Character {
     private int actionLockCounter = 0;
-    private final SpriteMaker maker = new SpriteMaker(getGp());
 
     public Enemy(GamePanel gp) {
         super(gp);
@@ -38,7 +36,6 @@ public abstract class Enemy extends Character {
         }
     }
 
-    public abstract void getEnemyImage();
     public abstract void setAction();
     public abstract void attack();
     public int getActionLockCounter() {
@@ -46,8 +43,5 @@ public abstract class Enemy extends Character {
     }
     public void setActionLockCounter(int actionLockCounter) {
         this.actionLockCounter = actionLockCounter;
-    }
-    public SpriteMaker getMaker() {
-        return maker;
     }
 }

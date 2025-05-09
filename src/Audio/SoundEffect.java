@@ -2,15 +2,15 @@ package Audio;
 
 import java.net.URL;
 
-public class SoundEffect extends Sound {
+public final class SoundEffect extends Sound {
 
     public SoundEffect() {
         super();
 
         setSoundEffect("Memory Fragment", "memory_fragment");
         setSoundEffect("Cursor", "cursor");
-        setSoundEffect("Next Level", "levelup");
-        setSoundEffect("Game Over", "gameover");
+        setSoundEffect("Next Level", "level_up");
+        setSoundEffect("Game Over", "game_over");
     }
 
     public void setSoundEffect(String name, String path) {

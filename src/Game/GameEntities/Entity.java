@@ -2,6 +2,8 @@ package Game.GameEntities;
 
 
 import Launcher.GamePanel;
+import graphicals.SpriteMaker;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.EnumMap;
@@ -18,12 +20,16 @@ public abstract class Entity {
     private int spriteNum = 1;
     protected final GamePanel gp;
     private Rectangle solidArea = new Rectangle(solidAreaDefaultX, solidAreaDefaultY, 48, 48);
+    private final SpriteMaker maker;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
+        maker = new SpriteMaker(gp);
         this.solidAreaDefaultX = solidArea.x;
         this.solidAreaDefaultY = solidArea.y;
     }
+
+    public abstract void getImages();
 
     public void draw(Graphics2D g2) {
         if (!isOnScreen()) return;
@@ -108,4 +114,5 @@ public abstract class Entity {
     public void setName(String name)                        { this.name = name; }
     public boolean isPassable()                             { return passable; }
     public void setPassable(boolean passable)               { this.passable = passable; }
+    public SpriteMaker getMaker()                           { return maker; }
 }

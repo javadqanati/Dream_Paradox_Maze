@@ -8,48 +8,22 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import graphicals.SpriteMaker;
 
-public class Player extends Character {
-    private int collectedFragments;
-    private final List<PowerUp> powerUps = new ArrayList<>();
-    private final PlayerInputHandler playerInputHandler;
-    private final LinkedList<Point> trail = new LinkedList<>();
-    private boolean invincible = false;
-    private int invincibleCounter = 0;
-    private final int screenX;
-    private final int screenY;
+public final class Player extends Character {
+    private static final List<PowerUp> powerUps=new ArrayList<>();
+    private static final LinkedList<Point> trail=new LinkedList<>();
+    private static int collectedFragments;
+    private static boolean invincible=false;
+    private static int invincibleCounter = 0;
+    private final  PlayerInputHandler playerInputHandler;
+    private final  int screenX;
+    private final  int screenY;
 
     public Player(GamePanel gp, PlayerInputHandler handler) {
         super(gp);
         this.playerInputHandler = handler;
-        this.screenX = gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
-        this.screenY = gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
-
-        initPlayer(gp);
-    }
-
-    private void initPlayer(GamePanel gp) {
-        setSpeed(4);
-        setSpriteNum(1);
-        setDefaultPosition();
-        restoreLife();
-
-        SpriteMaker maker = new SpriteMaker(gp);
-        setSpriteFrames(Direction.UP,
-                maker.characterSkinSetup("/Player/boy_up_1"),
-                maker.characterSkinSetup("/Player/boy_up_2"));
-        setSpriteFrames(Direction.DOWN,
-                maker.characterSkinSetup("/Player/boy_down_1"),
-                maker.characterSkinSetup("/Player/boy_down_2"));
-        setSpriteFrames(Direction.LEFT,
-                maker.characterSkinSetup("/Player/boy_left_1"),
-                maker.characterSkinSetup("/Player/boy_left_2"));
-        setSpriteFrames(Direction.RIGHT,
-                maker.characterSkinSetup("/Player/boy_right_1"),
-                maker.characterSkinSetup("/Player/boy_right_2"));
-
-        setDirection(Direction.DOWN);
+        this.screenX=gp.getScreenWidth() / 2 - (gp.getTileSize() / 2);
+        this.screenY=gp.getScreenHeight() / 2 - (gp.getTileSize() / 2);
     }
 
     public void setDefaultPosition() {
@@ -71,6 +45,14 @@ public class Player extends Character {
         handleInput();
         updateInvincibility();
         updateTrail();
+    }
+
+    @Override
+    public void getImages() {
+        loadSprites("/Player/boy_up_1", "/Player/boy_up_2",
+                "/Player/boy_left_1", "/Player/boy_left_2",
+                "/Player/boy_right_1", "/Player/boy_right_2",
+                "/Player/boy_down_1", "/Player/boy_down_2");
     }
 
     @Override
@@ -156,11 +138,13 @@ public class Player extends Character {
         });
     }
     public boolean isInvincible()         { return !invincible; }
-    public void setInvincible(boolean inv){ this.invincible = inv; }
+    public static void setInvincible(boolean invincible) {
+        Player.invincible = invincible;
+    }
     public int getScreenX()               { return screenX; }
     public int getScreenY()               { return screenY; }
 
-    public void setCollectedFragments(int collectedFragments) {
-        this.collectedFragments = collectedFragments;
+    public static void setCollectedFragments(int collectedFragments) {
+        Player.collectedFragments = collectedFragments;
     }
 }

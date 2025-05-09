@@ -1,30 +1,30 @@
 package Game.GameEntities.Powerup;
 
-import Audio.SoundEffect;
 import Game.GameEntities.Interactable;
 import Game.GameEntities.Player;
 import Launcher.GamePanel;
 import UI.PlayScreen;
 import UI.Screen;
-import graphicals.SpriteMaker;
 import java.awt.image.BufferedImage;
 
-public class TimeFreeze extends PowerUp implements TimedPowerUp, Interactable {
-    private static final String SPRITE_PATH = "/Object/time";
+public final class TimeFreeze extends PowerUp implements TimedPowerUp, Interactable {
     private static final int DURATION = 10_000;
 
     public TimeFreeze(GamePanel gp) {
         super(gp);
         setName("Time Freeze");
         PowerUpFactory.register(getName(), TimeFreeze::new);
-        SpriteMaker spriteMaker = new SpriteMaker(gp);
-        BufferedImage sprite = spriteMaker.objectImageSetup(SPRITE_PATH);
+        getImages();
+        initialize("TimeFreeze", 3);
+    }
+
+    @Override
+    public void getImages() {
+        BufferedImage sprite = getMaker().objectImageSetup("/Object/time");
 
         if (sprite != null) {
             setSpriteFrames(Direction.DOWN, sprite);
         }
-
-        initialize("TimeFreeze", 3);
     }
 
     @Override
