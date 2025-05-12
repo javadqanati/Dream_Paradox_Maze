@@ -116,11 +116,7 @@ public class GamePanel extends JPanel {
     public EntityManager getEntityManager() {
         return entityManager;
     }
-    public PlayScreen getPlayScreen() {
-        return (PlayScreen) screenManager.get("PLAY");
-    }
     public GameController getGameController() {
         return gameController;
     }
-
 }

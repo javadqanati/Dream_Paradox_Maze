@@ -1,6 +1,6 @@
 package Input;
 
-import UI.MainScreen;
+import UI.PauseScreen;
 import Utils.GameStateManager;
 import Launcher.GamePanel;
 import UI.Screen;
@@ -27,8 +27,8 @@ public class PauseInputHandler extends ScreenInputHandler {
         setOptionActions(List.of(
                 this::openInventory,
                 this::openMarket,
-                this::resumeGame,
                 this::saveGame,
+                this::resumeGame,
                 this::returnToMenu
         ));
 
@@ -57,8 +57,10 @@ public class PauseInputHandler extends ScreenInputHandler {
         getGp().getGameStateManager().setMenu();
     }
 
-    private void saveGame() { getGp().getPersistence().saveGameData();
-        ((MainScreen) getScreen()).showNotification("Game saved!");}
+    private void saveGame() {
+        getGp().getPersistence().saveGameData();
+        getScreen().showNotification("Game saved!");
+    }
 
     private void togglePause() {
         GameStateManager gsm = getGp().getGameStateManager();

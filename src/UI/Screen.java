@@ -41,9 +41,14 @@ public class Screen implements CustomFontProvider {
         this.commandNum = commandNum;
     }
 
-    public String getSelectionMessage() {
-        return selectionMessage;
+    public void showNotification(String msg) {
     }
+
+    public void resetTimer(){
+
+    }
+
+    public void loadStory(String storyPath) {}
 
     public void setSelectionMessage(String selectionMessage) {
         this.selectionMessage = selectionMessage;

@@ -24,14 +24,14 @@ public class GameController {
 
     public void restartGame() {
         gp.getPlayerManager().resetPlayer();
-        gp.getPlayScreen().resetTimer();
+        gp.getScreenManager().get("PLAY").resetTimer();
         lvlMgr.loadCurrentLevel();
         gameStateManager.setPlay();
     }
 
     public void setUpGame() {
         gp.getPlayerManager().resetPlayer();
-        gp.getPlayScreen().resetTimer();
+        gp.getScreenManager().get("PLAY").resetTimer();
         lvlMgr.loadCurrentLevel();
         gameStateManager.setMenu();
     }
@@ -44,10 +44,8 @@ public class GameController {
 
     public void loadPlayScreenForLevel(int levelIndex) {
         gp.getPlayerManager().resetPlayer();
-        PlayScreen ps = gp.getPlayScreen();
-        ps.resetTimer();
-        ps.loadStory(getStoryPath(levelIndex));
-
+        gp.getScreenManager().get("PLAY").resetTimer();
+        gp.getScreenManager().get("PLAY").loadStory(getStoryPath(levelIndex));
         gameStateManager.setLoad();
     }
 

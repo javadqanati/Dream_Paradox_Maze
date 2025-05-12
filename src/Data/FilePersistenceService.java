@@ -39,7 +39,6 @@ public class FilePersistenceService implements PersistenceService {
             String line = br.readLine();
             if ("Full Screen On".equals(line)) {
                 fullScreenOn = true;
-                GamePanel.getWindowManager().toggleFullscreen();
             }
             line = br.readLine();
             if (line != null) AudioManager.setMusicMuted(Boolean.parseBoolean(line));
@@ -47,6 +46,12 @@ public class FilePersistenceService implements PersistenceService {
             if (line != null) AudioManager.setSfxMuted(Boolean.parseBoolean(line));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void applyDisplaySettings() {  // New method
+        if (fullScreenOn && GamePanel.getWindowManager() != null) {
+            GamePanel.getWindowManager().toggleFullscreen();
         }
     }
 

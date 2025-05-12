@@ -5,6 +5,9 @@ import Launcher.GamePanel;
 import java.awt.*;
 
 public class PauseScreen extends Screen {
+    private String notification = "";
+    private int    notificationTimer = 0;
+    private static final int NOTIFICATION_DURATION = 120;
 
     public PauseScreen(GamePanel gp) {
         super(gp, "PAUSE");
@@ -38,7 +41,7 @@ public class PauseScreen extends Screen {
             g2.drawString(">", x - getGp().getTileSize(), y);
         }
 
-        text = "SAVE GAME";
+        text = "Save Game";
         x = getXforCenteredText(text, g2);
         y += getGp().getTileSize();
         g2.drawString(text, x, y);
@@ -50,7 +53,7 @@ public class PauseScreen extends Screen {
         x = getXforCenteredText(text, g2);
         y += getGp().getTileSize();
         g2.drawString(text, x, y);
-        if(getCommandNum() == 2){
+        if(getCommandNum() == 3){
             g2.drawString(">", x - getGp().getTileSize(), y);
         }
 
@@ -58,8 +61,27 @@ public class PauseScreen extends Screen {
         x = getXforCenteredText(text, g2);
         y += getGp().getTileSize();
         g2.drawString(text, x, y);
-        if(getCommandNum() == 3){
+        if(getCommandNum() == 4){
             g2.drawString(">", x - getGp().getTileSize(), y);
         }
+
+        if (!notification.isEmpty()) {
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 28f));
+            g2.setColor(Color.YELLOW);
+            int nx = getXforCenteredText(notification, g2);
+            int ny = (int) (getGp().getTileSize() * 4.5);
+            g2.drawString(notification, nx, ny);
+
+            if (++notificationTimer > NOTIFICATION_DURATION) {
+                notification = "";
+                notificationTimer = 0;
+            }
+        }
+    }
+
+
+    public void showNotification(String msg) {
+        this.notification = msg;
+        this.notificationTimer = 0;
     }
 }

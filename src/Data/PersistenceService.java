@@ -6,4 +6,5 @@ public interface PersistenceService {
     void loadConfig();
     boolean isFullScreenOn();
     void setFullScreenOn(boolean isFullscreen);
+    void applyDisplaySettings();
 }
