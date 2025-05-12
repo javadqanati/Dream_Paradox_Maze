@@ -87,7 +87,7 @@ public final class Player extends Character {
         getGp().getCollisionChecker().checkTile(this);
         getGp().getCollisionChecker().checkObject(this, true);
 
-        List<Enemy> enemies = getGp().getEntitySetter().getEnemies();
+        List<Enemy> enemies = getGp().getEntityManager().getEnemies();
         getGp().getCollisionChecker().checkEntity(this, enemies);
 
         if (!isCollisionOn()) {

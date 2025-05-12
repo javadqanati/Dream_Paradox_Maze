@@ -19,6 +19,7 @@ public class GamePanel extends JPanel {
     private final PlayerManager       playerManager;
     private final Maze                maze;
     private final EntitySetter        entitySetter;
+    private final EntityManager       entityManager;
     private final LevelManager        lvlMgr;
     private static final GameStateManager gameStateManager = new GameStateManager();
     private final CollisionChecker    collisionChecker = new CollisionChecker(this);
@@ -65,7 +66,8 @@ public class GamePanel extends JPanel {
         // world setup
         playerManager = new PlayerManager(this);
         maze          = new Maze(this);
-        entitySetter  = new EntitySetter(this);
+        entityManager = new EntityManager();
+        entitySetter  = new EntitySetter(this, entityManager);
 
         // levels
         List<String> levelFiles = new LevelLoader("res/levels")
@@ -164,7 +166,7 @@ public class GamePanel extends JPanel {
     public void update() {
         if (gameStateManager.isPlaying()) {
             playerManager.getPlayer().update();
-            for (Enemy e : entitySetter.getEnemies()) {
+            for (Enemy e : entityManager.getEnemies()) {
                 e.update();
             }
         }
@@ -232,5 +234,8 @@ public class GamePanel extends JPanel {
     }
     public HUDRenderer getHudRenderer() {
         return hudRenderer;
+    }
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 }

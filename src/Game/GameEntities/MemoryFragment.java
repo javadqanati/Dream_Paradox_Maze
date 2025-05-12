@@ -24,6 +24,6 @@ public final class MemoryFragment extends Entity implements Interactable{
     public void onPlayerInteract(Player player) {
         getGp().getAudioManager().playSE("Memory Fragment");
         Player.setCollectedFragments(player.getCollectedFragments() + 1);
-        player.getGp().getEntitySetter().getEntities().remove(this);
+        player.getGp().getEntityManager().getEntities().remove(this);
     }
 }

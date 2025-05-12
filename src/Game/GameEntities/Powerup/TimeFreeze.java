@@ -61,6 +61,6 @@ public final class TimeFreeze extends PowerUp implements TimedPowerUp, Interacta
     public void onPlayerInteract(Player player) {
         player.addPowerUp(createNewInstance());
         getGp().getAudioManager().playSE("Memory Fragment");
-        player.getGp().getEntitySetter().getEntities().remove(this);
+        player.getGp().getEntityManager().getEntities().remove(this);
     }
 }

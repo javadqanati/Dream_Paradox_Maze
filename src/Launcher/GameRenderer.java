@@ -22,8 +22,8 @@ public class GameRenderer {
 
         if (gp.getGameStateManager().isPlaying() || gp.getGameStateManager().isStory()) {
             gp.getMaze().draw(g2);
-            for (Entity e : gp.getEntitySetter().getEntities()) e.draw(g2);
-            for (Enemy en : gp.getEntitySetter().getEnemies()) en.draw(g2);
+            for (Entity e : gp.getEntityManager().getEntities()) e.draw(g2);
+            for (Enemy en : gp.getEntityManager().getEnemies()) en.draw(g2);
             gp.getPlayer().draw(g2);
         }
 
