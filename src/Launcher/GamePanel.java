@@ -20,7 +20,7 @@ public class GamePanel extends JPanel {
     private final Maze                maze;
     private final EntitySetter        entitySetter;
     private final LevelManager        lvlMgr;
-    private final GameStateManager    gameStateManager = new GameStateManager();
+    private static final GameStateManager gameStateManager = new GameStateManager();
     private final CollisionChecker    collisionChecker = new CollisionChecker(this);
     private static boolean isFullScreen = false;
     private static WindowManager windowManager;
@@ -30,6 +30,7 @@ public class GamePanel extends JPanel {
     private final int scale            = 3;
     private final int tileSize         = originalTileSize * scale;
     private static int screenWidth, screenHeight;
+    private final HUDRenderer hudRenderer;
     private final GameRenderer renderer = new GameRenderer(this);
     private final GameLoop     loop     = new GameLoop(
             new GameLoop.LoopListener() {
@@ -85,7 +86,8 @@ public class GamePanel extends JPanel {
         screenManager = new ScreenManager(this);
 
         // HUD & input wiring
-        hud           = new HUD(this, gameStateManager, screenManager.all());
+        hud           = new HUD(screenManager.all());
+        hudRenderer   = new HUDRenderer(gameStateManager, screenManager.all());
         InputManager inputManager = new InputManager(this,
                 gameStateManager,
                 keyboardInputHandler,
@@ -228,5 +230,7 @@ public class GamePanel extends JPanel {
             setFullScreenOn(!fullScreenOn());
         }
     }
-
+    public HUDRenderer getHudRenderer() {
+        return hudRenderer;
+    }
 }

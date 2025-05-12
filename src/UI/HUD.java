@@ -1,23 +1,12 @@
 package UI;
 
-import Utils.GameStateManager;
-import Launcher.GamePanel;
-import java.awt.*;
 import java.util.Map;
 
 public class HUD {
-    private final GameStateManager gsm;
     private final Map<String, Screen> screens;
 
-
-    public HUD(GamePanel gp, GameStateManager gsm, Map<String, Screen> sharedScreens) {
-        this.gsm = gsm;
+    public HUD(Map<String, Screen> sharedScreens) {
         this.screens = sharedScreens;
-    }
-
-    public void draw(Graphics2D g2) {
-        Screen s = screens.get(gsm.getStateName());
-        if (s != null) s.draw(g2);
     }
 
     public void setGameFinished(boolean finished) {
