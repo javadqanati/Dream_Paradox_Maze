@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.util.Objects;
 
 public class Maze{
+    private final static int maxWorldCol = 70;
+    private final static int maxWorldRow = 70;
     private final GamePanel gamePanel;
     private final Tile[] tile;
     private final int[][] mapTileNum;
@@ -18,7 +20,7 @@ public class Maze{
     public Maze(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         tile = new Tile[10];
-        mapTileNum = new int[gamePanel.getMaxWorldCol()][gamePanel.getMaxWorldRow()];
+        mapTileNum = new int[maxWorldCol][maxWorldRow];
         getTileImage();
     }
 
@@ -31,14 +33,14 @@ public class Maze{
             }
 
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
-                int col = 0, row = 0;
-                while (col < gamePanel.getMaxWorldCol() && row < gamePanel.getMaxWorldRow()) {
+                int col, row = 0;
+                while (row < maxWorldRow) {
                     String line = br.readLine();
                     if (line == null) {
                         throw new IOException("Unexpected end of file in " + filepath);
                     }
                     String[] numbers = line.split(" ");
-                    for (col = 0; col < numbers.length && col < gamePanel.getMaxWorldCol(); col++) {
+                    for (col = 0; col < numbers.length && col < maxWorldCol; col++) {
                         mapTileNum[col][row] = Integer.parseInt(numbers[col]);
                     }
                     col = 0;
@@ -78,7 +80,7 @@ public class Maze{
         int worldCol = 0;
         int worldRow = 0;
 
-        while (worldCol < gamePanel.getMaxWorldCol() && worldRow < gamePanel.getMaxWorldRow()) {
+        while (worldCol < maxWorldCol && worldRow < maxWorldRow) {
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gamePanel.getTileSize();
@@ -95,7 +97,7 @@ public class Maze{
 
             worldCol++;
 
-            if(worldCol == gamePanel.getMaxWorldCol()){
+            if(worldCol == maxWorldCol){
                 worldCol = 0;
                 worldRow++;
             }

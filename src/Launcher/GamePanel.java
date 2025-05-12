@@ -130,8 +130,6 @@ public class GamePanel extends JPanel {
     public int getTileSize()        { return tileSize; }
     public int getScreenWidth()     { return screenWidth; }
     public int getScreenHeight()    { return screenHeight; }
-    public int getMaxWorldCol()     { return 70; }
-    public int getMaxWorldRow()     { return 70; }
     public AudioManager getAudioManager()       { return audioManager; }
     public CollisionChecker getCollisionChecker() { return collisionChecker; }
     public Player getPlayer()       { return playerManager.getPlayer(); }
