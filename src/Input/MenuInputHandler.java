@@ -1,7 +1,6 @@
 package Input;
 
 import Launcher.GamePanel;
-import UI.MainScreen;
 import UI.Screen;
 import java.util.List;
 
@@ -17,7 +16,6 @@ public class MenuInputHandler extends ScreenInputHandler {
         getScreen().setOptions(List.of(
                 "Play",
                 "Load",
-                "Save",
                 "Settings",
                 "Quit"
         ));
@@ -25,7 +23,6 @@ public class MenuInputHandler extends ScreenInputHandler {
         setOptionActions(List.of(
                 this::startNewGame,
                 this::loadGame,
-                this::saveGame,
                 this::openSettings,
                 this::quitGame
         ));
@@ -39,11 +36,6 @@ public class MenuInputHandler extends ScreenInputHandler {
 
     private void loadGame() {
         getGp().getGameStateManager().setLoad();
-    }
-
-    private void saveGame() {
-        getGp().getPersistence().saveGameData();
-        ((MainScreen) getScreen()).showNotification("Game saved!");
     }
 
     private void openSettings() {

@@ -38,6 +38,14 @@ public class PauseScreen extends Screen {
             g2.drawString(">", x - getGp().getTileSize(), y);
         }
 
+        text = "SAVE GAME";
+        x = getXforCenteredText(text, g2);
+        y += getGp().getTileSize();
+        g2.drawString(text, x, y);
+        if(getCommandNum() == 2){
+            g2.drawString(">", x - getGp().getTileSize(), y);
+        }
+
         text = "Resume";
         x = getXforCenteredText(text, g2);
         y += getGp().getTileSize();

@@ -38,7 +38,7 @@ public abstract class Projectile extends Enemy {
         setWorldX(getWorldX() + dx * speed);
         setWorldY(getWorldY() + dy * speed);
 
-        getGp().getCollisionChecker().checkTile(this);
+        getChecker().checkTile(this);
         if (isCollisionOn()) {
             setAlive(false);
             return;
@@ -46,7 +46,7 @@ public abstract class Projectile extends Enemy {
 
         animate(8);
 
-        boolean hit = getGp().getCollisionChecker().checkPlayer(this);
+        boolean hit = getChecker().checkPlayer(this);
         if (hit && getGp().getPlayer().isInvincible()) {
             attack();
             setAlive(false);

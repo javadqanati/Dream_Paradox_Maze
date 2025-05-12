@@ -28,7 +28,7 @@ public class SettingScreen extends Screen {
         for (int i = 0; i < options.length; i++) {
             String text = options[i];
             if (text.equals("Full Screen")) {
-                text += ": " + (getGp().fullScreenOn() ? "ON" : "OFF");
+                text += ": " + (getGp().getPersistence().isFullScreenOn() ? "ON" : "OFF");
             } else if (text.equals("Music")) {
                 text += ": " + (AudioManager.isMusicMuted() ? "OFF" : "ON");
             } else if (text.equals("Sound Effects")) {

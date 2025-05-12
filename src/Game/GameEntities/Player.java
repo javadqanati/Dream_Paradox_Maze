@@ -84,11 +84,11 @@ public final class Player extends Character {
 
     private void movePlayer() {
         setCollisionOn(false);
-        getGp().getCollisionChecker().checkTile(this);
-        getGp().getCollisionChecker().checkObject(this, true);
+        getChecker().checkTile(this);
+        getChecker().checkObject(this, true);
 
         List<Enemy> enemies = getGp().getEntityManager().getEnemies();
-        getGp().getCollisionChecker().checkEntity(this, enemies);
+        getChecker().checkEntity(this, enemies);
 
         if (!isCollisionOn()) {
             DirectionType dir = getDirection();

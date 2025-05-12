@@ -64,9 +64,9 @@ public final class ChaserEnemy extends Enemy {
 
     private void detectPlayerAndAttack() {
         setCollisionOn(false);
-        getGp().getCollisionChecker().checkTile(this);
-        getGp().getCollisionChecker().checkObject(this, false);
-        boolean contact = getGp().getCollisionChecker().checkPlayer(this);
+        getChecker().checkTile(this);
+        getChecker().checkObject(this, false);
+        boolean contact = getChecker().checkPlayer(this);
         if (contact) {
             attack();
             setDirection(randomDirection());

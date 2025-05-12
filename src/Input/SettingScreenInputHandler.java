@@ -19,7 +19,7 @@ public class SettingScreenInputHandler extends ScreenInputHandler {
 
 
         setOptionActions(List.of(
-                () -> getGp().toggleFullScreen(),
+                () -> GamePanel.getWindowManager().toggleFullscreen(),
                 () -> getGp().getAudioManager().toggleMusicMute(),
                 () -> getGp().getAudioManager().toggleSfxMute(),
                 () -> getGp().getGameStateManager().setMenu()

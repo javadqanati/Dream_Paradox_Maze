@@ -19,8 +19,8 @@ public abstract class Enemy extends Character {
 
     private void performMovement() {
         setCollisionOn(false);
-        getGp().getCollisionChecker().checkTile(this);
-        getGp().getCollisionChecker().checkObject(this, false);
+        getChecker().checkTile(this);
+        getChecker().checkObject(this, false);
 
         if (isCollisionOn()) {
             reverseDirection();

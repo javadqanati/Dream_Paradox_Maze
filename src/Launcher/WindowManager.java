@@ -31,7 +31,7 @@ public class WindowManager {
                 .getDefaultScreenDevice();
 
         isFullscreen = !isFullscreen;
-        window.dispose(); // Rebuild the window
+        window.dispose();
 
         if (isFullscreen) {
             window.setUndecorated(true);
@@ -41,8 +41,9 @@ public class WindowManager {
             device.setFullScreenWindow(null);
             window.setSize(originalWindowSize);
             window.setLocationRelativeTo(null);
-        }
 
+        }
+        gamePanel.getPersistence().setFullScreenOn(isFullscreen);
         window.setVisible(true);
     }
 

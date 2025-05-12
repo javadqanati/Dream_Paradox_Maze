@@ -2,6 +2,7 @@ package Game.GameEntities;
 
 
 import Launcher.GamePanel;
+import graphicals.CollisionChecker;
 import graphicals.SpriteMaker;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,10 +23,12 @@ public abstract class Entity implements DirectionType{
     private final GamePanel gp;
     private Rectangle solidArea = new Rectangle(solidAreaDefaultX, solidAreaDefaultY, 48, 48);
     private final SpriteMaker maker;
+    private final CollisionChecker checker;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
         maker = new SpriteMaker(gp);
+        checker = new CollisionChecker(gp);
         this.solidAreaDefaultX = solidArea.x;
         this.solidAreaDefaultY = solidArea.y;
     }
@@ -140,4 +143,7 @@ public abstract class Entity implements DirectionType{
     public boolean isPassable()                             { return passable; }
     public void setPassable(boolean passable)               { this.passable = passable; }
     public SpriteMaker getMaker()                           { return maker; }
+    public CollisionChecker getChecker() {
+        return checker;
+    }
 }

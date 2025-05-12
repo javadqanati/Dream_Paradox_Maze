@@ -2,15 +2,14 @@ package Launcher;
 
 import Game.GameEntities.Enemy;
 import Game.GameEntities.Entity;
-import UI.HUDRenderer;
+import javax.swing.*;
+import java.awt.*;
 
-import java.awt.Graphics2D;
-
-public class GameRenderer {
-    private final GamePanel gp;
+public class GameRenderer extends JPanel {
+    private static GamePanel gp;
 
     public GameRenderer(GamePanel gp) {
-        this.gp = gp;
+        GameRenderer.gp = gp;
     }
 
     public void render(Graphics2D g2) {
@@ -28,7 +27,23 @@ public class GameRenderer {
         }
 
         gp.getHudRenderer().draw(g2);
+    }
 
-        g2.dispose();
+    public static void update() {
+        if (gp.getGameStateManager().isPlaying()) {
+            gp.getPlayerManager().getPlayer().update();
+            for (Enemy e : gp.getEntityManager().getEnemies()) {
+                e.update();
+            }
+        }
+        if (gp.getGameStateManager().isPaused()) {
+            gp.getGameStateManager().setPause();
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        render((Graphics2D) g);
     }
 }

@@ -7,6 +7,7 @@ import java.io.*;
 public class FilePersistenceService implements PersistenceService {
     private final GamePanel gp;
     private final File configFile = new File("config.txt");
+    private static boolean fullScreenOn = false;
 
     public FilePersistenceService(GamePanel gp) {
         this.gp = gp;
@@ -21,7 +22,7 @@ public class FilePersistenceService implements PersistenceService {
     @Override
     public void saveConfig() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(configFile))) {
-            bw.write(gp.fullScreenOn() ? "Full Screen On" : "Full Screen Off");
+            bw.write(fullScreenOn ? "Full Screen On" : "Full Screen Off");
             bw.newLine();
             bw.write(Boolean.toString(AudioManager.isMusicMuted()));
             bw.newLine();
@@ -37,8 +38,8 @@ public class FilePersistenceService implements PersistenceService {
         try (BufferedReader br = new BufferedReader(new FileReader(configFile))) {
             String line = br.readLine();
             if ("Full Screen On".equals(line)) {
-                gp.setFullScreenOn(true);
-                gp.toggleFullScreen();
+                fullScreenOn = true;
+                GamePanel.getWindowManager().toggleFullscreen();
             }
             line = br.readLine();
             if (line != null) AudioManager.setMusicMuted(Boolean.parseBoolean(line));
@@ -47,5 +48,15 @@ public class FilePersistenceService implements PersistenceService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean isFullScreenOn() {
+        return fullScreenOn;
+    }
+
+    @Override
+    public void setFullScreenOn(boolean fullScreenOn) {
+        FilePersistenceService.fullScreenOn = fullScreenOn;
     }
 }
