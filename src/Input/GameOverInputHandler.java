@@ -15,7 +15,7 @@ public class GameOverInputHandler extends ScreenInputHandler {
 
         setOptionActions(List.of(
                 () -> getGp().getGameStateManager().setMenu(),
-                () -> getGp().restartGame()
+                () -> getGp().getGameController().restartGame()
         ));
         getScreen().setCommandNum(0);
         bindKeys();

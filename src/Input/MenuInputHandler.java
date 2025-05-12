@@ -34,7 +34,7 @@ public class MenuInputHandler extends ScreenInputHandler {
     }
 
     private void startNewGame() {
-        getGp().startNewGameFromMenu();
+        getGp().getGameController().startNewGameFromMenu();
     }
 
     private void loadGame() {

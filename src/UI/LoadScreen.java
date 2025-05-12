@@ -34,7 +34,7 @@ public class LoadScreen extends Screen {
 
         if (elapsed >= 4000) {
             System.out.println("elapsed time finished");
-            gp.loadGame();
+            gp.getGameController().loadGame();
             startTime = -1;
             getGp().getGameStateManager().setStory();
         }

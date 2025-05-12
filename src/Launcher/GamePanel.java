@@ -20,8 +20,8 @@ public class GamePanel extends JPanel {
     private final Maze                maze;
     private final EntitySetter        entitySetter;
     private final EntityManager       entityManager;
-    private final LevelManager        lvlMgr;
     private static final GameStateManager gameStateManager = new GameStateManager();
+    private final GameController gameController;
     private final CollisionChecker    collisionChecker = new CollisionChecker(this);
     private static boolean isFullScreen = false;
     private static WindowManager windowManager;
@@ -72,13 +72,9 @@ public class GamePanel extends JPanel {
         // levels
         List<String> levelFiles = new LevelLoader("res/levels")
                 .loadLevelFiles();
-        lvlMgr = new LevelManager(this, levelFiles);
+        LevelManager lvlMgr = new LevelManager(this, levelFiles);
         lvlMgr.loadCurrentLevel();
-
-        entitySetter.loadEntities(
-                lvlMgr.getEntityConfigs(),
-                lvlMgr.getEnemyConfigs()
-        );
+        gameController = new GameController(this, lvlMgr, gameStateManager);
 
         // persistence & config
         persistence = new FilePersistenceService(this);
@@ -100,65 +96,6 @@ public class GamePanel extends JPanel {
 
     public PlayScreen getPlayScreen() {
         return (PlayScreen) screenManager.get("PLAY");
-    }
-
-    // ─── GAME CONTROLS ────────────────────────────────────────────────────────────
-
-    private String getStoryPath(int levelIndex) {
-        return String.format("/stories/level%d.txt", levelIndex);
-    }
-
-    public void loadPlayScreenForLevel(int levelIndex) {
-        playerManager.resetPlayer();
-        PlayScreen ps = getPlayScreen();
-        ps.resetTimer();
-        ps.loadStory(getStoryPath(levelIndex));
-
-        gameStateManager.setLoad();
-    }
-
-    public void restartGame() {
-        playerManager.resetPlayer();
-        getPlayScreen().resetTimer();
-        lvlMgr.loadCurrentLevel();
-        gameStateManager.setPlay();
-    }
-
-    public void setUpGame() {
-        playerManager.resetPlayer();
-        getPlayScreen().resetTimer();
-        lvlMgr.loadCurrentLevel();
-        gameStateManager.setMenu();
-        if (!AudioManager.isMusicMuted()) {
-            audioManager.playCurrentTrack();
-        }
-    }
-
-    public void onLevelComplete() {
-        lvlMgr.nextLevel();
-        entitySetter.loadEntities(
-                lvlMgr.getEntityConfigs(),
-                lvlMgr.getEnemyConfigs()
-        );
-        loadPlayScreenForLevel(lvlMgr.getCurrentIndex());
-    }
-
-    public void startNewGameFromMenu() {
-        lvlMgr.startNewGame();
-        entitySetter.loadEntities(
-                lvlMgr.getEntityConfigs(),
-                lvlMgr.getEnemyConfigs()
-        );
-        loadPlayScreenForLevel(1);
-    }
-
-    public void loadGame() {
-        lvlMgr.loadProgressAndBegin();
-        entitySetter.loadEntities(
-                lvlMgr.getEntityConfigs(),
-                lvlMgr.getEnemyConfigs()
-        );
-        loadPlayScreenForLevel(lvlMgr.getCurrentIndex() + 1);
     }
 
     // ─── MAIN LOOP ────────────────────────────────────────────────────────────────
@@ -237,5 +174,8 @@ public class GamePanel extends JPanel {
     }
     public EntityManager getEntityManager() {
         return entityManager;
+    }
+    public GameController getGameController() {
+        return gameController;
     }
 }

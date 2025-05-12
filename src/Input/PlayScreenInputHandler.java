@@ -38,7 +38,7 @@ public class PlayScreenInputHandler extends ScreenInputHandler {
             if (ps.isGameFinished()) {
                 int cmd = screen.getCommandNum();
                 if (cmd == 0) {
-                    gp.onLevelComplete();
+                    gp.getGameController().onLevelComplete();
                 }
                 if (cmd == 1){
                     gp.getGameStateManager().setMenu();

@@ -5,7 +5,7 @@ public class GameStarter {
         GamePanel gamePanel = new GamePanel();
         WindowManager windowManager = new WindowManager(gamePanel);
         gamePanel.setWindowManager(windowManager);
-        gamePanel.setUpGame();
+        gamePanel.getGameController().setUpGame();
         gamePanel.getLoop().start();
     }
 }
