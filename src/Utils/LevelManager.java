@@ -49,9 +49,9 @@ public class LevelManager {
 
     public void loadCurrentLevel() {
         Level lvl = levels.get(currentIndex);
-        System.out.println("▶ Loading level index " + currentIndex + ", mapFile=" + lvl.getMapFile());
-        gp.getMaze().loadMaze(lvl.getMapFile());
-        gp.getEntitySetter().loadEntities(lvl.getEntities(), lvl.getEnemies());
+        System.out.println("▶ Loading level index " + currentIndex + ", mapFile=" + lvl.mapFile());
+        gp.getMaze().loadMaze(lvl.mapFile());
+        gp.getEntitySetter().loadEntities(lvl.entities(), lvl.enemies());
     }
 
     public void nextLevel() {
@@ -92,7 +92,7 @@ public class LevelManager {
      *         in the current level.
      */
     public List<EntityConfig> getEntityConfigs() {
-        return levels.get(currentIndex).getEntities();
+        return levels.get(currentIndex).entities();
     }
 
     /**
@@ -100,6 +100,6 @@ public class LevelManager {
      *         in the current level.
      */
     public List<EntityConfig> getEnemyConfigs() {
-        return levels.get(currentIndex).getEnemies();
+        return levels.get(currentIndex).enemies();
     }
 }

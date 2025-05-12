@@ -4,7 +4,7 @@ import Launcher.GamePanel;
 import UI.PlayScreen;
 import java.awt.image.BufferedImage;
 
-public class Exit extends Entity implements Interactable{
+public final class Exit extends Entity implements Interactable{
 
     public Exit(GamePanel gp) {
         super(gp);

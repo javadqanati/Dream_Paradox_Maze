@@ -10,25 +10,24 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryWindow implements CustomFontProvider {
-    private final GamePanel gp;
+public class StoryWindow extends Screen {
     private final List<String> lines = new ArrayList<>();
-    private final Font font;
+    private final float fontSize = 26f;
 
     public StoryWindow(GamePanel gp, String resourcePath) {
-        this.gp = gp;
-        float fontSize = 26f;
-        this.font = getCustomFont().deriveFont(Font.PLAIN, fontSize);  // Consistent font size
-        loadStory(resourcePath);
+        super(gp, "STORY");
+        loadResource(resourcePath);
     }
 
-    private void loadStory(String resourcePath) {
-        int boxWidthPx = gp.getScreenWidth() - gp.getTileSize() * 6;
-        try (InputStream is = getClass().getResourceAsStream(resourcePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-            String raw;
-            while ((raw = reader.readLine()) != null) {
-                wrapAndAddLine(raw, boxWidthPx);
+    protected void loadResource(String resourcePath) {
+        int boxWidthPx = getGp().getScreenWidth() - getGp().getTileSize() * 6;
+        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
+            assert is != null;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                String raw;
+                while ((raw = reader.readLine()) != null) {
+                    wrapAndAddLine(raw, boxWidthPx);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,40 +36,40 @@ public class StoryWindow implements CustomFontProvider {
     }
 
     private void wrapAndAddLine(String text, int maxWidth) {
-        // Use temp graphics to get FontMetrics
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
-        g2.setFont(font);
+        g2.setFont(getCustomFont().deriveFont(Font.PLAIN, fontSize));
         FontMetrics fm = g2.getFontMetrics();
 
         String[] words = text.split(" ");
         StringBuilder line = new StringBuilder();
 
         for (String word : words) {
-            String testLine = line.length() == 0 ? word : line + " " + word;
+            String testLine = line.isEmpty() ? word : line + " " + word;
             int testWidth = fm.stringWidth(testLine);
 
-            if (testWidth > maxWidth && line.length() > 0) {
+            if (testWidth > maxWidth && !line.isEmpty()) {
                 lines.add(line.toString());
-                line = new StringBuilder(word);  // Start new line with current word
+                line = new StringBuilder(word);
             } else {
                 line = new StringBuilder(testLine);
             }
         }
 
-        if (line.length() > 0) {
+        if (!line.isEmpty()) {
             lines.add(line.toString());
         }
         g2.dispose();
     }
 
-    public void drawScreen(Graphics2D g2) {
-        int padding = gp.getTileSize();
+    @Override
+    public void draw(Graphics2D g2) {
+        int padding = getGp().getTileSize();
         int x = padding * 2;
         int y = padding / 2;
-        int width = gp.getScreenWidth() - padding * 4;
+        int width = getGp().getScreenWidth() - padding * 4;
 
-        g2.setFont(font);
+        g2.setFont(getCustomFont().deriveFont(Font.PLAIN, fontSize));
         FontMetrics fm = g2.getFontMetrics();
         int lineHeight = fm.getHeight();
         int totalTextHeight = lines.size() * lineHeight;
@@ -91,7 +90,7 @@ public class StoryWindow implements CustomFontProvider {
     }
 
     private void drawText(Graphics2D g2, int startX, int startY, int lineHeight) {
-        g2.setFont(font);
+        g2.setFont(getCustomFont().deriveFont(Font.PLAIN, fontSize));
         g2.setColor(Color.WHITE);
         int y = startY;
         for (String line : lines) {

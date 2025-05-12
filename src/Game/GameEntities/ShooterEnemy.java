@@ -61,14 +61,25 @@ public final class ShooterEnemy extends Enemy {
     }
 
     private void spawnProjectile() {
-        FireBall ball = new FireBall(getGp());
+        Chiz ball = new Chiz(getGp());
         int tile = getGp().getTileSize();
         int startX = getWorldX() + getSolidArea().width/2 - tile/2;
-        int startY = getWorldY() + getSolidArea().height/2 - tile/2;
+        int startY = getWorldY() + getSolidArea().height/2;
+
         int pdx = getGp().getPlayer().getWorldX() - startX;
         int pdy = getGp().getPlayer().getWorldY() - startY;
+
         int dx = Math.abs(pdx) > Math.abs(pdy) ? (pdx < 0 ? -1 : 1) : 0;
         int dy = Math.abs(pdy) >= Math.abs(pdx) ? (pdy < 0 ? -1 : 1) : 0;
+
+        DirectionType fireDir = (Math.abs(pdx) > Math.abs(pdy))
+                ? (dx < 0 ? LEFT() : RIGHT())
+                : (dy < 0 ? UP() : DOWN());
+
+        if (fireDir != getDirection()) {
+            return;
+        }
+
         ball.fire(startX, startY, dx, dy);
         projectiles.add(ball);
     }

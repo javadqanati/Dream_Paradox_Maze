@@ -1,8 +1,6 @@
 package Game.GameEntities;
 
 import Launcher.GamePanel;
-import graphicals.SpriteMaker;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

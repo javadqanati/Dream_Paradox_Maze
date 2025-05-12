@@ -87,7 +87,7 @@ public abstract class Entity implements DirectionType{
         return frames[idx];
     }
 
-    protected BufferedImage getCurrentSprite() {
+    public BufferedImage getCurrentSprite() {
         return getCurrentSprite(direction, getSpriteNum());
     }
 
@@ -98,12 +98,20 @@ public abstract class Entity implements DirectionType{
         this.direction = (Direction) dirType;
     }
 
-    protected void setSpriteFrames(DirectionType dirType, BufferedImage... frames) {
+    public void setSpriteFrames(DirectionType dirType, BufferedImage... frames) {
         if (!(dirType instanceof Direction)) {
             throw new IllegalArgumentException("Invalid direction: " + dirType);
         }
         sprites.put((Direction) dirType, frames);
     }
+
+    public DirectionType getDirection() {
+        return direction;
+    }
+    public static DirectionType UP()    { return Direction.UP; }
+    public static DirectionType DOWN()  { return Direction.DOWN; }
+    public static DirectionType LEFT()  { return Direction.LEFT; }
+    public static DirectionType RIGHT() { return Direction.RIGHT; }
 
     public Rectangle getSolidArea() { return solidArea; }
     public void setSolidArea(Rectangle solidArea) {
@@ -116,9 +124,6 @@ public abstract class Entity implements DirectionType{
     }
     public void setSolidAreaDefaultY(int solidAreaDefaultY) {
         this.solidAreaDefaultY = solidAreaDefaultY;
-    }
-    public DirectionType getDirection() {
-        return direction;
     }
     public int getSpriteNum()                               { return spriteNum; }
     public void setSpriteNum(int spriteNum)                 { this.spriteNum = spriteNum; }
@@ -135,8 +140,4 @@ public abstract class Entity implements DirectionType{
     public boolean isPassable()                             { return passable; }
     public void setPassable(boolean passable)               { this.passable = passable; }
     public SpriteMaker getMaker()                           { return maker; }
-    public static DirectionType UP()    { return Direction.UP; }
-    public static DirectionType DOWN()  { return Direction.DOWN; }
-    public static DirectionType LEFT()  { return Direction.LEFT; }
-    public static DirectionType RIGHT() { return Direction.RIGHT; }
 }

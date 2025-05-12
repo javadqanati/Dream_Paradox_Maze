@@ -3,7 +3,7 @@ package Game.GameEntities;
 import Launcher.GamePanel;
 import java.awt.image.BufferedImage;
 
-public class MemoryFragment extends Entity implements Interactable{
+public final class MemoryFragment extends Entity implements Interactable{
 
     public MemoryFragment(GamePanel gp) {
         super(gp);

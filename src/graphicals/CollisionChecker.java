@@ -98,12 +98,10 @@ public class CollisionChecker {
         }
     }
 
-    public int checkEntity(Character character, List<Enemy> targets) {
+    public void checkEntity(Character character, List<Enemy> targets) {
         Rectangle area = projectedArea(character);
-        int index = 999;
 
-        for (int i = 0; i < targets.size(); i++) {
-            var t = targets.get(i);
+        for (Enemy t : targets) {
             if (t == null) continue;
 
             Rectangle other = new Rectangle(
@@ -115,10 +113,8 @@ public class CollisionChecker {
 
             if (area.intersects(other)) {
                 character.setCollisionOn(true);
-                index = i;
             }
         }
-        return index;
     }
 
     public boolean checkPlayer(Character character) {

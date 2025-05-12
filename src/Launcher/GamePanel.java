@@ -22,8 +22,8 @@ public class GamePanel extends JPanel {
     private final LevelManager        lvlMgr;
     private final GameStateManager    gameStateManager = new GameStateManager();
     private final CollisionChecker    collisionChecker = new CollisionChecker(this);
-    private boolean isFullScreen = false;
-    private WindowManager windowManager;
+    private static boolean isFullScreen = false;
+    private static WindowManager windowManager;
 
     // ─── RENDERING & LOOP ────────────────────────────────────────────────────────
     private final int originalTileSize = 16;
@@ -91,7 +91,6 @@ public class GamePanel extends JPanel {
                 keyboardInputHandler,
                 playerHandler,
                 screenManager.all());
-        // start game loop
         loop.start();
     }
 
@@ -196,7 +195,6 @@ public class GamePanel extends JPanel {
     public CollisionChecker getCollisionChecker() { return collisionChecker; }
     public Player getPlayer()       { return playerManager.getPlayer(); }
     public Maze getMaze()           { return maze; }
-    public PowerUpShop getPowerUpShop() { return powerUpShop; }
     public GameStateManager getGameStateManager() { return gameStateManager; }
     public PlayerInputHandler getPlayerInputHandler() { return playerHandler; }
     public PlayerManager getPlayerManager()     { return playerManager; }
@@ -207,7 +205,7 @@ public class GamePanel extends JPanel {
         return isFullScreen;
     }
     public void setFullScreenOn(boolean fullScreenOn) {
-        this.isFullScreen = fullScreenOn;
+        isFullScreen = fullScreenOn;
     }
     public EntitySetter getEntitySetter() {
         return entitySetter;
@@ -222,7 +220,7 @@ public class GamePanel extends JPanel {
         return screenManager;
     }
     public void setWindowManager(WindowManager wm) {
-        this.windowManager = wm;
+        windowManager = wm;
     }
     public void toggleFullScreen() {
         if (windowManager != null) {

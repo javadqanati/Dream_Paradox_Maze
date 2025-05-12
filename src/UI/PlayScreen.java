@@ -5,26 +5,22 @@ import Game.GameEntities.MemoryFragment;
 import Game.GameEntities.PlayerLife;
 import Launcher.GamePanel;
 import Utils.GameTimer;
-import static Game.GameEntities.Entity.UP;
 import static Game.GameEntities.Entity.DOWN;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static Game.GameEntities.Entity.DOWN;
-
 public class PlayScreen extends Screen {
     private final BufferedImage memoryFragmentImg;
     private final BufferedImage full_heart, half_heart, heart_blank;
-    private final GameTimer timer;
+    private static final GameTimer timer  = new GameTimer(120);
+    private static boolean gameFinished   = false;
+    private static boolean optionsOn      = false;
+    private static String  message        = "";
+    private static int messageCounter;
     private StoryWindow storyWindow;
-    private boolean gameFinished   = false;
-    private boolean optionsOn      = false;
-    private String  message        = "";
-    private int     messageCounter = 0;
 
     public PlayScreen(GamePanel gp) {
         super(gp, "PLAY");
-        this.timer = new GameTimer(120);
 
         Entity memoryFragment = new MemoryFragment(gp);
         Entity playerLife     = new PlayerLife(gp);
@@ -42,10 +38,10 @@ public class PlayScreen extends Screen {
     }
 
     public void setGameFinished(boolean finished) {
-        this.gameFinished = finished;
+        gameFinished = finished;
         if (finished) {
             getGp().getAudioManager().playSE("Next Level");
-            this.optionsOn = true;
+            optionsOn = true;
         }
     }
 
@@ -86,14 +82,13 @@ public class PlayScreen extends Screen {
     @Override
     public void draw(Graphics2D g2) {
         if (getGp().getGameStateManager().isStory()) {
-            storyWindow.drawScreen(g2);
+            storyWindow.draw(g2);
             return;
         }
         if (optionsOn) {
             g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
             g2.setColor(Color.BLUE);
             String title = "Level Complete!";
-            int tw = g2.getFontMetrics().stringWidth(title);
             int x = getXforCenteredText(title, g2);
             int y = getGp().getTileSize() * 3;
             g2.drawString(title, x, y);
@@ -140,10 +135,6 @@ public class PlayScreen extends Screen {
             g2.drawString(message, getGp().getTileSize()/2, getGp().getTileSize()*5);
             if (++messageCounter > 120) message = "";
         }
-    }
-
-    public boolean isOptionsOn() {
-        return !optionsOn;
     }
 
     public boolean isGameFinished() {

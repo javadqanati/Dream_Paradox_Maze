@@ -1,7 +1,6 @@
 package UI;
 
 import Launcher.GamePanel;
-
 import java.util.List;
 import java.awt.*;
 
@@ -11,18 +10,13 @@ public class Screen implements CustomFontProvider {
     private String selectionMessage;
     private List<String> options;
     private final Font font;
-    private final String stateName;
 
     public Screen(GamePanel gp, String stateName) {
         this.gp = gp;
         font = getCustomFont();
-        this.stateName = stateName;
         ScreenManager.register(stateName, this);
     }
 
-    public String getStateName() {
-        return stateName;
-    }
 
     public int getXforCenteredText(String text, Graphics g2) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();

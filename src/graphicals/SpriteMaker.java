@@ -34,18 +34,6 @@ public class SpriteMaker {
         return image;
     }
 
-  //  public void mazeSkinSetup(Tile[] tile, String imagePath, boolean passable) {
-//        SpriteMaker spriteMaker = new SpriteMaker();
-//        try{
-//            tile[index] = new Tile();
-//            tile[index].setImage(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + imagePath + ".png"))));
-//            tile[index].setImage(spriteMaker.makeSprite(tile[index].getImage(), gamePanel.getTileSize(), gamePanel.getTileSize()));
-//            tile[index].setPassable(passable);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
- //   }
-
     public BufferedImage objectImageSetup(String filePath) {
         BufferedImage image = null;
 

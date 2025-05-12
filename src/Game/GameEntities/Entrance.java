@@ -3,7 +3,7 @@ package Game.GameEntities;
 import Launcher.GamePanel;
 import java.awt.image.BufferedImage;
 
-public class Entrance extends Entity implements Interactable {
+public final class Entrance extends Entity implements Interactable {
 
     public Entrance(GamePanel gp) {
         super(gp);

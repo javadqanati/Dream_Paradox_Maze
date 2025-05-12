@@ -12,10 +12,11 @@ public class PowerUpFactory {
         registry.put(type, ctor);
     }
 
-    public static PowerUp create(String type, GamePanel gp) {
-        Function<GamePanel, PowerUp> ctor = registry.get(type);
+    public static PowerUp create(Object type, GamePanel gp) {
+        String key = (type instanceof Enum) ? ((Enum<?>) type).name() : type.toString();
+        Function<GamePanel, PowerUp> ctor = registry.get(key);
         if (ctor == null) {
-            throw new IllegalArgumentException("Unknown PowerUp type: " + type);
+            throw new IllegalArgumentException("Unknown PowerUp type: " + key);
         }
         return ctor.apply(gp);
     }

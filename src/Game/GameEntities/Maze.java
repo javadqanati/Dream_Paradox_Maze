@@ -54,11 +54,11 @@ public class Maze{
 
 
     public void getTileImage() {
-            setUpTile(1, "nemi", false);
+            setUpTile(1, "abi", false);
             setUpTile(4, "wall", true);
             setUpTile(2, "water", true);
             setUpTile(3, "earth", false);
-            setUpTile(0, "doonam", true);
+            setUpTile(0, "beyn", true);
             setUpTile(5, "sand", false);
     }
 

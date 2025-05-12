@@ -33,7 +33,6 @@ public final class TimeFreeze extends PowerUp implements TimedPowerUp, Interacta
         System.out.println("apply function");
     }
 
-
     @Override
     public PowerUp createNewInstance() {
         return new TimeFreeze(getGp());

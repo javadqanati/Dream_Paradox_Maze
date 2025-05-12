@@ -6,7 +6,6 @@ public final class SoundEffect extends Sound {
 
     public SoundEffect() {
         super();
-
         setSoundEffect("Memory Fragment", "memory_fragment");
         setSoundEffect("Cursor", "cursor");
         setSoundEffect("Next Level", "level_up");
