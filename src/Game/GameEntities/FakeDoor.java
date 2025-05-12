@@ -3,9 +3,9 @@ package Game.GameEntities;
 import Launcher.GamePanel;
 import java.awt.image.BufferedImage;
 
-public final class Entrance extends Entity implements Interactable {
+public final class FakeDoor extends Entity implements Interactable {
 
-    public Entrance(GamePanel gp) {
+    public FakeDoor(GamePanel gp) {
         super(gp);
         setName("Entrance");
         setPassable(false);

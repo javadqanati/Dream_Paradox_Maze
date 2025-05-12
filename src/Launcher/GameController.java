@@ -1,7 +1,5 @@
-// New file: GameStateCoordinator.java
 package Launcher;
 
-import UI.PlayScreen;
 import Utils.GameStateManager;
 import Utils.LevelManager;
 
@@ -35,8 +33,6 @@ public class GameController {
         lvlMgr.loadCurrentLevel();
         gameStateManager.setMenu();
     }
-
-    // ─── GAME CONTROLS ────────────────────────────────────────────────────────────
 
     private String getStoryPath(int levelIndex) {
         return String.format("/stories/level%d.txt", levelIndex);

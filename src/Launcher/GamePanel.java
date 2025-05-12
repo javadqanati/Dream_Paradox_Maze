@@ -14,34 +14,33 @@ import java.util.List;
 import java.util.Map;
 
 public class GamePanel extends JPanel {
-    private final PlayerManager       playerManager;
-    private final Maze                maze;
-    private final EntitySetter        entitySetter;
-    private final EntityManager       entityManager;
-    private static final GameStateManager gameStateManager = new GameStateManager();
+    private final PlayerManager playerManager;
+    private final Maze maze;
+    private final EntitySetter entitySetter;
+    private final EntityManager entityManager;
+    private static final GameStateManager gameStateManager=new GameStateManager();
     private final GameController gameController;
     private static WindowManager windowManager;
-    private final int originalTileSize = 16;
-    private final int scale            = 3;
-    private final int tileSize         = originalTileSize * scale;
+    private final int originalTileSize=16;
+    private final int scale=3;
+    private final int tileSize=originalTileSize * scale;
     private static int screenWidth, screenHeight;
+    private final AudioManager audioManager=new AudioManager();
+    private final PowerUpShop powerUpShop=new PowerUpShop(this);
+    private final KeyboardInputHandler keyboardInputHandler=new KeyboardInputHandler();
+    private final PlayerInputHandler playerHandler=new PlayerInputHandler(keyboardInputHandler);
+    private final ScreenManager screenManager;
+    private final HUD hud;
+    private final PersistenceService persistence;
     private final HUDRenderer hudRenderer;
-    private final GameRenderer renderer = new GameRenderer(this);
-    private final GameLoop     loop     = new GameLoop(
+    private final GameRenderer renderer=new GameRenderer(this);
+    private final GameLoop loop=new GameLoop(
             new GameLoop.LoopListener() {
                 @Override public void update() { GameRenderer.update(); }
                 @Override public void render() { GamePanel.this.repaint(); }
             },
             60
     );
-
-    private final AudioManager     audioManager        = new AudioManager();
-    private final PowerUpShop      powerUpShop         = new PowerUpShop(this);
-    private final KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
-    private final PlayerInputHandler   playerHandler         = new PlayerInputHandler(keyboardInputHandler);
-    private final ScreenManager        screenManager;
-    private final HUD                  hud;
-    private final PersistenceService persistence;
 
     public GamePanel() {
         screenWidth  = tileSize * 20;
@@ -52,21 +51,21 @@ public class GamePanel extends JPanel {
         setLayout(new BorderLayout());
         add(renderer, BorderLayout.CENTER);
 
-        playerManager = new PlayerManager(this);
-        maze          = new Maze(this);
-        entityManager = new EntityManager();
-        entitySetter  = new EntitySetter(this, entityManager);
-        List<String> levelFiles = new LevelLoader("res/levels")
+        playerManager=new PlayerManager(this);
+        maze=new Maze(this);
+        entityManager=new EntityManager();
+        entitySetter=new EntitySetter(this, entityManager);
+        List<String> levelFiles=new LevelLoader("res/levels")
                 .loadLevelFiles();
-        LevelManager lvlMgr = new LevelManager(this, levelFiles);
+        LevelManager lvlMgr=new LevelManager(this, levelFiles);
         lvlMgr.loadCurrentLevel();
-        gameController = new GameController(this, lvlMgr, gameStateManager);
-        persistence = new FilePersistenceService(this);
+        gameController=new GameController(this, lvlMgr, gameStateManager);
+        persistence=new FilePersistenceService(this);
         persistence.loadConfig();
-        screenManager = new ScreenManager(this);
-        hud           = new HUD(screenManager.all());
-        hudRenderer   = new HUDRenderer(gameStateManager, screenManager.all());
-        InputManager inputManager = new InputManager(this,
+        screenManager=new ScreenManager(this);
+        hud=new HUD(screenManager.all());
+        hudRenderer=new HUDRenderer(gameStateManager, screenManager.all());
+        InputManager inputManager=new InputManager(this,
                 gameStateManager,
                 keyboardInputHandler,
                 playerHandler,
@@ -74,29 +73,29 @@ public class GamePanel extends JPanel {
         loop.start();
     }
 
+    public HUD getHud() {
+        return hud;
+    }
     public int getOriginalScreenWidth() {
         return screenWidth;
     }
     public int getOriginalScreenHeight() {
         return screenHeight;
     }
-    public int getTileSize() { return tileSize; }
-    public int getScreenWidth()     { return screenWidth; }
-    public int getScreenHeight()    { return screenHeight; }
-    public AudioManager getAudioManager()       { return audioManager; }
-    public Player getPlayer()       { return playerManager.getPlayer(); }
-    public Maze getMaze()           { return maze; }
-    public GameStateManager getGameStateManager() { return gameStateManager; }
-    public PlayerInputHandler getPlayerInputHandler() { return playerHandler; }
-    public PlayerManager getPlayerManager()     { return playerManager; }
-    public PersistenceService getPersistence()  { return persistence; }
-    public Map<String,Screen> getScreens()      { return screenManager.all(); }
-    public GameLoop getLoop()                  { return loop; }
+    public int getTileSize(){ return tileSize; }
+    public int getScreenWidth(){ return screenWidth; }
+    public int getScreenHeight(){ return screenHeight; }
+    public AudioManager getAudioManager(){ return audioManager; }
+    public Player getPlayer(){ return playerManager.getPlayer(); }
+    public Maze getMaze(){ return maze; }
+    public GameStateManager getGameStateManager(){ return gameStateManager; }
+    public PlayerInputHandler getPlayerInputHandler(){ return playerHandler; }
+    public PlayerManager getPlayerManager(){ return playerManager; }
+    public PersistenceService getPersistence(){ return persistence; }
+    public Map<String,Screen> getScreens(){ return screenManager.all(); }
+    public GameLoop getLoop(){ return loop; }
     public EntitySetter getEntitySetter() {
         return entitySetter;
-    }
-    public HUD getHud() {
-        return hud;
     }
     public GameRenderer getRenderer() {
         return renderer;

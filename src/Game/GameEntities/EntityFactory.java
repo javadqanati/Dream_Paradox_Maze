@@ -11,7 +11,7 @@ public class EntityFactory {
     private static final Map<String, Function<GamePanel, Entity>> registry = new HashMap<>();
 
     static {
-        register("Entrance", Entrance::new);
+        register("Entrance", FakeDoor::new);
         register("Exit", Exit::new);
         register("MemoryFragment", MemoryFragment::new);
         register("SpeedBoost", SpeedBoost::new);
