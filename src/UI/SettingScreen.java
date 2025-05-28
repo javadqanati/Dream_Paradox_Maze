@@ -3,17 +3,24 @@ package UI;
 import Audio.AudioManager;
 import Launcher.GamePanel;
 import java.awt.*;
+import java.util.List;
 
 public class SettingScreen extends Screen {
-    private final String[] options = {"Full Screen", "Music", "Sound Effects", "Back"};
-
+    private final List<SettingOption> options;
 
     public SettingScreen(GamePanel gp) {
         super(gp, "SETTINGS");
+
+        options = List.of(
+                new SettingOption("Full Screen", () -> getGp().getPersistence().isFullScreenOn() ? "ON" : "OFF"),
+                new SettingOption("Music", () -> AudioManager.isMusicMuted() ? "OFF" : "ON"),
+                new SettingOption("Sound Effects", () -> AudioManager.isSfxMuted() ? "OFF" : "ON"),
+                new SettingOption("Back", () -> "")
+        );
     }
 
     @Override
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
         super.draw(g2);
         g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
         g2.setColor(Color.white);
@@ -25,19 +32,10 @@ public class SettingScreen extends Screen {
 
         y += getGp().getTileSize() * 2;
         g2.setFont(getScreenfont().deriveFont(36f));
-        for (int i = 0; i < options.length; i++) {
-            String text = options[i];
-            if (text.equals("Full Screen")) {
-                text += ": " + (getGp().getPersistence().isFullScreenOn() ? "ON" : "OFF");
-            } else if (text.equals("Music")) {
-                text += ": " + (AudioManager.isMusicMuted() ? "OFF" : "ON");
-            } else if (text.equals("Sound Effects")) {
-                text += ": " + (AudioManager.isSfxMuted() ? "OFF" : "ON");
-            }
 
-
+        for (int i = 0; i < options.size(); i++) {
+            String text = options.get(i).getDisplayText();
             x = getXforCenteredText(text, g2);
-
             g2.drawString(text, x, y);
 
             if (getCommandNum() == i) {
@@ -48,4 +46,3 @@ public class SettingScreen extends Screen {
         }
     }
 }
-

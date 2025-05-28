@@ -1,6 +1,5 @@
 package Input;
 
-import UI.PauseScreen;
 import Utils.GameStateManager;
 import Launcher.GamePanel;
 import UI.Screen;

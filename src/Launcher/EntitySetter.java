@@ -21,15 +21,15 @@ public class EntitySetter {
         entityManager.clearEnemies();
 
         for (EntityConfig cfg : entities) {
-            Entity e = EntityFactory.create(cfg.getType(), gp);
-            e.setWorldX(cfg.getX() * gp.getTileSize());
-            e.setWorldY(cfg.getY() * gp.getTileSize());
+            Entity e = EntityFactory.create(cfg.type(), gp);
+            e.setWorldX(cfg.x() * gp.getTileSize());
+            e.setWorldY(cfg.y() * gp.getTileSize());
             entityManager.addEntity(e);
         }
         for (EntityConfig cfg : enemies) {
-            Enemy e = (Enemy) EntityFactory.create(cfg.getType(), gp);
-            e.setWorldX(cfg.getX() * gp.getTileSize());
-            e.setWorldY(cfg.getY() * gp.getTileSize());
+            Enemy e = (Enemy) EntityFactory.create(cfg.type(), gp);
+            e.setWorldX(cfg.x() * gp.getTileSize());
+            e.setWorldY(cfg.y() * gp.getTileSize());
             entityManager.addEnemy(e);
         }
     }

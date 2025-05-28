@@ -1,6 +1,5 @@
 package Game.GameEntities;
 
-
 import Launcher.GamePanel;
 import graphicals.CollisionChecker;
 import graphicals.SpriteMaker;
@@ -115,7 +114,6 @@ public abstract class Entity implements DirectionType{
     public static DirectionType DOWN()  { return Direction.DOWN; }
     public static DirectionType LEFT()  { return Direction.LEFT; }
     public static DirectionType RIGHT() { return Direction.RIGHT; }
-
     public Rectangle getSolidArea() { return solidArea; }
     public void setSolidArea(Rectangle solidArea) {
         this.solidArea = solidArea;
@@ -131,9 +129,7 @@ public abstract class Entity implements DirectionType{
     public int getSpriteNum()                               { return spriteNum; }
     public void setSpriteNum(int spriteNum)                 { this.spriteNum = spriteNum; }
     public GamePanel getGp()                                { return gp; }
-    public EnumMap<Direction, BufferedImage[]> getSprites() {
-        return sprites;
-    }
+    public BufferedImage[] getDownSprites()                 { return sprites.get(Direction.DOWN);}
     public int getWorldX()                                  { return worldX; }
     public void setWorldX(int worldX)                       { this.worldX = worldX; }
     public int getWorldY()                                  { return worldY; }

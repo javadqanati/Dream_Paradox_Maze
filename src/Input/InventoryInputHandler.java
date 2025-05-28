@@ -44,11 +44,7 @@ public class InventoryInputHandler extends ScreenInputHandler {
             List<PowerUp> powerUps = getGp().getPlayer().getPowerUps();
             if (cmd - 1 < powerUps.size()) {
                 PowerUp chosen = powerUps.get(cmd - 1);
-                boolean used = getGp().getPlayer().usePowerUp(chosen.getType());
-                getScreen().setSelectionMessage(
-                        used ? chosen.getType() + " activated!"
-                                : "You don't have a " + chosen.getType() + "!"
-                );
+                getGp().getPlayer().usePowerUp(chosen.getType());
             }
         }
     }

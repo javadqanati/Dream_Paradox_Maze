@@ -69,10 +69,12 @@ public final class ShooterEnemy extends Enemy {
         int pdx = getGp().getPlayer().getWorldX() - startX;
         int pdy = getGp().getPlayer().getWorldY() - startY;
 
-        int dx = Math.abs(pdx) > Math.abs(pdy) ? (pdx < 0 ? -1 : 1) : 0;
+        boolean b = Math.abs(pdx) > Math.abs(pdy);
+        int dx = b ? (pdx < 0 ? -1 : 1) : 0;
         int dy = Math.abs(pdy) >= Math.abs(pdx) ? (pdy < 0 ? -1 : 1) : 0;
 
-        DirectionType fireDir = (Math.abs(pdx) > Math.abs(pdy))
+        DirectionType fireDir = b
+
                 ? (dx < 0 ? LEFT() : RIGHT())
                 : (dy < 0 ? UP() : DOWN());
 

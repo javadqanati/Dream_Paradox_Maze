@@ -3,7 +3,6 @@ package Utils;
 import Launcher.GamePanel;
 import UI.PlayScreen;
 import com.google.gson.Gson;
-
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -11,12 +10,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class LevelManager {
     private final GamePanel gp;
     private final List<Level> levels = new ArrayList<>();
     private int currentIndex;
     private final Path progressFile = Path.of("Save_progress.txt");
+    Logger LOGGER = Logger.getLogger(LevelManager.class.getName());
 
     public LevelManager(GamePanel gp, List<String> levelFiles) {
         this.gp = gp;
@@ -29,7 +30,7 @@ public class LevelManager {
             )) {
                 levels.add(gson.fromJson(r, Level.class));
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.log(java.util.logging.Level.SEVERE, "Failed reading levels ", e);
             }
         }
         this.currentIndex = 0;
@@ -78,7 +79,7 @@ public class LevelManager {
         try {
             Files.writeString(progressFile, String.valueOf(currentIndex));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(java.util.logging.Level.SEVERE, "Failed saving process ", e);
         }
     }
 

@@ -4,10 +4,13 @@ import Game.GameEntities.Player;
 import Game.GameEntities.Powerup.PowerUp;
 import Game.GameEntities.Powerup.PowerUpFactory;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class PlayerData {
     private final Player player;
+    private static final Logger LOGGER = Logger.getLogger(PlayerData.class.getName());
 
     public PlayerData(Player player) {
         this.player = player;
@@ -26,7 +29,7 @@ public class PlayerData {
                 bw.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed saving the player configs ", e);
         }
     }
 
@@ -41,7 +44,7 @@ public class PlayerData {
                 player.addPowerUp(PowerUpFactory.create(s, player.getGp()));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed loading the player configs ", e);
         }
     }
 }

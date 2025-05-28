@@ -27,7 +27,7 @@ public class PlayScreen extends Screen {
 
         memoryFragmentImg = memoryFragment.getCurrentSprite(DOWN(), 0);
 
-        BufferedImage[] heartFrames = playerLife.getSprites().get(DOWN());
+        BufferedImage[] heartFrames = playerLife.getDownSprites();
         full_heart  = heartFrames[0];
         half_heart  = heartFrames[1];
         heart_blank = heartFrames[2];
@@ -50,11 +50,6 @@ public class PlayScreen extends Screen {
         gameFinished   = false;
         optionsOn      = false;
         message        = "";
-        messageCounter = 0;
-    }
-
-    public void showMessage(String text) {
-        message        = text;
         messageCounter = 0;
     }
 

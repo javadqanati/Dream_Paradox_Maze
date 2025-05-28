@@ -7,7 +7,6 @@ import UI.*;
 import java.util.Map;
 
 public class InputManager {
-    private final InputHandler inputHandler;
 
     public InputManager(GamePanel gp,
                         GameStateManager gsm,
@@ -23,11 +22,7 @@ public class InputManager {
         new MarketInputHandler(keyboard, screens.get("MARKET"), gp);
         new GameOverInputHandler(keyboard, screens.get("GAMEOVER"), gp);
 
-        inputHandler = new InputHandler(gsm, keyboard, playerHandler);
+        InputHandler inputHandler = new InputHandler(gsm, keyboard, playerHandler);
         gp.addKeyListener(inputHandler);
-    }
-
-    public InputHandler getInputHandler() {
-        return inputHandler;
     }
 }

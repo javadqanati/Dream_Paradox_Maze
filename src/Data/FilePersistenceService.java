@@ -3,11 +3,14 @@ package Data;
 import Launcher.GamePanel;
 import Audio.AudioManager;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FilePersistenceService implements PersistenceService {
     private final GamePanel gp;
     private final File configFile = new File("config.txt");
     private static boolean fullScreenOn = false;
+    private static final Logger LOGGER = Logger.getLogger(FilePersistenceService.class.getName());
 
     public FilePersistenceService(GamePanel gp) {
         this.gp = gp;
@@ -28,7 +31,7 @@ public class FilePersistenceService implements PersistenceService {
             bw.newLine();
             bw.write(Boolean.toString(AudioManager.isSfxMuted()));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed saving the setting configs ", e);
         }
     }
 
@@ -45,7 +48,7 @@ public class FilePersistenceService implements PersistenceService {
             line = br.readLine();
             if (line != null) AudioManager.setSfxMuted(Boolean.parseBoolean(line));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed loading the setting configs ", e);
         }
     }
 

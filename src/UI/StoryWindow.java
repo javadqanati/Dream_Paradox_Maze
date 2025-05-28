@@ -1,7 +1,6 @@
 package UI;
 
 import Launcher.GamePanel;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -9,10 +8,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StoryWindow extends Screen {
     private final List<String> lines = new ArrayList<>();
     private final float fontSize = 26f;
+    Logger LOGGER = Logger.getLogger(StoryWindow.class.getName());
 
     public StoryWindow(GamePanel gp, String resourcePath) {
         super(gp, "STORY");
@@ -30,7 +32,7 @@ public class StoryWindow extends Screen {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed loading the story ", e);
             lines.add("[ERROR loading story]");
         }
     }

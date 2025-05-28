@@ -41,9 +41,6 @@ public class GameStateManager {
     public void setSettings() {
         currentState = State.SETTINGS;
     }
-    public boolean isLoad() {
-        return currentState == State.LOAD;
-    }
     public void setLoad() {
         currentState = State.LOAD;
     }
@@ -53,14 +50,8 @@ public class GameStateManager {
     public void setInventory() {
         currentState = State.INVENTORY;
     }
-    public boolean isMarket() {
-        return currentState == State.MARKET;
-    }
     public void setMarket() {
         currentState = State.MARKET;
-    }
-    public boolean isGameOver() {
-        return currentState == State.GAMEOVER;
     }
     public void setGameOver() {
         currentState = State.GAMEOVER;

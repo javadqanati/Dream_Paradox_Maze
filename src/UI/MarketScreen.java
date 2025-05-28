@@ -24,12 +24,12 @@ public class MarketScreen extends Screen {
         g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
         g2.setColor(Color.white);
         String text = "MARKET";
-        int titleX = getXforCenteredText(text, g2);
+        int x = getXforCenteredText(text, g2);
         int y = tileSize * 2;
-        g2.drawString(text, titleX, y);
+        g2.drawString(text, x, y);
 
 
-        g2.setFont(getScreenfont().deriveFont(Font.BOLD, 36f));
+        g2.setFont(getScreenfont().deriveFont(Font.BOLD, 37f));
         text = "BACK";
         int backX = tileSize * 2;
         y += tileSize;

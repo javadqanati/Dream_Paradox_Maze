@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Maze{
     private final static int maxWorldCol = 70;
@@ -16,6 +18,7 @@ public class Maze{
     private final GamePanel gamePanel;
     private final Tile[] tile;
     private final int[][] mapTileNum;
+    private static final Logger LOGGER = Logger.getLogger(Maze.class.getName());
 
     public Maze(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -43,25 +46,18 @@ public class Maze{
                     for (col = 0; col < numbers.length && col < maxWorldCol; col++) {
                         mapTileNum[col][row] = Integer.parseInt(numbers[col]);
                     }
-                    col = 0;
                     row++;
                 }
             }
         } catch (Exception e) {
-
-            System.err.println("Error loading maze '" + filepath + "': " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error loading maze '" + filepath + "': " + e);
         }
     }
 
 
     public void getTileImage() {
             setUpTile(1, "abi", false);
-            setUpTile(4, "wall", true);
-            setUpTile(2, "water", true);
-            setUpTile(3, "earth", false);
             setUpTile(0, "beyn", true);
-            setUpTile(5, "sand", false);
     }
 
     public void setUpTile(int index, String imagePath, boolean passable) {
@@ -72,7 +68,7 @@ public class Maze{
             tile[index].setImage(spriteMaker.makeSprite(tile[index].getImage(), gamePanel.getTileSize(), gamePanel.getTileSize()));
             tile[index].setPassable(passable);
         }catch(Exception e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error setting up tiles", e);
         }
     }
 

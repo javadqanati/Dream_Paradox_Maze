@@ -16,7 +16,7 @@ public class LevelLoader {
     }
 
     public List<String> loadLevelFiles() {
-        File[] files = levelsDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
+        File[] files = levelsDir.listFiles((_, name) -> name.toLowerCase().endsWith(".json"));
         if (files == null) {
             throw new IllegalStateException("Unable to list files in: " + levelsDir);
         }

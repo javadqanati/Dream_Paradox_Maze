@@ -1,4 +1,4 @@
-package Utils;  // or whatever package you prefer
+package Utils;
 
 import java.text.DecimalFormat;
 
@@ -8,10 +8,7 @@ public class GameTimer {
     private double accumulator;
     private final DecimalFormat df = new DecimalFormat("#0");
     private volatile boolean frozen = false;
-/*
-* This just makes sure that when you flip it back on the EDT
-* (where Swing Timers tick), your game-thread sees it immediately
-* */
+
     public GameTimer(double startSeconds) {
         this.startSeconds  = startSeconds;
         this.remainingTime = startSeconds;
@@ -46,10 +43,6 @@ public class GameTimer {
     public void reset() {
         remainingTime = startSeconds;
         accumulator   = 0;
-    }
-
-    public int getSeconds() {
-        return (int) Math.ceil(remainingTime);
     }
 
     public String getFormatted() {

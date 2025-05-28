@@ -70,9 +70,7 @@ public class CollisionChecker {
 
     public void checkObject(Character character, boolean player) {
         Rectangle area = projectedArea(character);
-        int index = 999;
         var entities = gp.getEntityManager().getEntities();
-
         for (int i = 0; i < entities.size(); i++) {
             var e = entities.get(i);
             if (e == null) continue;
@@ -90,9 +88,6 @@ public class CollisionChecker {
                 }
                 if (!e.isPassable()) {
                     character.setCollisionOn(true);
-                }
-                if (player) {
-                    index = i;
                 }
             }
         }

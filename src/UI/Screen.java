@@ -7,7 +7,6 @@ import java.awt.*;
 public class Screen implements CustomFontProvider {
     private final GamePanel gp;
     private int commandNum = 0;
-    private String selectionMessage;
     private List<String> options;
     private final Font font;
 
@@ -49,10 +48,6 @@ public class Screen implements CustomFontProvider {
     }
 
     public void loadStory(String storyPath) {}
-
-    public void setSelectionMessage(String selectionMessage) {
-        this.selectionMessage = selectionMessage;
-    }
 
     public void setOptions(List<String> options) {
         this.options = options;

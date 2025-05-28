@@ -30,7 +30,6 @@ public class GamePanel extends JPanel {
     private final KeyboardInputHandler keyboardInputHandler=new KeyboardInputHandler();
     private final PlayerInputHandler playerHandler=new PlayerInputHandler(keyboardInputHandler);
     private final ScreenManager screenManager;
-    private final HUD hud;
     private final PersistenceService persistence;
     private final HUDRenderer hudRenderer;
     private final GameRenderer renderer=new GameRenderer(this);
@@ -63,7 +62,6 @@ public class GamePanel extends JPanel {
         persistence=new FilePersistenceService(this);
         persistence.loadConfig();
         screenManager=new ScreenManager(this);
-        hud=new HUD(screenManager.all());
         hudRenderer=new HUDRenderer(gameStateManager, screenManager.all());
         InputManager inputManager=new InputManager(this,
                 gameStateManager,
@@ -73,9 +71,6 @@ public class GamePanel extends JPanel {
         loop.start();
     }
 
-    public HUD getHud() {
-        return hud;
-    }
     public int getOriginalScreenWidth() {
         return screenWidth;
     }

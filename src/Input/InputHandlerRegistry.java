@@ -13,8 +13,4 @@ public class InputHandlerRegistry {
     public static ScreenInputHandler get(String stateName) {
         return registry.get(stateName);
     }
-
-    public static Map<String, ScreenInputHandler> all() {
-        return registry;
-    }
 }

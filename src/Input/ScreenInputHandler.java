@@ -1,7 +1,6 @@
 package Input;
 
 import Audio.AudioManager;
-import Audio.SoundEffect;
 import Launcher.GamePanel;
 import UI.Screen;
 import java.util.List;

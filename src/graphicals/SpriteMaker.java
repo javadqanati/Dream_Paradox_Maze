@@ -1,13 +1,17 @@
 package graphicals;
 
 import Launcher.GamePanel;
+import org.jetbrains.annotations.Nullable;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SpriteMaker {
     private final GamePanel gp;
+    private static final Logger LOGGER = Logger.getLogger(SpriteMaker.class.getName());
 
     public SpriteMaker(GamePanel gp){
         this.gp = gp;
@@ -23,25 +27,22 @@ public class SpriteMaker {
     }
 
     public BufferedImage characterSkinSetup(String filePath) {
-        BufferedImage image = null;
-
-        try{
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(filePath + ".png")));
-            image = makeSprite(image, gp.getTileSize(), gp.getTileSize());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return image;
+        return getBufferedImage(filePath);
     }
 
     public BufferedImage objectImageSetup(String filePath) {
+        return getBufferedImage(filePath);
+    }
+
+    @Nullable
+    private BufferedImage getBufferedImage(String filePath) {
         BufferedImage image = null;
 
         try{
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(filePath + ".png")));
             image = makeSprite(image, gp.getTileSize(), gp.getTileSize());
         }catch(Exception e){
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed getting the buffered image ", e);
         }
         return image;
     }
