@@ -22,7 +22,7 @@ public class PlayerData {
                     bw.newLine();
                 }
             } else {
-                bw.write("no powerups");
+                bw.write("no power ups");
                 bw.newLine();
             }
         } catch (IOException e) {
@@ -35,7 +35,7 @@ public class PlayerData {
             String s;
 
             while ((s = br.readLine()) != null) {
-                if (s.equals("no powerups")) {
+                if (s.equals("no power ups")) {
                     break;
                 }
                 player.addPowerUp(PowerUpFactory.create(s, player.getGp()));

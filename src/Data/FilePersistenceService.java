@@ -49,7 +49,7 @@ public class FilePersistenceService implements PersistenceService {
         }
     }
 
-    public void applyDisplaySettings() {  // New method
+    public void applyDisplaySettings() {
         if (fullScreenOn && GamePanel.getWindowManager() != null) {
             GamePanel.getWindowManager().toggleFullscreen();
         }

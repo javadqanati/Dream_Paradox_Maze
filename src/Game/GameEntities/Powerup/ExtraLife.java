@@ -12,7 +12,7 @@ public final class ExtraLife extends PowerUp implements Interactable {
         setName("Extra Life");
         PowerUpFactory.register(getName(), ExtraLife::new);
         getImages();
-        initialize("ExtraLife", 3);
+        initialize("ExtraLife", 4);
     }
 
     @Override

@@ -13,7 +13,7 @@ public final class SpeedBoost extends PowerUp implements TimedPowerUp, Interacta
         setName("Speed Boost");
         PowerUpFactory.register(getName(), SpeedBoost::new);
         getImages();
-        initialize("SpeedBoost", 3);
+        initialize("SpeedBoost", 2);
     }
 
     @Override
