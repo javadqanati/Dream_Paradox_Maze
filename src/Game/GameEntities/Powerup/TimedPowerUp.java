@@ -10,7 +10,7 @@ public interface TimedPowerUp {
 
     default void applyTimed() {
         onStart();
-
+        System.out.println("apply timed function");
         Timer t = new Timer(getDurationMs(), e -> {
             onExpire();
             ((Timer)e.getSource()).stop();

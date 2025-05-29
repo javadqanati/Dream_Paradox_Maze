@@ -40,6 +40,7 @@ public final class ExtraLife extends PowerUp implements Interactable {
         player.addPowerUp(createNewInstance());
         getGp().getAudioManager().playSE("Memory Fragment");
         player.getGp().getEntityManager().getEntities().remove(this);
+        apply();
     }
 
     @Override

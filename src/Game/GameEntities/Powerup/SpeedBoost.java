@@ -30,6 +30,7 @@ public final class SpeedBoost extends PowerUp implements TimedPowerUp, Interacta
         player.addPowerUp(createNewInstance());
         getGp().getAudioManager().playSE("Memory Fragment");
         player.getGp().getEntityManager().getEntities().remove(this);
+        apply();
     }
 
     @Override
