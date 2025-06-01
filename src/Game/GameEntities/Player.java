@@ -49,10 +49,10 @@ public final class Player extends Character {
 
     @Override
     public void getImages() {
-        loadSprites("/Player/boy_up_1", "/Player/boy_up_2",
-                "/Player/boy_left_1", "/Player/boy_left_2",
-                "/Player/boy_right_1", "/Player/boy_right_2",
-                "/Player/boy_down_1", "/Player/boy_down_2");
+        loadSprites("/Player/javaneaksposht", "/Player/javaneposht",
+                "/Player/nim2", "/Player/nim2edame",
+                "/Player/nim", "/Player/nimedame",
+                "/Player/javane", "/Player/javaneaks");
     }
 
     @Override
@@ -127,8 +127,8 @@ public final class Player extends Character {
     public List<PowerUp> getPowerUps()    { return powerUps; }
     public LinkedList<Point> getTrail()   { return trail; }
     public int getCollectedFragments()    { return collectedFragments; }
-    public boolean usePowerUp(String type) {
-        return powerUps.removeIf(pu -> {
+    public void usePowerUp(String type) {
+        powerUps.removeIf(pu -> {
             if (pu.getType().equals(type)) {
                 pu.apply();
                 return true;

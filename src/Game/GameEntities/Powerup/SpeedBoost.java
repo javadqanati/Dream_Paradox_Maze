@@ -11,7 +11,6 @@ public final class SpeedBoost extends PowerUp implements TimedPowerUp, Interacta
     public SpeedBoost(GamePanel gp) {
         super(gp);
         setName("Speed Boost");
-        PowerUpFactory.register(getName(), SpeedBoost::new);
         getImages();
         initialize("SpeedBoost", 2);
     }

@@ -1,4 +1,4 @@
-package Trade;
+package Utils;
 
 import Game.GameEntities.Player;
 import Game.GameEntities.Powerup.PowerUp;

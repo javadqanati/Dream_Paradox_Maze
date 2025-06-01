@@ -83,10 +83,10 @@ public final class ChaserEnemy extends Enemy {
 
     @Override
     public void getImages() {
-        loadSprites("/Monster/dalli_up1", "/Monster/dalli_up2",
-                "/Monster/dalli_left1", "/Monster/dalli_left2",
-                "/Monster/dalli_right1", "/Monster/dalli_right2",
-                "/Monster/dalli_down1", "/Monster/dalli_down2");
+        loadSprites("/Monster/echo3", "/Monster/echo4",
+                "/Monster/echochap1", "/Monster/echochap2",
+                "/Monster/echorast1", "/Monster/echorast2",
+                "/Monster/echo1", "/Monster/echo2");
     }
 
     @Override

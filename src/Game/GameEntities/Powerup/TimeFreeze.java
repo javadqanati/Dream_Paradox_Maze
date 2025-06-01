@@ -13,7 +13,6 @@ public final class TimeFreeze extends PowerUp implements TimedPowerUp, Interacta
     public TimeFreeze(GamePanel gp) {
         super(gp);
         setName("Time Freeze");
-        PowerUpFactory.register(getName(), TimeFreeze::new);
         getImages();
         initialize("TimeFreeze", 3);
     }

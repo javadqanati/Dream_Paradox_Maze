@@ -1,4 +1,6 @@
-package Utils;
+package Game.Level;
+
+import Utils.EntityConfig;
 
 import java.util.List;
 

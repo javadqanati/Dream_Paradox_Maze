@@ -56,8 +56,8 @@ public class Maze{
 
 
     public void getTileImage() {
-            setUpTile(1, "abi", false);
-            setUpTile(0, "beyn", true);
+            setUpTile(1, "kaf", false);
+            setUpTile(0, "sang", true);
     }
 
     public void setUpTile(int index, String imagePath, boolean passable) {

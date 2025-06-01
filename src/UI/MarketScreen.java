@@ -3,11 +3,12 @@ package UI;
 
 import Game.GameEntities.Player;
 import Game.GameEntities.Powerup.PowerUp;
+import Game.GameEntities.Powerup.PowerUpFactory;
 import Launcher.GamePanel;
-import Trade.PowerUpShop;
 
 import java.awt.*;
 import java.util.Map;
+import java.util.function.Function;
 
 public class MarketScreen extends Screen {
 
@@ -39,15 +40,15 @@ public class MarketScreen extends Screen {
         }
 
         int startY = y + tileSize;
-        Map<String, PowerUp> powerUps = PowerUpShop.getAvailablePowerUps();
+        Map<String, Function<GamePanel, ? extends PowerUp>> powerUps = PowerUpFactory.getAvailablePowerUpNames();
         int powerUpSpacing = tileSize + 10;
         int powerUpsCount = powerUps.size();
         int totalPowerUpHeight = powerUpSpacing * powerUpsCount;
         int i = 0;
 
-        for (Map.Entry<String, PowerUp> entry : powerUps.entrySet()) {
+        for (Map.Entry<String, Function<GamePanel, ? extends PowerUp>> entry : powerUps.entrySet()) {
             String powerUpName = entry.getKey();
-            PowerUp powerUp = entry.getValue();
+            PowerUp powerUp = entry.getValue().apply(getGp());
             int currentY = startY + (i * powerUpSpacing);
 
             String powerUpText = powerUpName + " - Cost: " + powerUp.getCost();

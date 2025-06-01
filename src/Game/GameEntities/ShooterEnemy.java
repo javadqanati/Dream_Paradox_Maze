@@ -96,10 +96,10 @@ public final class ShooterEnemy extends Enemy {
 
     @Override
     public void getImages() {
-        loadSprites("/Monster/dalli_up1", "/Monster/dalli_up2",
-                "/Monster/dalli_left1", "/Monster/dalli_left2",
-                "/Monster/dalli_right1", "/Monster/dalli_right2",
-                "/Monster/dalli_down1", "/Monster/dalli_down2");
+        loadSprites("/Monster/amispo1", "/Monster/amispo2",
+                "/Monster/amischap1", "/Monster/amischap2",
+                "/Monster/amisrast1", "/Monster/amisrast2",
+                "/Monster/amispa1", "/Monster/amispa2");
     }
 
     @Override

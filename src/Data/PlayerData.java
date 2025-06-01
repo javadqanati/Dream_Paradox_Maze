@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class PlayerData {
     private final Player player;
     private static final Logger LOGGER = Logger.getLogger(PlayerData.class.getName());

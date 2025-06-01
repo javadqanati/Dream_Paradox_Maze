@@ -10,7 +10,6 @@ public final class ExtraLife extends PowerUp implements Interactable {
     public ExtraLife(GamePanel gp) {
         super(gp);
         setName("Extra Life");
-        PowerUpFactory.register(getName(), ExtraLife::new);
         getImages();
         initialize("ExtraLife", 4);
     }

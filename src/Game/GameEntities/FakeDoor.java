@@ -14,7 +14,7 @@ public final class FakeDoor extends Entity implements Interactable {
 
     @Override
     public void getImages() {
-        BufferedImage entranceSprite = getMaker().objectImageSetup("/Object/door");
+        BufferedImage entranceSprite = getMaker().objectImageSetup("/Object/doorS");
 
         if (entranceSprite != null) {
             setSpriteFrames(getDirection(), entranceSprite);

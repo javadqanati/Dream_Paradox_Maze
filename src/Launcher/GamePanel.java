@@ -3,11 +3,12 @@ package Launcher;
 import Audio.AudioManager;
 import Data.*;
 import Game.GameEntities.*;
+import Game.Level.LevelLoader;
+import Game.Level.LevelManager;
 import Utils.GameStateManager;
 import Input.*;
-import Trade.PowerUpShop;
 import UI.*;
-import Utils.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -26,7 +27,6 @@ public class GamePanel extends JPanel {
     private final int tileSize=originalTileSize * scale;
     private static int screenWidth, screenHeight;
     private final AudioManager audioManager=new AudioManager();
-    private final PowerUpShop powerUpShop=new PowerUpShop(this);
     private final KeyboardInputHandler keyboardInputHandler=new KeyboardInputHandler();
     private final PlayerInputHandler playerHandler=new PlayerInputHandler(keyboardInputHandler);
     private final ScreenManager screenManager;

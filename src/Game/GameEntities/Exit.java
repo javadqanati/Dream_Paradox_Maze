@@ -15,7 +15,7 @@ public final class Exit extends Entity implements Interactable{
 
     @Override
     public void getImages() {
-        BufferedImage exitSprite = getMaker().objectImageSetup("/Object/door");
+        BufferedImage exitSprite = getMaker().objectImageSetup("/Object/doorS");
 
         if (exitSprite != null) {
             setSpriteFrames(getDirection(), exitSprite);

@@ -1,7 +1,8 @@
-package Utils;
+package Game.Level;
 
 import Launcher.GamePanel;
 import UI.PlayScreen;
+import Utils.EntityConfig;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -36,7 +37,6 @@ public class LevelManager {
         this.currentIndex = 0;
     }
 
-    /** Call when user selects 'Load Game' */
     public void loadProgressAndBegin() {
         this.currentIndex = loadProgress();
         loadCurrentLevel();
@@ -83,23 +83,12 @@ public class LevelManager {
         }
     }
 
-    /** @return the zero-based index of the currently loaded level */
     public int getCurrentIndex() {
         return currentIndex;
     }
-
-    /**
-     * @return the list of EntityConfig for non-enemy entities
-     *         in the current level.
-     */
     public List<EntityConfig> getEntityConfigs() {
         return levels.get(currentIndex).entities();
     }
-
-    /**
-     * @return the list of EntityConfig for enemies
-     *         in the current level.
-     */
     public List<EntityConfig> getEnemyConfigs() {
         return levels.get(currentIndex).enemies();
     }

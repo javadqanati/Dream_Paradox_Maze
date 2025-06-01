@@ -1,23 +1,34 @@
 package Game.GameEntities.Powerup;
 
 import Launcher.GamePanel;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 public class PowerUpFactory {
-    private static final Map<String, Function<GamePanel, PowerUp>> registry = new HashMap<>();
+    private static final Map<String, Function<GamePanel, ? extends PowerUp>> powerUps = new LinkedHashMap<>();
 
-    public static void register(String type, Function<GamePanel, PowerUp> ctor) {
-        registry.put(type, ctor);
+    static {
+        register("ExtraLife", ExtraLife::new);
+        register("SpeedBoost", SpeedBoost::new);
+        register("TimeFreeze", TimeFreeze::new);
     }
 
-    public static PowerUp create(Object type, GamePanel gp) {
-        String key = (type instanceof Enum) ? ((Enum<?>) type).name() : type.toString();
-        Function<GamePanel, PowerUp> ctor = registry.get(key);
+    public static <T extends PowerUp> void register(String name, Function<GamePanel, T> constructor) {
+        powerUps.put(name, constructor);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends PowerUp> T create(String type, GamePanel gp) {
+        Function<GamePanel, ? extends PowerUp> ctor = powerUps.get(type);
         if (ctor == null) {
-            throw new IllegalArgumentException("Unknown PowerUp type: " + key);
+            throw new IllegalArgumentException("Unknown PowerUp type: " + type);
         }
-        return ctor.apply(gp);
+        return (T) ctor.apply(gp);
+    }
+
+    public static Map<String, Function<GamePanel, ? extends PowerUp>> getAvailablePowerUpNames() {
+        return powerUps;
     }
 }
+

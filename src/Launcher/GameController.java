@@ -1,7 +1,7 @@
 package Launcher;
 
 import Utils.GameStateManager;
-import Utils.LevelManager;
+import Game.Level.LevelManager;
 
 public class GameController {
     private final GamePanel gp;
