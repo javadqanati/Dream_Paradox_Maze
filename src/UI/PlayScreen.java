@@ -9,7 +9,7 @@ import static Game.GameEntities.Entity.DOWN;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class PlayScreen extends Screen {
+public class PlayScreen extends Screen implements GameFinishable {
     private final BufferedImage memoryFragmentImg;
     private final BufferedImage full_heart, half_heart, heart_blank;
     private static final GameTimer timer  = new GameTimer(120);
@@ -37,6 +37,7 @@ public class PlayScreen extends Screen {
         this.storyWindow = new StoryWindow(getGp(), resourcePath);
     }
 
+    @Override
     public void setGameFinished(boolean finished) {
         gameFinished = finished;
         if (finished) {

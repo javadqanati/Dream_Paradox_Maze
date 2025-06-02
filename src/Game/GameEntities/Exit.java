@@ -1,7 +1,10 @@
 package Game.GameEntities;
 
 import Launcher.GamePanel;
+import UI.GameFinishable;
 import UI.PlayScreen;
+import UI.Screen;
+
 import java.awt.image.BufferedImage;
 
 public final class Exit extends Entity implements Interactable{
@@ -24,7 +27,10 @@ public final class Exit extends Entity implements Interactable{
 
     @Override
     public void onPlayerInteract(Player player) {
-        PlayScreen ps = (PlayScreen) (getGp().getScreenManager().all().get("PLAY"));
-        ps.setGameFinished(true);
+        Screen screen = getGp().getScreenManager().all().get("PLAY");
+
+        if (screen instanceof GameFinishable finishable) {
+            finishable.setGameFinished(true);
+        }
     }
 }

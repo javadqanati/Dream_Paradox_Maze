@@ -8,7 +8,6 @@ import Game.Level.LevelManager;
 import Utils.GameStateManager;
 import Input.*;
 import UI.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;

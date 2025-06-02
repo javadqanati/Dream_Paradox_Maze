@@ -4,7 +4,6 @@ package graphicals;
 import Game.GameEntities.*;
 import Game.GameEntities.Character;
 import Launcher.GamePanel;
-
 import java.awt.Rectangle;
 import java.util.List;
 

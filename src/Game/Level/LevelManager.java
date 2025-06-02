@@ -1,7 +1,9 @@
 package Game.Level;
 
 import Launcher.GamePanel;
+import UI.GameFinishable;
 import UI.PlayScreen;
+import UI.Screen;
 import Utils.EntityConfig;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
@@ -61,7 +63,12 @@ public class LevelManager {
             saveProgress();
             loadCurrentLevel();
         } else {
-            ((PlayScreen)gp.getScreens().get("PLAY")).setGameFinished(true);
+            Screen screen = gp.getScreens().get("PLAY");
+
+            if (screen instanceof GameFinishable finishable) {
+                finishable.setGameFinished(true);
+            }
+
         }
     }
 

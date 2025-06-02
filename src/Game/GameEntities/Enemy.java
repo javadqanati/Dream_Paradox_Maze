@@ -2,6 +2,9 @@
 package Game.GameEntities;
 import Launcher.GamePanel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public abstract class Enemy extends Character {
     private int actionLockCounter = 0;
@@ -40,10 +43,20 @@ public abstract class Enemy extends Character {
     }
 
     public DirectionType randomDirection() {
+        DirectionType current = getDirection();
         DirectionType[] dirs = new DirectionType[]{ UP(), DOWN(), LEFT(), RIGHT() };
-        int idx = (int)(Math.random() * dirs.length);
-        return dirs[idx];
+
+        List<DirectionType> available = new ArrayList<>();
+        for (DirectionType d : dirs) {
+            if (!d.equals(current)) {
+                available.add(d);
+            }
+        }
+
+        int idx = (int)(Math.random() * available.size());
+        return available.get(idx);
     }
+
 
     public abstract void setAction();
     public abstract void attack();
