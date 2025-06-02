@@ -1,0 +1,19 @@
+{
+    "mapFile": "/maps/level3.txt",
+    "entities": [
+      { "type": "Entrance",        "x": 11, "y": 28 },
+      { "type": "Entrance",        "x": 20, "y": 39 },
+      { "type": "Exit",            "x": 48, "y": 39 },
+      { "type": "MemoryFragment",  "x": 39, "y": 15 },
+      { "type": "MemoryFragment",  "x": 51, "y": 19 },
+      { "type": "MemoryFragment",  "x": 20, "y": 23 },
+      { "type": "SpeedBoost",      "x": 56, "y": 31 },
+      { "type": "ExtraLife",       "x": 15, "y": 11 }
+    ],
+    "enemies": [
+      { "type": "ChaserEnemy",     "x": 55, "y": 13 },
+      { "type": "ChaserEnemy",     "x": 56, "y": 56 },
+      { "type": "ShooterEnemy",    "x": 36, "y": 19 },
+      { "type": "ShooterEnemy",    "x": 18, "y": 27 }
+    ]
+  }

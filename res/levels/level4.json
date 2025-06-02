@@ -1,0 +1,20 @@
+{
+    "mapFile": "/maps/level4.txt",
+    "entities": [
+      { "type": "Entrance",        "x": 31, "y": 12 },
+      { "type": "Entrance",        "x": 11, "y": 31 },
+      { "type": "Entrance",        "x": 24, "y": 47 },
+      { "type": "Exit",            "x": 11, "y": 40 },
+      { "type": "MemoryFragment",  "x": 35, "y": 31 },
+      { "type": "MemoryFragment",  "x": 20, "y": 55 },
+      { "type": "MemoryFragment",  "x": 20, "y": 27 },
+      { "type": "MemoryFragment",  "x": 16, "y": 20 },
+      { "type": "TimeFreeze",      "x": 51, "y": 35 }
+    ],
+    "enemies": [
+      { "type": "ChaserEnemy",     "x": 41, "y": 15 },
+      { "type": "ChaserEnemy",     "x": 27, "y": 35 },
+      { "type": "ShooterEnemy",    "x": 23, "y": 46 },
+      { "type": "ShooterEnemy",    "x": 11, "y": 23 }
+    ]
+  }

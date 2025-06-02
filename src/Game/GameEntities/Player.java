@@ -121,8 +121,6 @@ public final class Player extends Character {
         getGp().getAudioManager().playSE("Game Over");
     }
 
-    // ─── Getters / PowerUp API ───────────────────────────────────────────────────
-
     public void addPowerUp(PowerUp pu)    { powerUps.add(pu); }
     public List<PowerUp> getPowerUps()    { return powerUps; }
     public LinkedList<Point> getTrail()   { return trail; }

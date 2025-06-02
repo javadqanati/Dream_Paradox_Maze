@@ -1,0 +1,18 @@
+{
+    "mapFile": "/maps/level2.txt",
+    "entities": [
+      { "type": "Entrance",        "x": 15, "y": 11 },
+      { "type": "Entrance",        "x": 11, "y": 56 },
+      { "type": "Exit",            "x": 15, "y": 40 },
+      { "type": "MemoryFragment",  "x": 23, "y": 35 },
+      { "type": "MemoryFragment",  "x": 44, "y": 39 },
+      { "type": "MemoryFragment",  "x": 40, "y": 51 },
+      { "type": "MemoryFragment",  "x": 11, "y": 27 },
+      { "type": "SpeedBoost",      "x": 55, "y": 11 }
+    ],
+    "enemies": [
+      { "type": "ChaserEnemy",     "x": 31, "y": 29 },
+      { "type": "ChaserEnemy",     "x": 19, "y": 51 },
+      { "type": "ShooterEnemy",    "x": 48, "y": 55 }
+    ]
+  }

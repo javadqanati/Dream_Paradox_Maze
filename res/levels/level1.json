@@ -1,0 +1,15 @@
+{
+  "mapFile": "/maps/level1.txt",
+  "entities": [
+    { "type": "Entrance",        "x": 19, "y": 11 },
+    { "type": "Entrance",        "x": 55, "y": 43 },
+    { "type": "Exit",            "x": 24, "y": 39 },
+    { "type": "MemoryFragment",  "x": 27, "y": 22 },
+    { "type": "MemoryFragment",  "x": 5,  "y": 23 },
+    { "type": "MemoryFragment",  "x": 47, "y": 51 }
+    ],
+  "enemies": [
+    { "type": "ChaserEnemy",     "x": 36, "y": 11 },
+    { "type": "ShooterEnemy",     "x": 30, "y": 19 }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+    "mapFile": "/maps/level5.txt",
+    "entities": [
+      { "type": "Entrance",        "x": 28, "y": 28 },
+      { "type": "Entrance",        "x": 19, "y": 35 },
+      { "type": "Exit",            "x": 47, "y": 44 },
+      { "type": "MemoryFragment",  "x": 23, "y": 15 },
+      { "type": "MemoryFragment",  "x": 15, "y": 52 },
+      { "type": "MemoryFragment",  "x": 11, "y": 19 }
+    ],
+    "enemies": [
+      { "type": "ChaserEnemy",     "x": 19, "y": 27 },
+      { "type": "ChaserEnemy",     "x": 31, "y": 35 },
+      { "type": "ChaserEnemy",     "x": 39, "y": 31 },
+      { "type": "ShooterEnemy",    "x": 19, "y": 42 },
+      { "type": "ShooterEnemy",    "x": 19, "y": 15 },
+      { "type": "ShooterEnemy",    "x": 55, "y": 48 }
+    ]
+  }
