@@ -2,8 +2,8 @@ package Game.GameEntities;
 
 import Launcher.GamePanel;
 
-public final class Chiz extends Projectile {
-    public Chiz(GamePanel gp) {
+public final class AmisBullet extends Projectile {
+    public AmisBullet(GamePanel gp) {
         super(gp, 4);
         setName("FireBall");
         setMaxHealth(1);

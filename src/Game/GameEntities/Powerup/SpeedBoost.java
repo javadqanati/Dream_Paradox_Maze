@@ -13,6 +13,7 @@ public final class SpeedBoost extends PowerUp implements TimedPowerUp, Interacta
         setName("Speed Boost");
         getImages();
         initialize("SpeedBoost", 2);
+        setDescription("Temporarily makes you faster!");
     }
 
     @Override

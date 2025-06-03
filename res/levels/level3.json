@@ -1,8 +1,8 @@
 {
     "mapFile": "/maps/level3.txt",
     "entities": [
-      { "type": "Entrance",        "x": 11, "y": 28 },
-      { "type": "Entrance",        "x": 20, "y": 39 },
+      { "type": "FakeDoor",        "x": 11, "y": 28 },
+      { "type": "FakeDoor",        "x": 20, "y": 39 },
       { "type": "Exit",            "x": 48, "y": 39 },
       { "type": "MemoryFragment",  "x": 39, "y": 15 },
       { "type": "MemoryFragment",  "x": 51, "y": 19 },

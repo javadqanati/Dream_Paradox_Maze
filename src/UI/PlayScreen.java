@@ -15,8 +15,6 @@ public class PlayScreen extends Screen implements GameFinishable {
     private static final GameTimer timer  = new GameTimer(120);
     private static boolean gameFinished   = false;
     private static boolean optionsOn      = false;
-    private static String  message        = "";
-    private static int messageCounter;
     private StoryWindow storyWindow;
 
     public PlayScreen(GamePanel gp) {
@@ -50,8 +48,6 @@ public class PlayScreen extends Screen implements GameFinishable {
         timer.reset();
         gameFinished   = false;
         optionsOn      = false;
-        message        = "";
-        messageCounter = 0;
     }
 
     private void drawPlayerLife(Graphics2D g2) {
@@ -125,12 +121,6 @@ public class PlayScreen extends Screen implements GameFinishable {
         g2.drawString("Time: " + timer.getFormatted(), getGp().getTileSize()*15, 65);
 
         drawPlayerLife(g2);
-
-        if (!message.isEmpty()) {
-            g2.setFont(getScreenfont().deriveFont(30f));
-            g2.drawString(message, getGp().getTileSize()/2, getGp().getTileSize()*5);
-            if (++messageCounter > 120) message = "";
-        }
     }
 
     public boolean isGameFinished() {

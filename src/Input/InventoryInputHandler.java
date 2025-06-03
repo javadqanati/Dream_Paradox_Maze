@@ -45,6 +45,7 @@ public class InventoryInputHandler extends ScreenInputHandler {
             if (cmd - 1 < powerUps.size()) {
                 PowerUp chosen = powerUps.get(cmd - 1);
                 getGp().getPlayer().usePowerUp(chosen.getType());
+                getScreen().showNotification( chosen.getType() + " activated!");
             }
         }
     }

@@ -53,6 +53,9 @@ public class MarketInputHandler extends ScreenInputHandler {
 
         if (transactionHandler.canPurchase(player, pu)) {
             transactionHandler.processPurchase(player, pu);
+            getScreen().showNotification(pu.getType() + " purchased and added to the inventory");
+        } else {
+            getScreen().showNotification("transaction failed");
         }
     }
 }

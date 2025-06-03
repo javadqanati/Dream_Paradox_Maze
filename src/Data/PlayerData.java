@@ -20,7 +20,7 @@ public class PlayerData {
 
             if (!player.getPowerUps().isEmpty()) {
                 for (PowerUp powerUp : player.getPowerUps()) {
-                    bw.write(powerUp.getName());
+                    bw.write(powerUp.getType());
                     bw.newLine();
                 }
             } else {

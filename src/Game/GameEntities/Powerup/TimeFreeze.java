@@ -15,6 +15,7 @@ public final class TimeFreeze extends PowerUp implements TimedPowerUp, Interacta
         setName("Time Freeze");
         getImages();
         initialize("TimeFreeze", 3);
+        setDescription("Freezes the time for a few seconds.");
     }
 
     @Override

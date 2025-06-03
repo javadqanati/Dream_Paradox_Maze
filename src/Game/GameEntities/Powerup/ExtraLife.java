@@ -12,6 +12,7 @@ public final class ExtraLife extends PowerUp implements Interactable {
         setName("Extra Life");
         getImages();
         initialize("ExtraLife", 4);
+        setDescription("Gives you one additional life.");
     }
 
     @Override

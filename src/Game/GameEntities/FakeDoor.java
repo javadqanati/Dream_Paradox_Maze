@@ -7,7 +7,7 @@ public final class FakeDoor extends Entity implements Interactable {
 
     public FakeDoor(GamePanel gp) {
         super(gp);
-        setName("Entrance");
+        setName("FakeDoor");
         setPassable(false);
         getImages();
     }

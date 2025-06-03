@@ -6,6 +6,7 @@ import Launcher.GamePanel;
 public abstract class PowerUp extends Entity {
     private int cost;
     private String type;
+    private String description;
 
     public PowerUp(GamePanel gp) {
         super(gp);
@@ -30,5 +31,11 @@ public abstract class PowerUp extends Entity {
     }
     public void setType(String type) {
         this.type = type;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

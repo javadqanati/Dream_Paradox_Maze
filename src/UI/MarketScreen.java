@@ -47,8 +47,8 @@ public class MarketScreen extends Screen {
         int i = 0;
 
         for (Map.Entry<String, Function<GamePanel, ? extends PowerUp>> entry : powerUps.entrySet()) {
-            String powerUpName = entry.getKey();
             PowerUp powerUp = entry.getValue().apply(getGp());
+            String powerUpName = powerUp.getName();
             int currentY = startY + (i * powerUpSpacing);
 
             String powerUpText = powerUpName + " - Cost: " + powerUp.getCost();

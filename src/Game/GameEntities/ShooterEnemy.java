@@ -61,7 +61,7 @@ public final class ShooterEnemy extends Enemy {
     }
 
     private void spawnProjectile() {
-        Chiz ball = new Chiz(getGp());
+        AmisBullet ball = new AmisBullet(getGp());
         int tile = getGp().getTileSize();
         int startX = getWorldX() + getSolidArea().width/2 - tile/2;
         int startY = getWorldY() + getSolidArea().height/2;

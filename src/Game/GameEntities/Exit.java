@@ -2,7 +2,6 @@ package Game.GameEntities;
 
 import Launcher.GamePanel;
 import UI.GameFinishable;
-import UI.PlayScreen;
 import UI.Screen;
 
 import java.awt.image.BufferedImage;

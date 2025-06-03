@@ -9,6 +9,9 @@ public class Screen implements CustomFontProvider {
     private int commandNum = 0;
     private List<String> options;
     private final Font font;
+    private String notification = "";
+    private int    notificationTimer = 0;
+    private static final int NOTIFICATION_DURATION = 120;
 
     public Screen(GamePanel gp, String stateName) {
         this.gp = gp;
@@ -26,6 +29,19 @@ public class Screen implements CustomFontProvider {
         Color darkBlue = new Color(15, 28, 67);
         g2.setColor(darkBlue);
         g2.fillRect(0, 0, gp.getScreenWidth(), gp.getScreenHeight());
+
+        if (!notification.isEmpty()) {
+            g2.setFont(font.deriveFont(Font.BOLD, 28f));
+            g2.setColor(Color.YELLOW);
+            int nx = (int) (getGp().getTileSize() * 8.5);
+            int ny = (int) (getGp().getTileSize() * 4.5);
+            g2.drawString(notification, nx, ny);
+
+            if (++notificationTimer > NOTIFICATION_DURATION) {
+                notification = "";
+                notificationTimer = 0;
+            }
+        }
     }
 
     public GamePanel getGp() {
@@ -41,6 +57,8 @@ public class Screen implements CustomFontProvider {
     }
 
     public void showNotification(String msg) {
+        this.notification = msg;
+        this.notificationTimer = 0;
     }
 
     public void resetTimer(){

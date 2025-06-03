@@ -29,7 +29,6 @@ public class InventoryScreen extends Screen {
         Player player = getGp().getPlayer();
         int tileSize = getGp().getTileSize();
 
-        // Title
         g2.setFont(getScreenfont().deriveFont(Font.BOLD, 50f));
         g2.setColor(Color.white);
         String text = "INVENTORY";
@@ -47,7 +46,7 @@ public class InventoryScreen extends Screen {
         }
 
         g2.setFont(getScreenfont().deriveFont(Font.PLAIN, 30F));
-        java.util.List<PowerUp> ownedPowerUps = player.getPowerUps(); // Now using actual PowerUp objects
+        java.util.List<PowerUp> ownedPowerUps = player.getPowerUps();
         int startY = y + tileSize;
 
         if (ownedPowerUps.isEmpty()) {
@@ -57,7 +56,7 @@ public class InventoryScreen extends Screen {
             for (int i = 0; i < ownedPowerUps.size(); i++) {
                 PowerUp powerUp = ownedPowerUps.get(i);
                 String name = powerUp.getName();
-                String description = getPowerUpDescription(name);
+                String description = getPowerUpDescription(powerUp);
                 int currentY = startY + (i * spacing);
 
                 if (getCommandNum() == i + 1) {
@@ -73,13 +72,8 @@ public class InventoryScreen extends Screen {
         }
     }
 
-    private String getPowerUpDescription(String powerUpName) {
-        return switch (powerUpName) {
-            case "Speed Boost" -> "Temporarily makes you faster!";
-            case "Time Freeze" -> "Freezes all enemies for a few seconds.";
-            case "Extra Life" -> "Gives you one additional life.";
-            default -> "";
-        };
+    private String getPowerUpDescription(PowerUp powerUp) {
+        return powerUp.getDescription();
     }
 
 }

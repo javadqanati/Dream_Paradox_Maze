@@ -2,7 +2,6 @@ package Game.Level;
 
 import Launcher.GamePanel;
 import UI.GameFinishable;
-import UI.PlayScreen;
 import UI.Screen;
 import Utils.EntityConfig;
 import com.google.gson.Gson;
@@ -52,7 +51,7 @@ public class LevelManager {
 
     public void loadCurrentLevel() {
         Level lvl = levels.get(currentIndex);
-        System.out.println("▶ Loading level index " + currentIndex + ", mapFile=" + lvl.mapFile());
+        System.out.println("Loading level index " + currentIndex + ", mapFile=" + lvl.mapFile());
         gp.getMaze().loadMaze(lvl.mapFile());
         gp.getEntitySetter().loadEntities(lvl.entities(), lvl.enemies());
     }
